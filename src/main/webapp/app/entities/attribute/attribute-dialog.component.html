@@ -1,0 +1,71 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myAttributeLabel">Create or edit a Attribute</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!attribute.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="attribute.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="attribute.name" required/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_description">Description</label>
+            <textarea class="form-control" name="description" id="field_description"
+                [(ngModel)]="attribute.description" ></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_showOrder">Show Order</label>
+            <input type="number" class="form-control" name="showOrder" id="field_showOrder"
+                [(ngModel)]="attribute.showOrder" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_active">Active</label>
+            <input type="checkbox" class="form-control" name="active" id="field_active"
+                [(ngModel)]="attribute.active" />
+            <div [hidden]="!(editForm.controls.active?.dirty && editForm.controls.active?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.active?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_parent">Parent</label>
+            <select class="form-control" id="field_parent" name="parent" [(ngModel)]="attribute.parent" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="attributeOption.id === attribute.parent?.id ? attribute.parent : attributeOption" *ngFor="let attributeOption of attributes; trackBy: trackAttributeById">{{attributeOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_attributeKey">Attribute Key</label>
+            <select class="form-control" id="field_attributeKey" name="attributeKey" [(ngModel)]="attribute.attributeKey" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="attributeKeyOption.id === attribute.attributeKey?.id ? attribute.attributeKey : attributeKeyOption" *ngFor="let attributeKeyOption of attributekeys; trackBy: trackAttributeKeyById">{{attributeKeyOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,74 @@
+<div>
+    <h2>
+        <span>Sk At Exes</span>
+        <button class="btn btn-primary float-right jh-create-entity create-sk-at-ex" [routerLink]="['/', { outlets: { popup: ['sk-at-ex-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Sk At Ex
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="skAtExes">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="skeleton.name"><span>Skeleton</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="attribute.name"><span>Attribute</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="extension.content"><span>Extension</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let skAtEx of skAtExes ;trackBy: trackId">
+                <td><a [routerLink]="['../sk-at-ex', skAtEx.id ]">{{skAtEx.id}}</a></td>
+                <td>
+                    <div *ngIf="skAtEx.skeleton">
+                        <a [routerLink]="['../skeleton', skAtEx.skeleton?.id ]" >{{skAtEx.skeleton?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="skAtEx.attribute">
+                        <a [routerLink]="['../attribute', skAtEx.attribute?.id ]" >{{skAtEx.attribute?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="skAtEx.extension">
+                        <a [routerLink]="['../extension', skAtEx.extension?.id ]" >{{skAtEx.extension?.content}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../sk-at-ex', skAtEx.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'sk-at-ex/'+ skAtEx.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'sk-at-ex/'+ skAtEx.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

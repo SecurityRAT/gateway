@@ -1,0 +1,50 @@
+
+<div *ngIf="attribute">
+    <h2><span>Attribute</span> {{attribute.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Name</span></dt>
+        <dd>
+            <span>{{attribute.name}}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+            <span>{{attribute.description}}</span>
+        </dd>
+        <dt><span>Show Order</span></dt>
+        <dd>
+            <span>{{attribute.showOrder}}</span>
+        </dd>
+        <dt><span>Active</span></dt>
+        <dd>
+            <span>{{attribute.active}}</span>
+        </dd>
+        <dt><span>Parent</span></dt>
+        <dd>
+            <div *ngIf="attribute.parent">
+                <a [routerLink]="['/attribute', attribute.parent?.id]">{{attribute.parent?.name}}</a>
+            </div>
+        </dd>
+        <dt><span>Attribute Key</span></dt>
+        <dd>
+            <div *ngIf="attribute.attributeKey">
+                <a [routerLink]="['/attribute-key', attribute.attributeKey?.id]">{{attribute.attributeKey?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'attribute/'+ attribute.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>
