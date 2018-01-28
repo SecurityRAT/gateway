@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class AttributeService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/attributes';
+    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/attributes';
 
     constructor(private http: Http) { }
 

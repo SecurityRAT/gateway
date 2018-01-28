@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class SkeletonService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/skeletons';
+    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/skeletons';
 
     constructor(private http: Http) { }
 

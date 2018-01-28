@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class AttributeKeyService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/attribute-keys';
+    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/attribute-keys';
 
     constructor(private http: Http) { }
 

@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class SkAtExService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/sk-at-exes';
+    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/sk-at-exes';
 
     constructor(private http: Http) { }
 

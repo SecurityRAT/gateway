@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class ExtensionKeyService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/extension-keys';
+    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/extension-keys';
 
     constructor(private http: Http) { }
 

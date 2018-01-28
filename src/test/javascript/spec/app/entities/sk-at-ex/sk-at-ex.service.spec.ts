@@ -44,7 +44,7 @@ describe('Service Tests', () => {
 
                 expect(this.lastConnection).toBeDefined();
 
-                const resourceUrl = SERVER_API_URL + '/requirementmanagement/api/sk-at-exes';
+                const resourceUrl = SERVER_API_URL + '/requirementManagement/api/sk-at-exes';
                 expect(this.lastConnection.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return SkAtEx', () => {

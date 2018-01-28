@@ -9,7 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class RequirementSetService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/requirement-sets';
+    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/requirement-sets';
 
     constructor(private http: Http) { }
 

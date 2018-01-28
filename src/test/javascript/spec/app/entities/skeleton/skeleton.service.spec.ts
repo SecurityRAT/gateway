@@ -44,7 +44,7 @@ describe('Service Tests', () => {
 
                 expect(this.lastConnection).toBeDefined();
 
-                const resourceUrl = SERVER_API_URL + '/requirementmanagement/api/skeletons';
+                const resourceUrl = SERVER_API_URL + '/requirementManagement/api/skeletons';
                 expect(this.lastConnection.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return Skeleton', () => {
