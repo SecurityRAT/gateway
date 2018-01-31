@@ -1,6 +1,6 @@
 {
-  "name": "Gateway",
-  "short_name": "Gateway",
+  "name": "SecurityRAT",
+  "short_name": "SecurityRAT",
   "icons": [
       {
           "src": "./content/images/logo-jhipster.png",
