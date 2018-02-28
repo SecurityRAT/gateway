@@ -87,46 +87,46 @@ export class ExtensionDialogPage {
 
     setContentInput = function(content) {
         this.contentInput.sendKeys(content);
-    }
+    };
 
     getContentInput = function() {
         return this.contentInput.getAttribute('value');
-    }
+    };
 
     setDescriptionInput = function(description) {
         this.descriptionInput.sendKeys(description);
-    }
+    };
 
     getDescriptionInput = function() {
         return this.descriptionInput.getAttribute('value');
-    }
+    };
 
     setShowOrderInput = function(showOrder) {
         this.showOrderInput.sendKeys(showOrder);
-    }
+    };
 
     getShowOrderInput = function() {
         return this.showOrderInput.getAttribute('value');
-    }
+    };
 
     getActiveInput = function() {
         return this.activeInput;
-    }
+    };
     extensionKeySelectLastOption = function() {
         this.extensionKeySelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     extensionKeySelectOption = function(option) {
         this.extensionKeySelect.sendKeys(option);
-    }
+    };
 
     getExtensionKeySelect = function() {
         return this.extensionKeySelect;
-    }
+    };
 
     getExtensionKeySelectedOption = function() {
         return this.extensionKeySelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

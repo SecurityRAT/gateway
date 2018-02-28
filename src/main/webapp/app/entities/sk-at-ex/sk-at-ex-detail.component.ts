@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -31,9 +32,10 @@ export class SkAtExDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.skAtExService.find(id).subscribe((skAtEx) => {
-            this.skAtEx = skAtEx;
-        });
+        this.skAtExService.find(id)
+            .subscribe((skAtExResponse: HttpResponse<SkAtEx>) => {
+                this.skAtEx = skAtExResponse.body;
+            });
     }
     previousState() {
         window.history.back();

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 
@@ -32,9 +33,10 @@ export class RequirementSetDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.requirementSetService.find(id).subscribe((requirementSet) => {
-            this.requirementSet = requirementSet;
-        });
+        this.requirementSetService.find(id)
+            .subscribe((requirementSetResponse: HttpResponse<RequirementSet>) => {
+                this.requirementSet = requirementSetResponse.body;
+            });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);

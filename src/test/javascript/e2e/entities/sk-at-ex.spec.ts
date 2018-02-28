@@ -72,51 +72,51 @@ export class SkAtExDialogPage {
 
     skeletonSelectLastOption = function() {
         this.skeletonSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     skeletonSelectOption = function(option) {
         this.skeletonSelect.sendKeys(option);
-    }
+    };
 
     getSkeletonSelect = function() {
         return this.skeletonSelect;
-    }
+    };
 
     getSkeletonSelectedOption = function() {
         return this.skeletonSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     attributeSelectLastOption = function() {
         this.attributeSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     attributeSelectOption = function(option) {
         this.attributeSelect.sendKeys(option);
-    }
+    };
 
     getAttributeSelect = function() {
         return this.attributeSelect;
-    }
+    };
 
     getAttributeSelectedOption = function() {
         return this.attributeSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     extensionSelectLastOption = function() {
         this.extensionSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     extensionSelectOption = function(option) {
         this.extensionSelect.sendKeys(option);
-    }
+    };
 
     getExtensionSelect = function() {
         return this.extensionSelect;
-    }
+    };
 
     getExtensionSelectedOption = function() {
         return this.extensionSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

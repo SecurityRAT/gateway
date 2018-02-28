@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 
@@ -32,9 +33,10 @@ export class SkeletonDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.skeletonService.find(id).subscribe((skeleton) => {
-            this.skeleton = skeleton;
-        });
+        this.skeletonService.find(id)
+            .subscribe((skeletonResponse: HttpResponse<Skeleton>) => {
+                this.skeleton = skeletonResponse.body;
+            });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);

@@ -85,31 +85,31 @@ export class RequirementSetDialogPage {
 
     setNameInput = function(name) {
         this.nameInput.sendKeys(name);
-    }
+    };
 
     getNameInput = function() {
         return this.nameInput.getAttribute('value');
-    }
+    };
 
     setDescriptionInput = function(description) {
         this.descriptionInput.sendKeys(description);
-    }
+    };
 
     getDescriptionInput = function() {
         return this.descriptionInput.getAttribute('value');
-    }
+    };
 
     setShowOrderInput = function(showOrder) {
         this.showOrderInput.sendKeys(showOrder);
-    }
+    };
 
     getShowOrderInput = function() {
         return this.showOrderInput.getAttribute('value');
-    }
+    };
 
     getActiveInput = function() {
         return this.activeInput;
-    }
+    };
     save() {
         this.saveButton.click();
     }

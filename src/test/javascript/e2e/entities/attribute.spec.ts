@@ -89,62 +89,62 @@ export class AttributeDialogPage {
 
     setNameInput = function(name) {
         this.nameInput.sendKeys(name);
-    }
+    };
 
     getNameInput = function() {
         return this.nameInput.getAttribute('value');
-    }
+    };
 
     setDescriptionInput = function(description) {
         this.descriptionInput.sendKeys(description);
-    }
+    };
 
     getDescriptionInput = function() {
         return this.descriptionInput.getAttribute('value');
-    }
+    };
 
     setShowOrderInput = function(showOrder) {
         this.showOrderInput.sendKeys(showOrder);
-    }
+    };
 
     getShowOrderInput = function() {
         return this.showOrderInput.getAttribute('value');
-    }
+    };
 
     getActiveInput = function() {
         return this.activeInput;
-    }
+    };
     parentSelectLastOption = function() {
         this.parentSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     parentSelectOption = function(option) {
         this.parentSelect.sendKeys(option);
-    }
+    };
 
     getParentSelect = function() {
         return this.parentSelect;
-    }
+    };
 
     getParentSelectedOption = function() {
         return this.parentSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     attributeKeySelectLastOption = function() {
         this.attributeKeySelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     attributeKeySelectOption = function(option) {
         this.attributeKeySelect.sendKeys(option);
-    }
+    };
 
     getAttributeKeySelect = function() {
         return this.attributeKeySelect;
-    }
+    };
 
     getAttributeKeySelectedOption = function() {
         return this.attributeKeySelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

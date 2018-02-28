@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,6 @@ import { SkAtExService } from './sk-at-ex.service';
 import { Skeleton, SkeletonService } from '../skeleton';
 import { Attribute, AttributeService } from '../attribute';
 import { Extension, ExtensionService } from '../extension';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-sk-at-ex-dialog',
@@ -43,11 +42,11 @@ export class SkAtExDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.skeletonService.query()
-            .subscribe((res: ResponseWrapper) => { this.skeletons = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<Skeleton[]>) => { this.skeletons = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.attributeService.query()
-            .subscribe((res: ResponseWrapper) => { this.attributes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<Attribute[]>) => { this.attributes = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.extensionService.query()
-            .subscribe((res: ResponseWrapper) => { this.extensions = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<Extension[]>) => { this.extensions = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -65,9 +64,9 @@ export class SkAtExDialogComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<SkAtEx>) {
-        result.subscribe((res: SkAtEx) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<SkAtEx>>) {
+        result.subscribe((res: HttpResponse<SkAtEx>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: SkAtEx) {

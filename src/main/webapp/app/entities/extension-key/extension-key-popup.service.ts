@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { ExtensionKey } from './extension-key.model';
 import { ExtensionKeyService } from './extension-key.service';
 
@@ -25,10 +26,12 @@ export class ExtensionKeyPopupService {
             }
 
             if (id) {
-                this.extensionKeyService.find(id).subscribe((extensionKey) => {
-                    this.ngbModalRef = this.extensionKeyModalRef(component, extensionKey);
-                    resolve(this.ngbModalRef);
-                });
+                this.extensionKeyService.find(id)
+                    .subscribe((extensionKeyResponse: HttpResponse<ExtensionKey>) => {
+                        const extensionKey: ExtensionKey = extensionKeyResponse.body;
+                        this.ngbModalRef = this.extensionKeyModalRef(component, extensionKey);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

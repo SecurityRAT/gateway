@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,6 @@ import { Attribute } from './attribute.model';
 import { AttributePopupService } from './attribute-popup.service';
 import { AttributeService } from './attribute.service';
 import { AttributeKey, AttributeKeyService } from '../attribute-key';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-attribute-dialog',
@@ -38,9 +37,9 @@ export class AttributeDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.attributeService.query()
-            .subscribe((res: ResponseWrapper) => { this.attributes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<Attribute[]>) => { this.attributes = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.attributeKeyService.query()
-            .subscribe((res: ResponseWrapper) => { this.attributekeys = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<AttributeKey[]>) => { this.attributekeys = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -70,9 +69,9 @@ export class AttributeDialogComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Attribute>) {
-        result.subscribe((res: Attribute) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<Attribute>>) {
+        result.subscribe((res: HttpResponse<Attribute>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Attribute) {

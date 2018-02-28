@@ -1,5 +1,9 @@
 # SecurityRAT v2 - Gateway component
-Gateway component of OWASP SecurityRAT v2.
+This application was generated using JHipster 4.14.1, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.14.1](http://www.jhipster.tech/documentation-archive/v4.14.1).
+
+This is a "gateway" application intended to be part of a microservice architecture, please refer to the [Doing microservices with JHipster][] page of the documentation for more information.
+
+This application is configured for Service Discovery and Configuration with Consul. On launch, it will refuse to start if it is not able to connect to Consul at [http://localhost:8500](http://localhost:8500). For more information, read our documentation on [Service Discovery and Configuration with Consul][].
 
 ## Development
 
@@ -84,7 +88,9 @@ security:
             preferTokenInfo: false
 ```
 
-Create an OIDC App in Okta to get a `{clientId}` and `{clientSecret}`. To do this, log in to your Okta Developer account and navigate to **Applications** > **Add Application**. Click **Web** and click the **Next** button. Give the app a name you’ll remember, specify "http://localhost:8080" as a Base URI, and "http://localhost:8080/login" as a Login Redirect URI. Click **Done** and copy the client ID and secret into your `application.yml` file.
+Create an OIDC App in Okta to get a `{clientId}` and `{clientSecret}`. To do this, log in to your Okta Developer account and navigate to **Applications** > **Add Application**. Click **Web** and click the **Next** button. Give the app a name you’ll remember, specify `http://localhost:8080` as a Base URI, and `http://localhost:8080/login` as a Login Redirect URI. Click **Done** and copy the client ID and secret into your `application.yml` file.
+
+> **TIP:** If you want to use the [Ionic Module for JHipster](https://www.npmjs.com/package/generator-jhipster-ionic), you'll need to add `http://localhost:8100` as a **Login redirect URI** as well.
 
 Create a `ROLE_ADMIN` and `ROLE_USER` group and add users into them. Create a user (e.g., "admin@jhipster.org" with password "Java is hip in 2017!"). Modify e2e tests to use this account when running integration tests. You'll need to change credentials in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
 
@@ -209,14 +215,14 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [JHipster Homepage and latest documentation]: http://www.jhipster.tech
-[JHipster 4.13.3 archive]: http://www.jhipster.tech/documentation-archive/v4.13.3
-[Doing microservices with JHipster]: http://www.jhipster.tech/documentation-archive/v4.13.3/microservices-architecture/
-[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.13.3/development/
-[Service Discovery and Configuration with Consul]: http://www.jhipster.tech/documentation-archive/v4.13.3/microservices-architecture/#consul
-[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.13.3/docker-compose
-[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.13.3/production/
-[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.13.3/running-tests/
-[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.13.3/setting-up-ci/
+[JHipster 4.14.1 archive]: http://www.jhipster.tech/documentation-archive/v4.14.1
+[Doing microservices with JHipster]: http://www.jhipster.tech/documentation-archive/v4.14.1/microservices-architecture/
+[Using JHipster in development]: http://www.jhipster.tech/documentation-archive/v4.14.1/development/
+[Service Discovery and Configuration with Consul]: http://www.jhipster.tech/documentation-archive/v4.14.1/microservices-architecture/#consul
+[Using Docker and Docker-Compose]: http://www.jhipster.tech/documentation-archive/v4.14.1/docker-compose
+[Using JHipster in production]: http://www.jhipster.tech/documentation-archive/v4.14.1/production/
+[Running tests page]: http://www.jhipster.tech/documentation-archive/v4.14.1/running-tests/
+[Setting up Continuous Integration]: http://www.jhipster.tech/documentation-archive/v4.14.1/setting-up-ci/
 
 
 [Node.js]: https://nodejs.org/
