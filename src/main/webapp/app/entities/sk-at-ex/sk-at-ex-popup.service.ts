@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { SkAtEx } from './sk-at-ex.model';
 import { SkAtExService } from './sk-at-ex.service';
 
@@ -25,10 +26,12 @@ export class SkAtExPopupService {
             }
 
             if (id) {
-                this.skAtExService.find(id).subscribe((skAtEx) => {
-                    this.ngbModalRef = this.skAtExModalRef(component, skAtEx);
-                    resolve(this.ngbModalRef);
-                });
+                this.skAtExService.find(id)
+                    .subscribe((skAtExResponse: HttpResponse<SkAtEx>) => {
+                        const skAtEx: SkAtEx = skAtExResponse.body;
+                        this.ngbModalRef = this.skAtExModalRef(component, skAtEx);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

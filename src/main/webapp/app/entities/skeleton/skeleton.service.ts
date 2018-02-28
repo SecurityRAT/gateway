@@ -1,66 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { Skeleton } from './skeleton.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { createRequestOption } from '../../shared';
+
+export type EntityResponseType = HttpResponse<Skeleton>;
 
 @Injectable()
 export class SkeletonService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/skeletons';
+    private resourceUrl =  SERVER_API_URL + 'requirementmanagement/api/skeletons';
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    create(skeleton: Skeleton): Observable<Skeleton> {
+    create(skeleton: Skeleton): Observable<EntityResponseType> {
         const copy = this.convert(skeleton);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.post<Skeleton>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    update(skeleton: Skeleton): Observable<Skeleton> {
+    update(skeleton: Skeleton): Observable<EntityResponseType> {
         const copy = this.convert(skeleton);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.put<Skeleton>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    find(id: number): Observable<Skeleton> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+    find(id: number): Observable<EntityResponseType> {
+        return this.http.get<Skeleton>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    query(req?: any): Observable<ResponseWrapper> {
+    query(req?: any): Observable<HttpResponse<Skeleton[]>> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+        return this.http.get<Skeleton[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .map((res: HttpResponse<Skeleton[]>) => this.convertArrayResponse(res));
     }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
+    delete(id: number): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
 
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        const result = [];
+    private convertResponse(res: EntityResponseType): EntityResponseType {
+        const body: Skeleton = this.convertItemFromServer(res.body);
+        return res.clone({body});
+    }
+
+    private convertArrayResponse(res: HttpResponse<Skeleton[]>): HttpResponse<Skeleton[]> {
+        const jsonResponse: Skeleton[] = res.body;
+        const body: Skeleton[] = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            result.push(this.convertItemFromServer(jsonResponse[i]));
+            body.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, result, res.status);
+        return res.clone({body});
     }
 
     /**
      * Convert a returned JSON object to Skeleton.
      */
-    private convertItemFromServer(json: any): Skeleton {
-        const entity: Skeleton = Object.assign(new Skeleton(), json);
-        return entity;
+    private convertItemFromServer(skeleton: Skeleton): Skeleton {
+        const copy: Skeleton = Object.assign({}, skeleton);
+        return copy;
     }
 
     /**

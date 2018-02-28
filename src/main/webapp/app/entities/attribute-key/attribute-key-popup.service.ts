@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { AttributeKey } from './attribute-key.model';
 import { AttributeKeyService } from './attribute-key.service';
 
@@ -25,10 +26,12 @@ export class AttributeKeyPopupService {
             }
 
             if (id) {
-                this.attributeKeyService.find(id).subscribe((attributeKey) => {
-                    this.ngbModalRef = this.attributeKeyModalRef(component, attributeKey);
-                    resolve(this.ngbModalRef);
-                });
+                this.attributeKeyService.find(id)
+                    .subscribe((attributeKeyResponse: HttpResponse<AttributeKey>) => {
+                        const attributeKey: AttributeKey = attributeKeyResponse.body;
+                        this.ngbModalRef = this.attributeKeyModalRef(component, attributeKey);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

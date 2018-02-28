@@ -89,57 +89,57 @@ export class AttributeKeyDialogPage {
 
     setNameInput = function(name) {
         this.nameInput.sendKeys(name);
-    }
+    };
 
     getNameInput = function() {
         return this.nameInput.getAttribute('value');
-    }
+    };
 
     setDescriptionInput = function(description) {
         this.descriptionInput.sendKeys(description);
-    }
+    };
 
     getDescriptionInput = function() {
         return this.descriptionInput.getAttribute('value');
-    }
+    };
 
     setTypeSelect = function(type) {
         this.typeSelect.sendKeys(type);
-    }
+    };
 
     getTypeSelect = function() {
         return this.typeSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     typeSelectLastOption = function() {
         this.typeSelect.all(by.tagName('option')).last().click();
-    }
+    };
     setShowOrderInput = function(showOrder) {
         this.showOrderInput.sendKeys(showOrder);
-    }
+    };
 
     getShowOrderInput = function() {
         return this.showOrderInput.getAttribute('value');
-    }
+    };
 
     getActiveInput = function() {
         return this.activeInput;
-    }
+    };
     requirementSetSelectLastOption = function() {
         this.requirementSetSelect.all(by.tagName('option')).last().click();
-    }
+    };
 
     requirementSetSelectOption = function(option) {
         this.requirementSetSelect.sendKeys(option);
-    }
+    };
 
     getRequirementSetSelect = function() {
         return this.requirementSetSelect;
-    }
+    };
 
     getRequirementSetSelectedOption = function() {
         return this.requirementSetSelect.element(by.css('option:checked')).getText();
-    }
+    };
 
     save() {
         this.saveButton.click();

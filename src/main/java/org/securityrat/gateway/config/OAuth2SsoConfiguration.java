@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.filter.CorsFilter;
 
 import io.github.jhipster.security.AjaxLogoutSuccessHandler;
 
@@ -19,10 +21,14 @@ public class OAuth2SsoConfiguration extends WebSecurityConfigurerAdapter {
 
     private final RequestMatcher authorizationHeaderRequestMatcher;
 
-    public OAuth2SsoConfiguration(@Qualifier("authorizationHeaderRequestMatcher") RequestMatcher authorizationHeaderRequestMatcher) {
-        this.authorizationHeaderRequestMatcher = authorizationHeaderRequestMatcher;
-    }
+    private final CorsFilter corsFilter;
 
+    public OAuth2SsoConfiguration(@Qualifier("authorizationHeaderRequestMatcher")
+                                  RequestMatcher authorizationHeaderRequestMatcher, CorsFilter corsFilter) {
+        this.authorizationHeaderRequestMatcher = authorizationHeaderRequestMatcher;
+        this.corsFilter = corsFilter;
+    }
+    
     @Bean
     public AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler() {
         return new AjaxLogoutSuccessHandler();
@@ -33,6 +39,7 @@ public class OAuth2SsoConfiguration extends WebSecurityConfigurerAdapter {
         http
             .csrf()
             .disable()
+            .addFilterBefore(corsFilter, CsrfFilter.class)
             .headers()
             .frameOptions()
             .disable()

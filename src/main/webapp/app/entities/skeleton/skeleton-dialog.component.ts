@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,6 @@ import { Skeleton } from './skeleton.model';
 import { SkeletonPopupService } from './skeleton-popup.service';
 import { SkeletonService } from './skeleton.service';
 import { RequirementSet, RequirementSetService } from '../requirement-set';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-skeleton-dialog',
@@ -36,7 +35,7 @@ export class SkeletonDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.requirementSetService.query()
-            .subscribe((res: ResponseWrapper) => { this.requirementsets = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: HttpResponse<RequirementSet[]>) => { this.requirementsets = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -66,9 +65,9 @@ export class SkeletonDialogComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Skeleton>) {
-        result.subscribe((res: Skeleton) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<Skeleton>>) {
+        result.subscribe((res: HttpResponse<Skeleton>) =>
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Skeleton) {

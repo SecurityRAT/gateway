@@ -1,66 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { Attribute } from './attribute.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { createRequestOption } from '../../shared';
+
+export type EntityResponseType = HttpResponse<Attribute>;
 
 @Injectable()
 export class AttributeService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementmanagement/api/attributes';
+    private resourceUrl =  SERVER_API_URL + 'requirementmanagement/api/attributes';
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    create(attribute: Attribute): Observable<Attribute> {
+    create(attribute: Attribute): Observable<EntityResponseType> {
         const copy = this.convert(attribute);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.post<Attribute>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    update(attribute: Attribute): Observable<Attribute> {
+    update(attribute: Attribute): Observable<EntityResponseType> {
         const copy = this.convert(attribute);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.put<Attribute>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    find(id: number): Observable<Attribute> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+    find(id: number): Observable<EntityResponseType> {
+        return this.http.get<Attribute>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
-    query(req?: any): Observable<ResponseWrapper> {
+    query(req?: any): Observable<HttpResponse<Attribute[]>> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+        return this.http.get<Attribute[]>(this.resourceUrl, { params: options, observe: 'response' })
+            .map((res: HttpResponse<Attribute[]>) => this.convertArrayResponse(res));
     }
 
-    delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
+    delete(id: number): Observable<HttpResponse<any>> {
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
 
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        const result = [];
+    private convertResponse(res: EntityResponseType): EntityResponseType {
+        const body: Attribute = this.convertItemFromServer(res.body);
+        return res.clone({body});
+    }
+
+    private convertArrayResponse(res: HttpResponse<Attribute[]>): HttpResponse<Attribute[]> {
+        const jsonResponse: Attribute[] = res.body;
+        const body: Attribute[] = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            result.push(this.convertItemFromServer(jsonResponse[i]));
+            body.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, result, res.status);
+        return res.clone({body});
     }
 
     /**
      * Convert a returned JSON object to Attribute.
      */
-    private convertItemFromServer(json: any): Attribute {
-        const entity: Attribute = Object.assign(new Attribute(), json);
-        return entity;
+    private convertItemFromServer(attribute: Attribute): Attribute {
+        const copy: Attribute = Object.assign({}, attribute);
+        return copy;
     }
 
     /**

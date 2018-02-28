@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 
@@ -32,9 +33,10 @@ export class ExtensionKeyDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.extensionKeyService.find(id).subscribe((extensionKey) => {
-            this.extensionKey = extensionKey;
-        });
+        this.extensionKeyService.find(id)
+            .subscribe((extensionKeyResponse: HttpResponse<ExtensionKey>) => {
+                this.extensionKey = extensionKeyResponse.body;
+            });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);

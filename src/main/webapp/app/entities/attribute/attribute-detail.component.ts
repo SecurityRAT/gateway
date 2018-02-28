@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 
@@ -32,9 +33,10 @@ export class AttributeDetailComponent implements OnInit, OnDestroy {
     }
 
     load(id) {
-        this.attributeService.find(id).subscribe((attribute) => {
-            this.attribute = attribute;
-        });
+        this.attributeService.find(id)
+            .subscribe((attributeResponse: HttpResponse<Attribute>) => {
+                this.attribute = attributeResponse.body;
+            });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);

@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { RequirementSet } from './requirement-set.model';
 import { RequirementSetService } from './requirement-set.service';
 
@@ -25,10 +26,12 @@ export class RequirementSetPopupService {
             }
 
             if (id) {
-                this.requirementSetService.find(id).subscribe((requirementSet) => {
-                    this.ngbModalRef = this.requirementSetModalRef(component, requirementSet);
-                    resolve(this.ngbModalRef);
-                });
+                this.requirementSetService.find(id)
+                    .subscribe((requirementSetResponse: HttpResponse<RequirementSet>) => {
+                        const requirementSet: RequirementSet = requirementSetResponse.body;
+                        this.ngbModalRef = this.requirementSetModalRef(component, requirementSet);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {

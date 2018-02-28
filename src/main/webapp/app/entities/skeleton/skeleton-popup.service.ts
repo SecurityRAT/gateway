@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { HttpResponse } from '@angular/common/http';
 import { Skeleton } from './skeleton.model';
 import { SkeletonService } from './skeleton.service';
 
@@ -25,10 +26,12 @@ export class SkeletonPopupService {
             }
 
             if (id) {
-                this.skeletonService.find(id).subscribe((skeleton) => {
-                    this.ngbModalRef = this.skeletonModalRef(component, skeleton);
-                    resolve(this.ngbModalRef);
-                });
+                this.skeletonService.find(id)
+                    .subscribe((skeletonResponse: HttpResponse<Skeleton>) => {
+                        const skeleton: Skeleton = skeletonResponse.body;
+                        this.ngbModalRef = this.skeletonModalRef(component, skeleton);
+                        resolve(this.ngbModalRef);
+                    });
             } else {
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {
