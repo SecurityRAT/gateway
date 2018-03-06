@@ -28,6 +28,7 @@ export class AttributeKeyDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
+        /* tslint:disable-next-line:no-unused-variable*/
         this.attributeKeyService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'attributeKeyListModification',

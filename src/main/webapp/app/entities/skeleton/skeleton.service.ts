@@ -11,7 +11,7 @@ export type EntityResponseType = HttpResponse<Skeleton>;
 @Injectable()
 export class SkeletonService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/skeletons';
+    private resourceUrl =  SERVER_API_URL + 'requirementManagement/api/skeletons';
 
     constructor(private http: HttpClient) { }
 

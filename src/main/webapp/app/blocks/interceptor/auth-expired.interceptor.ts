@@ -13,6 +13,7 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        /* tslint:disable-next-line:no-unused-variable*/
         return next.handle(request).do((event: HttpEvent<any>) => {}, (err: any) => {
             if (err instanceof HttpErrorResponse) {
                 if (err.status === 401 && err.url && !err.url.includes('/api/account')) {

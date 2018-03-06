@@ -28,6 +28,7 @@ export class SkeletonDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
+        /* tslint:disable-next-line:no-unused-variable*/
         this.skeletonService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'skeletonListModification',

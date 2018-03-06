@@ -57,6 +57,7 @@ export class ExtensionKeyDetailComponent implements OnInit, OnDestroy {
     registerChangeInExtensionKeys() {
         this.eventSubscriber = this.eventManager.subscribe(
             'extensionKeyListModification',
+            /* tslint:disable-next-line:no-unused-variable */
             (response) => this.load(this.extensionKey.id)
         );
     }

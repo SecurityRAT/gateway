@@ -28,6 +28,7 @@ export class ExtensionDeleteDialogComponent {
     }
 
     confirmDelete(id: number) {
+        /* tslint:disable-next-line:no-unused-variable */
         this.extensionService.delete(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'extensionListModification',

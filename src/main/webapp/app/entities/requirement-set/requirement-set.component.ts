@@ -74,7 +74,7 @@ export class RequirementSetComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
-
+    /* tslint:disable-next-line:no-unused-variable*/
     trackId(index: number, item: RequirementSet) {
         return item.id;
     }
@@ -87,6 +87,7 @@ export class RequirementSetComponent implements OnInit, OnDestroy {
         return this.dataUtils.openFile(contentType, field);
     }
     registerChangeInRequirementSets() {
+        /* tslint:disable-next-line:no-unused-variable*/
         this.eventSubscriber = this.eventManager.subscribe('requirementSetListModification', (response) => this.reset());
     }
 

@@ -57,6 +57,7 @@ export class SkeletonDetailComponent implements OnInit, OnDestroy {
     registerChangeInSkeletons() {
         this.eventSubscriber = this.eventManager.subscribe(
             'skeletonListModification',
+            /* tslint:disable-next-line:no-unused-variable*/
             (response) => this.load(this.skeleton.id)
         );
     }

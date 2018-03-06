@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
     }
 
     registerAuthenticationSuccess() {
+        /* tslint:disable-next-line:no-unused-variable*/
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;

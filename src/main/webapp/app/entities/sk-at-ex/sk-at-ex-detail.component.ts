@@ -49,6 +49,7 @@ export class SkAtExDetailComponent implements OnInit, OnDestroy {
     registerChangeInSkAtExes() {
         this.eventSubscriber = this.eventManager.subscribe(
             'skAtExListModification',
+            /* tslint:disable-next-line:no-unused-variable */
             (response) => this.load(this.skAtEx.id)
         );
     }

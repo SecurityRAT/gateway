@@ -34,8 +34,8 @@ describe('Service Tests', () => {
 
                 const req  = httpMock.expectOne({ method: 'GET' });
 
-                const resourceUrl = SERVER_API_URL + '/requirementManagement/api/requirement-sets';
-                expect(this.lastConnection.request.url).toEqual(resourceUrl + '/' + 123);
+                const resourceUrl = SERVER_API_URL + 'requirementManagement/api/requirement-sets';
+                expect(req.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return RequirementSet', () => {
 

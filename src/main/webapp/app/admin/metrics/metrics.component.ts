@@ -60,11 +60,12 @@ export class JhiMetricsMonitoringComponent implements OnInit {
         this.metricsService.threadDump().subscribe((data) => {
             const modalRef  = this.modalService.open(JhiMetricsMonitoringModalComponent, { size: 'lg'});
             modalRef.componentInstance.threadDump = data;
-            modalRef.result.then((result) => {
-                // Left blank intentionally, nothing to do here
-            }, (reason) => {
-                // Left blank intentionally, nothing to do here
-            });
+            modalRef.result.then();
+            // modalRef.result.then((result) => {
+            //     // Left blank intentionally, nothing to do here
+            // }, (reason) => {
+            //     // Left blank intentionally, nothing to do here
+            // });
         });
     }
 

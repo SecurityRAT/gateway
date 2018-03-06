@@ -34,7 +34,7 @@ describe('Service Tests', () => {
 
                 const req  = httpMock.expectOne({ method: 'GET' });
 
-                const resourceUrl = SERVER_API_URL + '/requirementManagement/api/attribute-keys';
+                const resourceUrl = SERVER_API_URL + 'requirementManagement/api/attribute-keys';
                 expect(req.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return AttributeKey', () => {

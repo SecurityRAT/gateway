@@ -57,6 +57,7 @@ export class ExtensionDetailComponent implements OnInit, OnDestroy {
     registerChangeInExtensions() {
         this.eventSubscriber = this.eventManager.subscribe(
             'extensionListModification',
+            /* tslint:disable-next-line:no-unused-variable */
             (response) => this.load(this.extension.id)
         );
     }

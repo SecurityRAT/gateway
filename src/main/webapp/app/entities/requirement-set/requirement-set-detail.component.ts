@@ -57,6 +57,7 @@ export class RequirementSetDetailComponent implements OnInit, OnDestroy {
     registerChangeInRequirementSets() {
         this.eventSubscriber = this.eventManager.subscribe(
             'requirementSetListModification',
+            /* tslint:disable-next-line:no-unused-variable */
             (response) => this.load(this.requirementSet.id)
         );
     }

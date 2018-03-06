@@ -31,6 +31,7 @@ export class NotificationInterceptor implements HttpInterceptor {
                     }
                 }
             }
+            /* tslint:disable-next-line:no-unused-variable*/
         }, (err: any) => {});
     }
 }

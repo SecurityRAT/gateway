@@ -11,7 +11,7 @@ export type EntityResponseType = HttpResponse<AttributeKey>;
 @Injectable()
 export class AttributeKeyService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/attribute-keys';
+    private resourceUrl =  SERVER_API_URL + 'requirementManagement/api/attribute-keys';
 
     constructor(private http: HttpClient) { }
 

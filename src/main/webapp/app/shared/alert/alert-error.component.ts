@@ -82,7 +82,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
             this.alerts = [];
         }
     }
-
+    /* tslint:disable-next-line:no-unused-variable */
     addErrorAlert(message, key?, data?) {
         this.alerts.push(
             this.alertService.addAlert(

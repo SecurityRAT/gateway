@@ -71,7 +71,7 @@ export class AttributeDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<Attribute>>) {
         result.subscribe((res: HttpResponse<Attribute>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+            this.onSaveSuccess(res.body), () => this.onSaveError()); // add "res: HttpErrorResponse" parameter to get the rejected object
     }
 
     private onSaveSuccess(result: Attribute) {
@@ -88,10 +88,12 @@ export class AttributeDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
+    /* tslint:disable-next-line:no-unused-variable*/
     trackAttributeById(index: number, item: Attribute) {
         return item.id;
     }
 
+    /* tslint:disable-next-line:no-unused-variable*/
     trackAttributeKeyById(index: number, item: AttributeKey) {
         return item.id;
     }

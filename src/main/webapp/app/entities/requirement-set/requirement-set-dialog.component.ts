@@ -59,8 +59,8 @@ export class RequirementSetDialogComponent implements OnInit {
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<RequirementSet>>) {
-        result.subscribe((res: HttpResponse<RequirementSet>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+        /* tslint:disable-next-line:no-unused-variable */
+        result.subscribe((res: HttpResponse<RequirementSet>) => this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: RequirementSet) {

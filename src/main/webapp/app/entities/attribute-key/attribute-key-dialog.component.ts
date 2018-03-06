@@ -66,8 +66,8 @@ export class AttributeKeyDialogComponent implements OnInit {
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<AttributeKey>>) {
-        result.subscribe((res: HttpResponse<AttributeKey>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+        /* tslint:disable-next-line:no-unused-variable */
+        result.subscribe((res: HttpResponse<AttributeKey>) => this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess(result: AttributeKey) {
@@ -84,6 +84,7 @@ export class AttributeKeyDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackRequirementSetById(index: number, item: RequirementSet) {
         return item.id;
     }

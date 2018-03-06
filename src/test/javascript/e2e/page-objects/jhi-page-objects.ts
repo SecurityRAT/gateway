@@ -121,6 +121,7 @@ export class SignInPage {
             this.username.sendKeys(username);
             this.password.sendKeys(password);
             this.loginButton.click();
+        /* tslint:disable-next-line:no-unused-variable */
         }).catch((error) => {
             browser.waitForAngularEnabled(true);
         });

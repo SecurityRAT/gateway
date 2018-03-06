@@ -67,7 +67,7 @@ export class SkeletonDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<Skeleton>>) {
         result.subscribe((res: HttpResponse<Skeleton>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+            this.onSaveSuccess(res.body), () => this.onSaveError()); // add "res: HttpErrorResponse" parameter to get the rejected object
     }
 
     private onSaveSuccess(result: Skeleton) {
@@ -84,6 +84,7 @@ export class SkeletonDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackRequirementSetById(index: number, item: RequirementSet) {
         return item.id;
     }

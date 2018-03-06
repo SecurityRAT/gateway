@@ -72,7 +72,7 @@ export class Principal {
             }
             this.authenticationState.next(this.userIdentity);
             return this.userIdentity;
-        }).catch((err) => {
+        }).catch(() => { // insert a parameter to this function to get the rejected information
             this.userIdentity = null;
             this.authenticated = false;
             this.authenticationState.next(this.userIdentity);

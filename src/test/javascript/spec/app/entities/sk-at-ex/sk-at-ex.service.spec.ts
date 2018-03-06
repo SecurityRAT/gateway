@@ -34,8 +34,8 @@ describe('Service Tests', () => {
 
                 const req  = httpMock.expectOne({ method: 'GET' });
 
-                const resourceUrl = SERVER_API_URL + '/requirementManagement/api/sk-at-exes';
-                expect(this.lastConnection.request.url).toEqual(resourceUrl + '/' + 123);
+                const resourceUrl = SERVER_API_URL + 'requirementManagement/api/sk-at-exes';
+                expect(req.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return SkAtEx', () => {
 

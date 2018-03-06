@@ -9,5 +9,5 @@ if (module['hot']) {
 }
 
 platformBrowserDynamic().bootstrapModule(GatewayAppModule)
-.then((success) => console.log(`Application started`))
+.then(() => console.log(`Application started`)) // Use the success parameter as the err parameter if necessary
 .catch((err) => console.error(err));

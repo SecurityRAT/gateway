@@ -75,6 +75,7 @@ export class AttributeComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
+    /* tslint:disable-next-line:no-unused-variable*/
     trackId(index: number, item: Attribute) {
         return item.id;
     }
@@ -87,6 +88,7 @@ export class AttributeComponent implements OnInit, OnDestroy {
         return this.dataUtils.openFile(contentType, field);
     }
     registerChangeInAttributes() {
+        /* tslint:disable-next-line:no-unused-variable*/
         this.eventSubscriber = this.eventManager.subscribe('attributeListModification', (response) => this.reset());
     }
 

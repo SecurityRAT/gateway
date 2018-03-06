@@ -11,7 +11,7 @@ export type EntityResponseType = HttpResponse<Extension>;
 @Injectable()
 export class ExtensionService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/extensions';
+    private resourceUrl =  SERVER_API_URL + 'requirementManagement/api/extensions';
 
     constructor(private http: HttpClient) { }
 

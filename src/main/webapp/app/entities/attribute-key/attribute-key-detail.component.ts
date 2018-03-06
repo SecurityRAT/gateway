@@ -57,6 +57,7 @@ export class AttributeKeyDetailComponent implements OnInit, OnDestroy {
     registerChangeInAttributeKeys() {
         this.eventSubscriber = this.eventManager.subscribe(
             'attributeKeyListModification',
+            /* tslint:disable-next-line:no-unused-variable*/
             (response) => this.load(this.attributeKey.id)
         );
     }

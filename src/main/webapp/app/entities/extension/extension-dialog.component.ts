@@ -67,7 +67,7 @@ export class ExtensionDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<Extension>>) {
         result.subscribe((res: HttpResponse<Extension>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+            this.onSaveSuccess(res.body), () => this.onSaveError()); // add "res: HttpErrorResponse" parameter to get the rejected object
     }
 
     private onSaveSuccess(result: Extension) {
@@ -84,6 +84,7 @@ export class ExtensionDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackExtensionKeyById(index: number, item: ExtensionKey) {
         return item.id;
     }

@@ -66,7 +66,7 @@ export class SkAtExDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<SkAtEx>>) {
         result.subscribe((res: HttpResponse<SkAtEx>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+            this.onSaveSuccess(res.body), () => this.onSaveError()); // add "res: HttpErrorResponse" parameter to get the rejected object
     }
 
     private onSaveSuccess(result: SkAtEx) {
@@ -83,14 +83,17 @@ export class SkAtExDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackSkeletonById(index: number, item: Skeleton) {
         return item.id;
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackAttributeById(index: number, item: Attribute) {
         return item.id;
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackExtensionById(index: number, item: Extension) {
         return item.id;
     }

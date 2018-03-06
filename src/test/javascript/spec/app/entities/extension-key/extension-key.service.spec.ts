@@ -30,12 +30,12 @@ describe('Service Tests', () => {
 
         describe('Service methods', () => {
             it('should call correct URL', () => {
-                service.find(123).subscribe(() => {});
+                service.find(123).subscribe(() => { });
 
-                const req  = httpMock.expectOne({ method: 'GET' });
+                const req = httpMock.expectOne({ method: 'GET' });
 
-                const resourceUrl = SERVER_API_URL + '/requirementManagement/api/extension-keys';
-                expect(this.lastConnection.request.url).toEqual(resourceUrl + '/' + 123);
+                const resourceUrl = SERVER_API_URL + 'requirementManagement/api/extension-keys';
+                expect(req.request.url).toEqual(resourceUrl + '/' + 123);
             });
             it('should return ExtensionKey', () => {
 
@@ -44,7 +44,7 @@ describe('Service Tests', () => {
                 });
 
                 const req = httpMock.expectOne({ method: 'GET' });
-                req.flush({id: 123});
+                req.flush({ id: 123 });
             });
 
             it('should propagate not found response', () => {
@@ -53,7 +53,7 @@ describe('Service Tests', () => {
                     expect(_error.status).toEqual(404);
                 });
 
-                const req  = httpMock.expectOne({ method: 'GET' });
+                const req = httpMock.expectOne({ method: 'GET' });
                 req.flush('Invalid request parameters', {
                     status: 404, statusText: 'Bad Request'
                 });

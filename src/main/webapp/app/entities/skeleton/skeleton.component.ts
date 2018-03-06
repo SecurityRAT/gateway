@@ -75,6 +75,7 @@ export class SkeletonComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
+    /* tslint:disable-next-line:no-unused-variable*/
     trackId(index: number, item: Skeleton) {
         return item.id;
     }
@@ -87,6 +88,7 @@ export class SkeletonComponent implements OnInit, OnDestroy {
         return this.dataUtils.openFile(contentType, field);
     }
     registerChangeInSkeletons() {
+        /* tslint:disable-next-line:no-unused-variable */
         this.eventSubscriber = this.eventManager.subscribe('skeletonListModification', (response) => this.reset());
     }
 

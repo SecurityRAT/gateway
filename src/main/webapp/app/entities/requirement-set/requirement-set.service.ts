@@ -11,7 +11,7 @@ export type EntityResponseType = HttpResponse<RequirementSet>;
 @Injectable()
 export class RequirementSetService {
 
-    private resourceUrl =  SERVER_API_URL + '/requirementManagement/api/requirement-sets';
+    private resourceUrl =  SERVER_API_URL + 'requirementManagement/api/requirement-sets';
 
     constructor(private http: HttpClient) { }
 

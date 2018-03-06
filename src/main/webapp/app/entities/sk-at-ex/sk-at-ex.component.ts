@@ -74,10 +74,12 @@ export class SkAtExComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackId(index: number, item: SkAtEx) {
         return item.id;
     }
     registerChangeInSkAtExes() {
+        /* tslint:disable-next-line:no-unused-variable */
         this.eventSubscriber = this.eventManager.subscribe('skAtExListModification', (response) => this.reset());
     }
 

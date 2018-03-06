@@ -4,7 +4,7 @@ import { NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class PaginationConfig {
-    // tslint:disable-next-line: no-unused-variable
+    // tslint:disable-next-line
     constructor(private config: NgbPaginationConfig) {
         config.boundaryLinks = true;
         config.maxSize = 5;

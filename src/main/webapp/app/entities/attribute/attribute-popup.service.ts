@@ -19,6 +19,7 @@ export class AttributePopupService {
     }
 
     open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        /* tslint:disable-next-line:no-unused-variable*/
         return new Promise<NgbModalRef>((resolve, reject) => {
             const isOpen = this.ngbModalRef !== null;
             if (isOpen) {
@@ -45,9 +46,11 @@ export class AttributePopupService {
     attributeModalRef(component: Component, attribute: Attribute): NgbModalRef {
         const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
         modalRef.componentInstance.attribute = attribute;
+        /* tslint:disable-next-line:no-unused-variable*/
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true, queryParamsHandling: 'merge' });
             this.ngbModalRef = null;
+        /* tslint:disable-next-line:no-unused-variable*/
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true, queryParamsHandling: 'merge' });
             this.ngbModalRef = null;

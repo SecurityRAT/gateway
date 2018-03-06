@@ -75,6 +75,7 @@ export class ExtensionComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
+    /* tslint:disable-next-line:no-unused-variable */
     trackId(index: number, item: Extension) {
         return item.id;
     }
@@ -87,6 +88,7 @@ export class ExtensionComponent implements OnInit, OnDestroy {
         return this.dataUtils.openFile(contentType, field);
     }
     registerChangeInExtensions() {
+        /* tslint:disable-next-line:no-unused-variable */
         this.eventSubscriber = this.eventManager.subscribe('extensionListModification', (response) => this.reset());
     }
 
