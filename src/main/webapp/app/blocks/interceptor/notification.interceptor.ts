@@ -26,6 +26,7 @@ export class NotificationInterceptor implements HttpInterceptor {
                 if (alert) {
                     if (typeof alert === 'string') {
                         if (this.alertService) {
+                            // Alert position set to 'top right' by default
                             this.alertService.success(alert, null, null);
                         }
                     }

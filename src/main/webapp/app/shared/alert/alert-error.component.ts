@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
         <div class="alerts" role="alert">
             <div *ngFor="let alert of alerts"  [ngClass]="{\'alert.position\': true, \'toast\': alert.toast}">
                 <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
-                    <pre [innerHTML]="alert.msg"></pre>
+                    <p [innerHTML]="alert.msg"></p>
                 </ngb-alert>
             </div>
         </div>`
@@ -91,7 +91,8 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     msg: message,
                     timeout: 5000,
                     toast: this.alertService.isToast(),
-                    scoped: true
+                    scoped: true,
+                    position: 'top right'
                 },
                 this.alerts
             )

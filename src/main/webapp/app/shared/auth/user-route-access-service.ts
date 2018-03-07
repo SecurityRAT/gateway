@@ -5,6 +5,24 @@ import { Principal } from '../';
 import { LoginService } from '../login/login.service';
 import { StateStorageService } from './state-storage.service';
 
+/**
+ * @whatItDoes Implements a "CanActivate" router guards for authorization.
+ * This determines whether a user has permission to access a route (only in the frontend).
+ *
+ * @howToUse
+ *
+ * ```
+ * export const componentRoute : Route = {
+        path: 'myPath',
+        component: MyComponent
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'myTitle'
+        },
+        canActivate: [UserRouteAccessService]
+    }
+ * ```
+ */
 @Injectable()
 export class UserRouteAccessService implements CanActivate {
 

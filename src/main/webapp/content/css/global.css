@@ -99,22 +99,57 @@ Custom alerts for notification
 .alerts .alert{
     text-overflow: ellipsis;
 }
-.alert pre{
+
+
+.alert p {
     background: none;
     border: none;
     font: inherit;
     color: inherit;
     padding: 0;
     margin: 0;
+    
 }
 
-.alert .popover pre {
+.alert .popover p {
     font-size: 10px;
 }
 
 .alerts .toast {
     position: fixed;
-    width: 100%;
+    width: 100%
+}
+.alerts .toast .alert {
+    border-top: 8px solid;
+}
+
+.alerts .toast .alert-success {
+    background-color: white;
+    border-color: #19672b;
+}
+
+.alerts .toast .alert-danger {
+    background-color: white;
+    border-color: #77131d;
+}
+
+.alerts .toast .alert-info {
+    background-color: white;
+    border-color: #0059b3;
+}
+
+.alerts .toast .alert-warning {
+    background-color: white;
+    border-color: #947005;
+}
+
+.alerts .toast .alert p {
+    background: none;
+    font: inherit;
+    color: black;
+    padding: 0;
+    margin: 0;
+
 }
 
 .alerts .toast.left {
@@ -123,6 +158,7 @@ Custom alerts for notification
 
 .alerts .toast.right {
     right: 5px;
+    margin-bottom: 5px;
 }
 
 .alerts .toast.top {
@@ -135,7 +171,7 @@ Custom alerts for notification
 
 @media screen and (min-width: 480px) {
     .alerts .toast {
-        width: 50%;
+        width: 45%;
     }
 }
 
