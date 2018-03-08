@@ -20,6 +20,20 @@ a:hover {
     font-weight: bold;
 }
 
+.secrat-text-color {
+    color: #002e4d;
+
+}
+.btn-secrat {
+    color: #fff;
+    background-color: #005c99;
+    border-color: #005c99;
+}
+
+.btn-secrat:hover {
+    background-color: #003d66;
+    border-color: #003d66;
+}
 /* ==========================================================================
 Browser Upgrade Prompt
 ========================================================================== */
@@ -82,6 +96,10 @@ Generic styles
     border-top: 1px solid rgba(0,0,0,.125);
 }
 
+section {
+    margin-bottom: 50px;
+}
+
 /* ==========================================================================
 make sure browsers use the pointer cursor for anchors, even with no href
 ========================================================================== */
@@ -130,7 +148,7 @@ Custom alerts for notification
 
 .alerts .toast .alert-danger {
     background-color: white;
-    border-color: #77131d;
+    border-color: #841520;
 }
 
 .alerts .toast .alert-info {

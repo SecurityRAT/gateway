@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
     selector: 'jhi-alert-error',
     template: `
         <div class="alerts" role="alert">
-            <div *ngFor="let alert of alerts"  [ngClass]="{\'alert.position\': true, \'toast\': alert.toast}">
+            <div *ngFor="let alert of alerts"  class="{{alert.position}}" [ngClass]="{\'toast\': alert.toast}">
                 <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
                     <p [innerHTML]="alert.msg"></p>
                 </ngb-alert>
@@ -63,9 +63,11 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     break;
 
                 case 404:
-                    this.addErrorAlert('Not found', 'error.url.not.found');
+                    this.addErrorAlert('The resource you requested was not found. Please provide a valid one.', 'error.url.not.found');
                     break;
-
+                case 500:
+                    this.addErrorAlert('The server encountered an unexpected condition which prevented it from fulfilling the request.');
+                    break;
                 default:
                     if (httpErrorResponse.error !== '' && httpErrorResponse.error.message) {
                         this.addErrorAlert(httpErrorResponse.error.message);

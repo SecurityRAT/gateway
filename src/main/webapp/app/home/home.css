@@ -1,6 +1,39 @@
 /* ==========================================================================
 Main page styles
 ========================================================================== */
+.secrat-title {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #003d66;
+}
+.secrat-starter .box {
+    border-color: #003d66;
+
+    border: 1px solid;
+    background-color: white;
+    border-radius: 2.5em;
+    color: #003d66;
+
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.secrat-starter .box:hover {
+    background-color: #003d66;
+    border-color: #003d66;
+    color: #e6e6e6;
+}
+.secrat-starter .item {
+    text-align: center;
+}
+.secrat-starter .box i {
+    font-size: 50px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.secrat-starter .box h4 {
+    margin-bottom: 10px;
+}
+
 
 .hipster {
     display: inline-block;
