@@ -17,6 +17,10 @@ Main page styles
     margin-top: 15px;
 }
 
+section {
+    margin-bottom: 40px;
+}
+
 .secrat-starter .box:hover {
     background-color: #003d66;
     border-color: #003d66;

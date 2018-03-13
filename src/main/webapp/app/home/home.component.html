@@ -1,20 +1,19 @@
-<div>
+<div [ngSwitch]="isAuthenticated()">
     <section>
         <h1 class="secrat-title">OWASP SecurityRAT tool</h1>
         <div>
             <p class="lead">This tool simplifies security requirement management during the SSDLC using automation approaches.</p>
         </div>
     </section>
-    
-    <section class="container">
-        <h3 class="text-center">Please select what you want to do:</h3>
+    <section *ngSwitchCase="true"><h3 class="text-center">Please select what you want to do:</h3></section>
+    <section class="container" *ngSwitchCase="true">
+        
         <!-- Please two max. boxes per row. -->
         <div class="row secrat-starter">
             <div class="col-md-3 offset-md-3 item">
-                <div class="box">
+                <div class="box" routerLink="startup">
                     <i class="fa fa-plus-circle"></i>
                     <h4>Define a new artifact</h4>
-                    <p></p>
                 </div>
             </div>
             <div class="col-md-3 item">
@@ -25,10 +24,4 @@
             </div>
         </div>
     </section>
-    <!-- <div [ngSwitch]="isAuthenticated()">
-        <div class="alert alert-success" *ngSwitchCase="true">
-            <span *ngIf="account"
-                > You are logged in as user "{{account.login}}". </span>
-        </div>
-    </div> -->
 </div>
