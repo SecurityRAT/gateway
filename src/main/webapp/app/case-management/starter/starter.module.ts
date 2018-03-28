@@ -1,23 +1,23 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { StartUpComponent, startUpRoutes } from './';
 import { RouterModule } from '@angular/router';
-import { editorRoutes, EditorComponent } from './';
 import { GatewaySharedModule } from '../../shared';
 import { CMSharedModule } from '../shared';
 
-const EDITOR_STATES = [
-    ...editorRoutes
+const STARTER_STATES = [
+    ...startUpRoutes
 ];
 
 @NgModule({
     imports: [
-        RouterModule.forChild(EDITOR_STATES),
         GatewaySharedModule,
-        CMSharedModule
+        CMSharedModule,
+        RouterModule.forChild(STARTER_STATES)
     ],
     exports: [],
-    declarations: [ EditorComponent ],
-    entryComponents: [ EditorComponent],
+    declarations: [StartUpComponent],
+    entryComponents: [StartUpComponent],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class RequirementEditorModule { }
+export class StarterModule { }

@@ -24,6 +24,25 @@ a:hover {
     color: #002e4d;
 
 }
+
+.btn-outline-secrat {
+    color: #fff;
+    background-color: transparent;
+    background-image: none;
+    border-color: #003d66;
+
+}
+.btn-outline-secrat:hover {
+    color: #fff;
+    background-color: #003d66;
+    border-color: #003d66;
+}
+
+
+.btn-outline-secrat:focus {
+    box-shadow: 0 0 0 0.2em rgb(0, 61, 102)
+}
+
 .btn-secrat {
     color: #fff;
     background-color: #005c99;
@@ -33,6 +52,15 @@ a:hover {
 .btn-secrat:hover {
     background-color: #003d66;
     border-color: #003d66;
+}
+.btn-secrat:disabled {
+    color: #fff;
+    background-color: #003d66;
+    border-color: #003d66;
+}
+
+.border-secrat {
+    border: 1px solid #003d66;
 }
 /* ==========================================================================
 Browser Upgrade Prompt
@@ -62,7 +90,6 @@ Generic styles
 .jh-card {
     padding: 1.5%;
     margin-top: 20px;
-    border: none;
 }
 
 .error {
@@ -259,3 +286,4 @@ ui bootstrap tweaks
  }
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
+

@@ -1,2 +1,2 @@
 export * from './requirement-editor.route';
-export * from './start-up/start-up.component';
+export * from './editor/editor.component';

@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from '../../shared/auth/user-route-access-service';
-import { EditorComponent } from './editor/editor.component';
+import { StartUpComponent } from './start-up/start-up.component';
 
-export const editorRoutes: Routes = [
+export const startUpRoutes: Routes = [
     {
-        path: 'requirements',
-        component: EditorComponent,
+        path: 'startup',
+        component: StartUpComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requirement editor'
+            pageTitle: 'Define artifact'
         },
         canActivate: [UserRouteAccessService]
     }
