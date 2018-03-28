@@ -2,17 +2,24 @@ import { HttpParams } from '@angular/common/http';
 
 export const createRequestOption = (req?: any): HttpParams => {
     let options: HttpParams = new HttpParams();
+    const arrayTypeQueryParams: String[] = [
+        'sort',
+        'attributeIds'
+    ];
+
     if (req) {
         Object.keys(req).forEach((key) => {
-            if (key !== 'sort') {
+            if (!arrayTypeQueryParams.includes(key)) {
                 options = options.set(key, req[key]);
+            } else {
+                // creates a query parameter with a list of values for arrays.
+                if (req[key]) {
+                    req[key].forEach((val) => {
+                        options = options.append(key, val);
+                    });
+                }
             }
         });
-        if (req.sort) {
-            req.sort.forEach((val) => {
-                options = options.append('sort', val);
-            });
-        }
     }
     return options;
 };

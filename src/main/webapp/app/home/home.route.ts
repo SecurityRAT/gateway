@@ -7,8 +7,9 @@ export const HOME_ROUTE: Route = {
     path: '',
     component: HomeComponent,
     data: {
-        authorities: ['ROLE_USER'],
+        // authorities: ['ROLE_USER'],
         pageTitle: 'OWASP SecurityRAT'
-    },
-    canActivate: [UserRouteAccessService]
+    }
+    // ,
+    // canActivate: [UserRouteAccessService]
 };

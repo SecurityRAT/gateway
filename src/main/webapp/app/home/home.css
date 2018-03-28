@@ -26,6 +26,10 @@ section {
     border-color: #003d66;
     color: #e6e6e6;
 }
+.secrat-starter .box:focus {
+    outline: none;
+}
+
 .secrat-starter .item {
     text-align: center;
 }

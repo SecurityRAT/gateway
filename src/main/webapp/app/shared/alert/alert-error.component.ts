@@ -58,7 +58,8 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.message) {
                         this.addErrorAlert(httpErrorResponse.error.message, httpErrorResponse.error.message, httpErrorResponse.error.params);
                     } else {
-                        this.addErrorAlert(httpErrorResponse.error);
+                        // this.addErrorAlert(httpErrorResponse.error);
+                        this.addErrorAlert('The request could not be understood by the server due to malformed syntax.');
                     }
                     break;
 
