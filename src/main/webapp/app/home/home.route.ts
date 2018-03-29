@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { HomeComponent } from './';
-import { UserRouteAccessService } from '../shared';
+// import { UserRouteAccessService } from '../shared';
 
 export const HOME_ROUTE: Route = {
     path: '',

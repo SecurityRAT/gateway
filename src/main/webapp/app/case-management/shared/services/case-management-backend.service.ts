@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../../app.constants';
 import { createRequestOption } from '../../../shared';
@@ -13,7 +12,7 @@ import {
 import * as attributeKeys from '../../attributes-keys.mock.json';
 import * as attributes from '../../attributes.mock.json';
 
-type ServiceResponseType = HttpResponse<CMRequirementSet>;
+type RequirementSetResponseType = HttpResponse<CMRequirementSet[]>;
 
 @Injectable()
 export class CaseManagementBackendService {
@@ -25,9 +24,9 @@ export class CaseManagementBackendService {
     /**
      * Fetch all active requirement sets.
      */
-    getRequirementSets(): Observable<HttpResponse<CMRequirementSet[]>> {
+    getRequirementSets(): Observable<RequirementSetResponseType> {
         const requestUrl = this.resourceUrl + '/requirementSets';
-        return this.httpClient.get<CMRequirementSet[]>(requestUrl, { observe: 'response' }).map((res: HttpResponse<CMRequirementSet[]>) => {
+        return this.httpClient.get<CMRequirementSet[]>(requestUrl, { observe: 'response' }).map((res: RequirementSetResponseType) => {
             return this.convertResponseArrayToType(res);
         });
     }

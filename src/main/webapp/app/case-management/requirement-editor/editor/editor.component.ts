@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { JhiEventManager } from 'ng-jhipster';
-import { CMAttributeKey, CMDataSharingService } from '../../shared';
+import {
+    CMAttributeKey,
+    // CMDataSharingService
+} from '../../shared';
 
 @Component({
     selector: 'jhi-editor',
@@ -12,8 +14,8 @@ export class EditorComponent implements OnInit {
     artifactName: String;
 
     constructor(
-        private jhiEventManager: JhiEventManager,
-        private dataSharingService: CMDataSharingService
+        // private jhiEventManager: JhiEventManager,
+        // private dataSharingService: CMDataSharingService
     ) {
         this.attributeKeys = [];
         this.artifactName = '';

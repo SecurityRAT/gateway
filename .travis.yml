@@ -20,9 +20,6 @@ addons:
     organization: securityrat
     token:
       secure: NNA+XR4Efir8J3fyhg9rVy50+GLJyDrfZ/QqUXyA7iQqTOzANUL1CywM4DuTlmOaa16lBGoBq662MsR/98+7/AfY2M92CKg1wZkCElVhFxkD7PDt4ya7CEAjlyh3GYfdrLOXJX4F6Z8KiQ7zd6o1AVhcpQIqqsE6le3OKEiyPolpdVGvEWsEO2C9oe4B29KkcTkIdvD/v/QCsokJG4ZX0oqI7D27m0/BArXcKm4M+LU+10hC1WgHvontcf+M2zYQ49ByFaj7UH+mqgMO8Ma3iGTyRqm3lZST1egwPWF0NvG8Nh2ItKs+7OHQ7xHBDkp15ZCVQe/CWTeFbSt7tbyDwodkVnwnnDf3K9goiU6Wg3VUZEENuAowYl1VcdSe6kgdJ1u21bSArkDHceqFzjxlmWy0yOJEpJBmp3w7sLkjNfVTJ8kNOunto4loXPTOvItnNGuNfzhvlOdlZYiPdhktNGM2YsZciyaGVe8k/ZZVhIxnAq8MaNbJnUPemi16w0qBzdkXqQ0yJwrRFUqu/98jARSURSJkJtkP607QlAecB8qyf7Dfk806tUY6J07skp/vxCyBvth9a3B5xeMnXB8cntpaT2YTDm6GSLBiiUhWR8rHG0NNb0T9dzZKIQy9bERsbOkkGOYZOUSikNCgjNu1/qhe3g3mNHPc0/xrVuj5Ecs=
-    branches:
-    - master
-    - dev
 env:
   global:
   - REPOS_SCRIPTS=$TRAVIS_BUILD_DIR/travis/scripts

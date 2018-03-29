@@ -1,5 +1,6 @@
+// tslint:disable-next-line
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { CMAttributeKey, CMAttribute } from '../';
+import { CMAttribute } from '../';
 @Component({
     selector: 'jhi-attribute-tag',
     template: `
