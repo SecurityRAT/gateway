@@ -40,11 +40,11 @@ install:
 - yarn install
 script:
 - chmod +x mvnw
-- "./mvnw clean test"
+- "./mvnw clean"
 - yarn test
-- "./mvnw sonar:sonar"
+- "./mvnw test sonar:sonar"
 before_deploy:
-- "./mvnw verify -Pprod -DskipTests -Ddocker.repository=$DOCKER_REPO"
+- "./mvnw package -Pprod -DskipTests -Ddocker.repository=$DOCKER_REPO"
 deploy:
   provider: script
   script: bash $REPOS_SCRIPTS/docker_push
