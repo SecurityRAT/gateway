@@ -1,0 +1,122 @@
+[{
+        "id": 1,
+        "name": "High",
+        "description": "High criticality",
+        "showOrder": 30,
+        "keyId": 1,
+        "children": []
+    },
+    {
+        "id": 2,
+        "name": "Medium",
+        "description": "Medium criticality",
+        "showOrder": 20,
+        "keyId": 1,
+        "children": []
+    },
+    {
+        "id": 3,
+        "name": "Low",
+        "description": "Low criticality",
+        "showOrder": 10,
+        "keyId": 1,
+        "children": []
+    },
+    {
+        "id": 4,
+        "name": "Mobile App",
+        "description": "Apps running on mobile devices (IOS, Android, Windows Phone)",
+        "showOrder": 10,
+        "keyId": 2,
+        "children": [{
+            "id": 11,
+            "name": "iOS",
+            "description": "iOS app",
+            "showOrder": 40,
+            "keyId": 2,
+            "children": [{
+                    "id": 14,
+                    "name": "Ionic",
+                    "description": "Ionic framework is used",
+                    "showOrder": 70,
+                    "keyId": 2,
+                    "children": []
+                }]
+        },{
+            "id": 12,
+            "name": "Android",
+            "description": "Android app",
+            "showOrder": 50,
+            "keyId": 2,
+            "children": [{
+                "id": 13,
+                "name": "NativeScript framework, NativeScript framework,sdfgsdfgsdfg",
+                "description": "NativeScript framework is used",
+                "showOrder": 60,
+                "keyId": 2,
+                "children": []
+            }]
+        }]
+    },
+    {
+        "id": 5,
+        "name": "Web Service",
+        "description": "Either REST or SOAP",
+        "showOrder": 20,
+        "keyId": 2,
+        "children": [{
+            "id": 10,
+            "name": "Spring JPA Framework",
+            "description": "Implicitely resolves SQL Issues",
+            "showOrder": 30,
+            "keyId": 2,
+            "children": [{
+                    "id": 15,
+                    "name": "Spring JPA Hibernate Framework",
+                    "description": "Implicitely resolves SQL Issues",
+                    "showOrder": 80,
+                    "keyId": 2,
+                    "children": [{
+                            "id": 16,
+                            "name": "Spring JPA Hibernate Framework",
+                            "description": "Implicitely resolves SQL Issues",
+                            "showOrder": 90,
+                            "keyId": 2,
+                            "children": []
+                        }]
+                }]
+        }]
+    },
+    {
+        "id": 6,
+        "name": "Centralized",
+        "description": "No password/token persistences",
+        "showOrder": 10,
+        "keyId": 3,
+        "children": []
+    },
+    {
+        "id": 7,
+        "name": "No Authentication",
+        "description": "The system doesn't authenticate it's consumers",
+        "showOrder": 20,
+        "keyId": 3,
+        "children": []
+    },
+    {
+        "id": 8,
+        "name": "Session IDs",
+        "description": "The system has sessions and uses session IDs",
+        "showOrder": 10,
+        "keyId": 4,
+        "children": []
+    },
+    {
+        "id": 9,
+        "name": "No Session Management",
+        "description": "The system doesn't have any session state",
+        "showOrder": 20,
+        "keyId": 4,
+        "children": []
+    }
+]

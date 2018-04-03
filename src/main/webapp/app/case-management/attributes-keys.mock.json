@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Criticality",
+        "description": "Definition of criticality of the system.",
+        "showOrder": 10
+    },
+    {
+        "id": 2,
+        "name": "System Type",
+        "description": "Characteristics of the developed system",
+        "showOrder": 20
+    },
+    {
+        "id": 3,
+        "name": "Authentication",
+        "description": "How are the consumers of the system authenticated?",
+        "showOrder": 30
+    },
+    {
+        "id": 4,
+        "name": "Session Management",
+        "description": "Does the system implement a session management?",
+        "showOrder": 40
+    }
+]
