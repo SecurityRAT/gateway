@@ -51,6 +51,7 @@ describe('Service Tests', () => {
 
                 service.find(123).subscribe(null, (_error: any) => {
                     expect(_error.status).toEqual(404);
+                    expect(_error.statusText).toBe('Bad Request');
                 });
 
                 const req  = httpMock.expectOne({ method: 'GET' });

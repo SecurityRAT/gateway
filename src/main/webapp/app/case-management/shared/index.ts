@@ -7,5 +7,5 @@ export * from './models/attribute.model';
 export * from './models/constants.model';
 export * from './components/attribute-tag.component';
 export * from './services/case-management-backend.service';
-export * from './services/data-sharing.service';
+export * from './services/util.service';
 export * from './shared-module.module';

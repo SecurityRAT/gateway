@@ -36,7 +36,7 @@ export class CaseManagementBackendService {
      * @param requirementSetId The requirement set identifier link to the attribute keys
      * @param attributeKeyType The type of the attribute key
      */
-    getAttributeKeys(requirementSetId: number, attributeKeyType?: String): Observable<HttpResponse<CMAttributeKey[]>> {
+    getAttributeKeys(requirementSetId: number, attributeKeyType?: CMAttributeType): Observable<HttpResponse<CMAttributeKey[]>> {
         const requestUrl = this.resourceUrl + '/attributeKeys';
         const options = createRequestOption({
             requirementSet: requirementSetId,
@@ -61,33 +61,33 @@ export class CaseManagementBackendService {
             (res: HttpResponse<CMAttribute[]>) => this.convertResponseArrayToType(res));
     }
 
-    getMockAttributeKeys(): CMAttributeKey[] {
-        const mockAttributeKeys: CMAttributeKey[] = [];
-        (<any>attributeKeys).forEach((element) => {
-            mockAttributeKeys.push(new CMAttributeKey(
-                element.id,
-                element.name,
-                element.showOrder,
-                element.description
-            ));
-        });
-        return mockAttributeKeys;
-    }
+    // getMockAttributeKeys(): CMAttributeKey[] {
+    //     const mockAttributeKeys: CMAttributeKey[] = [];
+    //     (<any>attributeKeys).forEach((element) => {
+    //         mockAttributeKeys.push(new CMAttributeKey(
+    //             element.id,
+    //             element.name,
+    //             element.showOrder,
+    //             element.description
+    //         ));
+    //     });
+    //     return mockAttributeKeys;
+    // }
 
-    getMockAttributes(): CMAttribute[] {
-        const mockAttributes: CMAttribute[] = [];
-        (<any>attributes).forEach((element) => {
-            mockAttributes.push(new CMAttribute(
-                element.id,
-                element.name,
-                element.showOrder,
-                element.keyId,
-                element.description,
-                element.children
-            ));
-        });
-        return mockAttributes;
-    }
+    // getMockAttributes(): CMAttribute[] {
+    //     const mockAttributes: CMAttribute[] = [];
+    //     (<any>attributes).forEach((element) => {
+    //         mockAttributes.push(new CMAttribute(
+    //             element.id,
+    //             element.name,
+    //             element.showOrder,
+    //             element.keyId,
+    //             element.description,
+    //             element.children
+    //         ));
+    //     });
+    //     return mockAttributes;
+    // }
 
     /**
      * Converts the HTTP response to the appropriate type.
@@ -101,11 +101,5 @@ export class CaseManagementBackendService {
             body.push(item);
         }
         return res.clone({ body });
-    }
-
-    sortArrayByShowOrder(array: any[]): any[] {
-        return array.sort((item1, item2) => {
-            return item1.showOrder - item2.showOrder;
-        });
     }
 }
