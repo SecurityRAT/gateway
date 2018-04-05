@@ -41,6 +41,33 @@ describe('Service Tests', () => {
         expect(filteredArray.length).toBe(1);
         expect(filteredArray[0].id).toBe(1);
       });
+      it('should filter out selected element with nested array', () => {
+        const givenArray = [
+          {
+            id: 1,
+            selected: true,
+            children: [
+              {
+                id: 3,
+                selected: true,
+              }
+            ]
+          },
+          {
+            id: 2,
+            selected: false
+          },
+          {
+            id: 2
+          }
+        ];
+
+        const filteredArray = service.filterSelectedItemsInNestedArray(givenArray);
+
+        expect(filteredArray.length).toBe(2);
+        expect(filteredArray.indexOf({id: 1, selected: true}) !== -1).toBeTruthy();
+        expect(filteredArray.indexOf({ id: 3, selected: true }) !== -1).toBeTruthy();
+      });
 
       it('should sort by #showOrder property', () => {
         const givenArray = [

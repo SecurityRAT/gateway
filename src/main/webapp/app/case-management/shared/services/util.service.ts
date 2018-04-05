@@ -15,9 +15,9 @@ export class CMUtilService {
         this.filterSelectedItemsInNestedArray(element.children).forEach((item: T) => {
           filteredArray.push(item);
         });
-      } else {
-        filteredArray.push(element);
       }
+      delete element.children;
+      filteredArray.push(element);
     });
 
     return filteredArray;
