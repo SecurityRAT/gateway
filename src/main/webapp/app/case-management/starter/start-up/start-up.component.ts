@@ -9,8 +9,7 @@ import {
     CMAttributeKey,
     CMAttribute,
     CMAttributeType,
-    ARTIFACT_SETTINGS_OBS
-} from '../../shared';
+} from '../../common';
 import { Router } from '@angular/router';
 
 @Component({

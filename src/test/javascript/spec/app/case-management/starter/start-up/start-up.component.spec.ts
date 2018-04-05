@@ -1,16 +1,14 @@
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
-import { JhiEventManager } from 'ng-jhipster';
-import { Component } from '@angular/core';
 import { of } from 'rxjs/observable/of';
 import { HttpResponse } from '@angular/common/http';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { CMRequirementSet } from '../../../../../../../main/webapp/app/case-management/shared/models/requirement-set.model';
+import { CMRequirementSet } from '../../../../../../../main/webapp/app/case-management/common/models/requirement-set.model';
 import { StartUpComponent } from '../../../../../../../main/webapp/app/case-management/starter/start-up/start-up.component';
-import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/shared/services/case-management-backend.service';
-import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/shared/services/util.service';
+import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/common/services/case-management-backend.service';
+import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
 import { Router } from '@angular/router';
-import { CMAttribute, CMAttributeKey, CMAttributeType } from '../../../../../../../main/webapp/app/case-management/shared';
+import { CMAttribute, CMAttributeKey, CMAttributeType } from '../../../../../../../main/webapp/app/case-management/common';
 
 describe('Component Tests', () => {
     describe('Startup Component', () => {

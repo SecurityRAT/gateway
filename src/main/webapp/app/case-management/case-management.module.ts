@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RequirementEditorModule } from './requirement-editor/requirement-editor.module';
 import { StarterModule } from './starter/starter.module';
-import { CMSharedModule } from './shared';
+import { CMSharedModule } from './common';
 
 @NgModule({
   imports: [

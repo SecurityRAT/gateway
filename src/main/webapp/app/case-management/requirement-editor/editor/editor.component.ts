@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
     CMAttributeKey,
     // CMDataSharingService
-} from '../../shared';
+} from '../../common';
 
 @Component({
     selector: 'jhi-editor',

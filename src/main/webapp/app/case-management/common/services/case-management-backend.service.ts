@@ -9,8 +9,8 @@ import {
     CMAttribute,
     CMAttributeType
 } from '../'; // this references to the index.ts Barrel
-import * as attributeKeys from '../../attributes-keys.mock.json';
-import * as attributes from '../../attributes.mock.json';
+// import * as attributeKeys from '../../attributes-keys.mock.json';
+// import * as attributes from '../../attributes.mock.json';
 
 type RequirementSetResponseType = HttpResponse<CMRequirementSet[]>;
 

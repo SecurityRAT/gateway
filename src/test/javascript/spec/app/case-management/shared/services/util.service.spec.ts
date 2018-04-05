@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/shared/services/util.service';
+import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
 
 describe('Service Tests', () => {
   describe('CM Util Service', () => {
@@ -49,7 +49,7 @@ describe('Service Tests', () => {
             children: [
               {
                 id: 3,
-                selected: true,
+                selected: true
               }
             ]
           },
@@ -58,15 +58,15 @@ describe('Service Tests', () => {
             selected: false
           },
           {
-            id: 2
+            id: 4
           }
         ];
 
         const filteredArray = service.filterSelectedItemsInNestedArray(givenArray);
 
         expect(filteredArray.length).toBe(2);
-        expect(filteredArray.indexOf({id: 1, selected: true}) !== -1).toBeTruthy();
-        expect(filteredArray.indexOf({ id: 3, selected: true }) !== -1).toBeTruthy();
+        expect(filteredArray.map((item) => item.id).indexOf(1) !== -1).toBeTruthy();
+        expect(filteredArray.map((item) => item.id).indexOf(3) !== -1).toBeTruthy();
       });
 
       it('should sort by #showOrder property', () => {
