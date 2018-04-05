@@ -3,11 +3,15 @@ package org.securityrat.gateway.config;
 import org.securityrat.gateway.security.AuthoritiesConstants;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -27,6 +31,15 @@ public class OAuth2SsoConfiguration extends WebSecurityConfigurerAdapter {
                                   RequestMatcher authorizationHeaderRequestMatcher, CorsFilter corsFilter) {
         this.authorizationHeaderRequestMatcher = authorizationHeaderRequestMatcher;
         this.corsFilter = corsFilter;
+    }
+    
+    @Bean
+    @ConditionalOnProperty("security.oauth2.resource.user-info-uri")
+    public OAuth2RestTemplate oAuth2RestTemplate(
+        OAuth2ProtectedResourceDetails oAuth2ProtectedResourceDetails,
+        OAuth2ClientContext oAuth2ClientContext
+    ) {
+        return new OAuth2RestTemplate(oAuth2ProtectedResourceDetails, oAuth2ClientContext);
     }
     
     @Bean

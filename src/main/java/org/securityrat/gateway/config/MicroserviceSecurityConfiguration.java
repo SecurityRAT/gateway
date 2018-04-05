@@ -12,6 +12,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -71,6 +74,7 @@ public class MicroserviceSecurityConfiguration extends ResourceServerConfigurerA
     public RequestMatcher authorizationHeaderRequestMatcher() {
         return new RequestHeaderRequestMatcher("Authorization");
     }
+    
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -96,32 +100,32 @@ public class MicroserviceSecurityConfiguration extends ResourceServerConfigurerA
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
     }
 
-    @Bean
-    @ConditionalOnProperty("security.oauth2.resource.jwt.key-uri")
-    public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
-        return new JwtTokenStore(jwtAccessTokenConverter);
-    }
+   @Bean
+   @ConditionalOnProperty("security.oauth2.resource.jwt.key-uri")
+   public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
+       return new JwtTokenStore(jwtAccessTokenConverter);
+   }
 
-    @Bean
-    @ConditionalOnProperty("security.oauth2.resource.jwt.key-uri")
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setVerifierKey(getKeyFromAuthorizationServer());
-        return converter;
-    }
+   @Bean
+   @ConditionalOnProperty("security.oauth2.resource.jwt.key-uri")
+   public JwtAccessTokenConverter jwtAccessTokenConverter() {
+       JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+       converter.setVerifierKey(getKeyFromAuthorizationServer());
+       return converter;
+   }
 
-    private String getKeyFromAuthorizationServer() {
-        return Optional.ofNullable(
-            new RestTemplate()
-                .exchange(
-                    resourceServerProperties.getJwt().getKeyUri(),
-                    HttpMethod.GET,
-                    new HttpEntity<Void>(new HttpHeaders()),
-                    Map.class
-                )
-                .getBody()
-                .get("public_key"))
-            .map(publicKey -> String.format("-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----", publicKey))
-            .orElse(resourceServerProperties.getJwt().getKeyValue());
-    }
+   private String getKeyFromAuthorizationServer() {
+       return Optional.ofNullable(
+           new RestTemplate()
+               .exchange(
+                   resourceServerProperties.getJwt().getKeyUri(),
+                   HttpMethod.GET,
+                   new HttpEntity<Void>(new HttpHeaders()),
+                   Map.class
+               )
+               .getBody()
+               .get("public_key"))
+           .map(publicKey -> String.format("-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----", publicKey))
+           .orElse(resourceServerProperties.getJwt().getKeyValue());
+   }
 }

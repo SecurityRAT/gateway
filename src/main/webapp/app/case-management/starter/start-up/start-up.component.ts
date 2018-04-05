@@ -1,15 +1,15 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { JhiAlertService } from 'ng-jhipster';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import {
     CaseManagementBackendService,
-    CMDataSharingService,
+    CMUtilService,
     CMRequirementSet,
     CMAttributeKey,
     CMAttribute,
-    ARTIFACT_SETTINGS_OBS
-} from '../../shared';
+    CMAttributeType,
+} from '../../common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,7 +33,7 @@ export class StartUpComponent implements OnInit {
     constructor(
         private caseManagementBackendService: CaseManagementBackendService,
         private jhiAlertService: JhiAlertService,
-        private dataSharingService: CMDataSharingService,
+        private util: CMUtilService,
         private router: Router
     ) {
         this.artifactSettings = Object.create(null);
@@ -58,9 +58,6 @@ export class StartUpComponent implements OnInit {
         //     this.queryParams = params;
         // });
 
-        // subscribes the ARTIFACT_SETTINGS_OBS observable.
-        this.dataSharingService.registerArtifactSettingsObservable();
-
         // Loads the requirements sets
         this.caseManagementBackendService.getRequirementSets().subscribe((res: HttpResponse<CMRequirementSet[]>) => {
             this.onSuccess(res.body, this.requirementSets);
@@ -69,7 +66,7 @@ export class StartUpComponent implements OnInit {
             if (res.body.length === 1) {
                 this.selectedRequirementSet = res.body[0];
                 this.loadAll();
-                this.getActiveInitialActiveTab();
+                this.setInitialActiveTab(1); // the initial tab to the second one.
             }
         }, (res: HttpErrorResponse) => this.onError(res));
 
@@ -79,26 +76,16 @@ export class StartUpComponent implements OnInit {
     //     this.artifactSettingsEvent = this.jhiEventManager.subscribe('artifactSettingModification', () => { });
     // }
 
-    /**
-     * Determines the value of the initial Active tab.
-     */
-    getActiveInitialActiveTab() {
-        if (this.selectedRequirementSet && this.requirementSets.length === 1) {
-            this.initialActiveTab = this.tabs[1].id;
-        } else {
-            this.initialActiveTab = this.tabs[0].id;
-        }
-    }
-
-    reset() {
-        this.attributeKeys = [];
-        this.attributes = [];
-        this.loadAll();
-    }
-
     loadAll() {
-        this.onSuccess(this.caseManagementBackendService.getMockAttributeKeys(), this.attributeKeys);
-        this.onSuccess(this.caseManagementBackendService.getMockAttributes(), this.attributes);
+        // this.onSuccess(this.caseManagementBackendService.getMockAttributeKeys(), this.attributeKeys);
+        // this.onSuccess(this.caseManagementBackendService.getMockAttributes(), this.attributes);
+
+        this.caseManagementBackendService.getAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+            this.onSuccess(res.body, this.attributeKeys);
+        });
+        this.caseManagementBackendService.getAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+            this.onSuccess(res.body, this.attributes);
+        });
     }
     /**
      * Bounds to the ngTab 'tabchange' event.
@@ -118,13 +105,33 @@ export class StartUpComponent implements OnInit {
     }
 
     generate() {
-        this.dataSharingService.broadcastData({ name: ARTIFACT_SETTINGS_OBS, content: this.artifactSettings });
-        // console.log(this.attributes);
-        this.router.navigate(['/requirements']);
+        const selectedAttributes: CMAttribute[] = this.util.filterSelectedItemsInNestedArray(this.attributes);
+        this.router.navigate(['/requirements',
+            {
+                requirementSet: this.selectedRequirementSet.id,
+                attributes: selectedAttributes.map((item) => item.id),
+                attributeKeys: selectedAttributes.map((item) => item.keyId).filter((elem, index, self) => {
+                    return index === self.indexOf(elem);
+                }),
+                name: this.artifactSettings.name
+            }]);
+    }
+
+    private reset() {
+        this.attributeKeys = [];
+        this.attributes = [];
+        this.loadAll();
+    }
+
+    /**
+     * Determines the value of the initial Active tab.
+     */
+    private setInitialActiveTab(tabIndex: number) {
+        this.initialActiveTab = this.tabs[tabIndex].id;
     }
 
     private onSuccess<T>(res: T[], target: T[]) {
-        const sortedResponse = this.caseManagementBackendService.sortArrayByShowOrder(res);
+        const sortedResponse = this.util.sortArrayByShowOrder(res);
         for (let i = 0; i < sortedResponse.length; i++) {
             target.push(sortedResponse[i]);
         }
