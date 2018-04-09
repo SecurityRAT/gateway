@@ -4,8 +4,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpResponse } from '@angular/common/http';
 
 import { SERVER_API_URL } from '../../../../../../../main/webapp/app/app.constants';
-import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/shared/services/case-management-backend.service';
-import { CMAttributeType } from '../../../../../../../main/webapp/app/case-management/shared';
+import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/common/services/case-management-backend.service';
+import { CMAttributeType } from '../../../../../../../main/webapp/app/case-management/common/models/attribute-key.model';
 
 describe('Service Tests', () => {
 
