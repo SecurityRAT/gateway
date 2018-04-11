@@ -77,13 +77,10 @@ export class StartUpComponent implements OnInit {
     // }
 
     loadAll() {
-        // this.onSuccess(this.caseManagementBackendService.getMockAttributeKeys(), this.attributeKeys);
-        // this.onSuccess(this.caseManagementBackendService.getMockAttributes(), this.attributes);
-
-        this.caseManagementBackendService.getAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
             this.onSuccess(res.body, this.attributeKeys);
         });
-        this.caseManagementBackendService.getAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
             this.onSuccess(res.body, this.attributes);
         });
     }
@@ -94,6 +91,7 @@ export class StartUpComponent implements OnInit {
     beforeChange($event: NgbTabChangeEvent) {
         switch ($event.nextId) {
             case this.tabs[1].id:
+                // resets the attributes when the selected requirement set changes
                 if (this.selectedRequirementSet && this.selectedRequirementSet.id !== this.backUpSelectedRequirementSetId) {
                     this.reset();
                 }
@@ -105,7 +103,7 @@ export class StartUpComponent implements OnInit {
     }
 
     generate() {
-        const selectedAttributes: CMAttribute[] = this.util.filterSelectedItemsInNestedArray(this.attributes);
+        const selectedAttributes: CMAttribute[] = this.util.filterAttributesByObj(this.attributes, {selected: true});
         this.router.navigate(['/requirements',
             {
                 requirementSet: this.selectedRequirementSet.id,
@@ -131,7 +129,7 @@ export class StartUpComponent implements OnInit {
     }
 
     private onSuccess<T>(res: T[], target: T[]) {
-        const sortedResponse = this.util.sortArrayByShowOrder(res);
+        const sortedResponse = this.util.sortArrayByPredicate(res, 'showOrder');
         for (let i = 0; i < sortedResponse.length; i++) {
             target.push(sortedResponse[i]);
         }

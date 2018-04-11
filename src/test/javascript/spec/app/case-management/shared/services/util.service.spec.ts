@@ -1,4 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { JhiFilterPipe, JhiOrderByPipe } from 'ng-jhipster';
 
 import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
 
@@ -9,7 +10,11 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [CMUtilService]
+        providers: [
+          CMUtilService,
+          JhiFilterPipe,
+          JhiOrderByPipe
+        ]
       });
 
       service = TestBed.get(CMUtilService);
@@ -36,13 +41,13 @@ describe('Service Tests', () => {
           }
         ];
 
-        const filteredArray = service.filterSelectedItemsInNestedArray(givenArray);
+        const filteredArray = service.filterAttributesByObj(givenArray, { selected: true });
 
         expect(filteredArray.length).toBe(1);
         expect(filteredArray[0].id).toBe(1);
       });
       it('should filter out selected element with nested array', () => {
-        const givenArray = [
+        const givenArray: any[] = [
           {
             id: 1,
             selected: true,
@@ -62,15 +67,43 @@ describe('Service Tests', () => {
           }
         ];
 
-        const filteredArray = service.filterSelectedItemsInNestedArray(givenArray);
+        const filteredArray = service.filterAttributesByObj(givenArray, { selected: true });
 
         expect(filteredArray.length).toBe(2);
         expect(filteredArray.map((item) => item.id).indexOf(1) !== -1).toBeTruthy();
         expect(filteredArray.map((item) => item.id).indexOf(3) !== -1).toBeTruthy();
       });
 
+      it('should filter out by id element with nested array', () => {
+        const givenArray: any[] = [
+          {
+            id: 1,
+            selected: true,
+            name: 'test',
+            children: [
+              {
+                id: 3,
+                selected: true
+              }
+            ]
+          },
+          {
+            id: 2,
+            selected: false
+          },
+          {
+            id: 4
+          }
+        ];
+
+        const filteredArray = service.filterAttributesByObj(givenArray, { id: 1 });
+
+        expect(filteredArray.length).toBe(1);
+        expect(filteredArray[0].name).toEqual('test');
+      });
+
       it('should sort by #showOrder property', () => {
-        const givenArray = [
+        const givenArray: any[] = [
           {
             id: 1,
             showOrder: 10
@@ -85,8 +118,7 @@ describe('Service Tests', () => {
           }
         ];
 
-        const filteredArray = service.sortArrayByShowOrder(givenArray);
-
+        const filteredArray = service.sortArrayByPredicate(givenArray, 'showOrder');
         expect(filteredArray[0].id).toBe(1);
         expect(filteredArray[1].id).toBe(3);
         expect(filteredArray[2].id).toBe(2);

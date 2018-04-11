@@ -33,7 +33,7 @@ describe('Service Tests', () => {
         describe('Calls all URLs in this service', () => {
 
             it('should call correct URL caseManagement/api/attributes', () => {
-                service.getAttributes(123, CMAttributeType.FETAG).subscribe(() => { });
+                service.findAttributes(123, CMAttributeType.FETAG).subscribe(() => { });
                 const req = httpMock.expectOne({ method: 'GET' });
                 expect(req.request.url).toEqual(resourceUrl + '/attributes');
             });
@@ -45,7 +45,7 @@ describe('Service Tests', () => {
             });
 
             it('should call correct URL caseManagement/api/attributeKeys', () => {
-                service.getAttributeKeys(123, CMAttributeType.FETAG).subscribe(() => { });
+                service.findAttributeKeys(123, CMAttributeType.FETAG).subscribe(() => { });
                 const req = httpMock.expectOne({ method: 'GET' });
                 expect(req.request.url).toEqual(resourceUrl + '/attributeKeys');
             });
@@ -54,7 +54,7 @@ describe('Service Tests', () => {
         describe('checks returns of methods in this service', () => {
 
             it('should return CMAttributeKey[]', () => {
-                service.getAttributeKeys(123, CMAttributeType.FETAG).
+                service.findAttributeKeys(123, CMAttributeType.FETAG).
                     subscribe((received) => {
                         expect(received.body[0].id).toEqual(123);
                     });
@@ -71,7 +71,7 @@ describe('Service Tests', () => {
             });
 
             it('should return CMAAttributeType', () => {
-                service.getAttributes(123, CMAttributeType.FETAG).subscribe((received) => {
+                service.findAttributes(123, CMAttributeType.FETAG).subscribe((received) => {
                     expect(received.body[0].id).toEqual(123);
                 });
                 const req = httpMock.expectOne({ method: 'GET' });
@@ -95,7 +95,7 @@ describe('Service Tests', () => {
         describe('trigger not found response for methods with Http-call', () => {
 
             it('should propagate not found response for getAttributeKeys', () => {
-                service.getAttributeKeys(123, CMAttributeType.FETAG).subscribe(null, (_error: any) => {
+                service.findAttributeKeys(123, CMAttributeType.FETAG).subscribe(null, (_error: any) => {
                     expect(_error.status).toEqual(404);
                 });
                 const req = httpMock.expectOne({ method: 'GET' });
@@ -116,7 +116,7 @@ describe('Service Tests', () => {
             });
 
             it('should propagate not found response for getAttributes', () => {
-                service.getAttributes(123, CMAttributeType.FETAG).subscribe(null, (_error: any) => {
+                service.findAttributes(123, CMAttributeType.FETAG).subscribe(null, (_error: any) => {
                     expect(_error.status).toEqual(404);
                 });
 

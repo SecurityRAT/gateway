@@ -4,7 +4,8 @@ export const createRequestOption = (req?: any): HttpParams => {
     let options: HttpParams = new HttpParams();
     const arrayTypeQueryParams: String[] = [
         'sort',
-        'attributeIds'
+        'attributeIds',
+        'id'
     ];
 
     if (req) {
