@@ -1,6 +1,7 @@
 export interface BaseDomain {
     id: number;
-    name?: String;
+    name: String;
     description?: String;
     showOrder?: number;
+    selected?: boolean;
 }

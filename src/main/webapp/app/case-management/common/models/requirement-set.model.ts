@@ -1,4 +1,4 @@
-import { BaseDomain } from './base-domain.model';
+import { BaseDomain } from '../';
 
 export class CMRequirementSet implements BaseDomain {
     constructor(

@@ -1,4 +1,4 @@
-import { BaseDomain } from './base-domain.model';
+import { BaseDomain } from '../';
 
 export enum CMAttributeType {
     FETAG = 'FE_TAG',
@@ -9,9 +9,10 @@ export enum CMAttributeType {
 export class CMAttributeKey implements BaseDomain {
     constructor(
         public id: number,
-        public name: String,
+        public name: string,
         public showOrder: number,
-        public description?: String
+        public description?: string,
+        public selected?: boolean
     ) {
     }
 }
