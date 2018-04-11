@@ -1,12 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs/Subscription';
+import { ALERTCSSOFFSET, ALERTCSSTOP } from '../';
 
 @Component({
     selector: 'jhi-alert-error',
     template: `
         <div class="alerts" role="alert">
-            <div *ngFor="let alert of alerts"  class="{{alert.position}}" [ngClass]="{\'toast\': alert.toast}">
+            <div *ngFor="let alert of alerts"  class="{{alert.position}}" [ngStyle]="{'top.px': alert.cssTop}" [ngClass]="{\'toast\': alert.toast}">
                 <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
                     <p [innerHTML]="alert.msg"></p>
                 </ngb-alert>
@@ -17,10 +18,13 @@ export class JhiAlertErrorComponent implements OnDestroy {
 
     alerts: any[];
     cleanHttpErrorListener: Subscription;
+    defaultTop: number;
+    offset: number;
     // tslint:disable-next-line: no-unused-variable
     constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager) {
         this.alerts = [];
-
+        this.offset = ALERTCSSOFFSET;
+        this.defaultTop = ALERTCSSTOP;
         this.cleanHttpErrorListener = eventManager.subscribe('gatewayApp.httpError', (response) => {
             let i;
             const httpErrorResponse = response.content;
@@ -100,5 +104,11 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 this.alerts
             )
         );
+        for (let i = 0; i < this.alerts.length; i++) {
+            const alert = this.alerts[i];
+            const val = (this.alerts.length - i);
+            alert.cssTop = (this.defaultTop * val) + (val * this.offset);
+            // if necessary increase the close timeout
+        }
     }
 }

@@ -26,7 +26,6 @@ a:hover {
 }
 
 .btn-outline-secrat {
-    color: #fff;
     background-color: transparent;
     background-image: none;
     border-color: #003d66;
@@ -62,6 +61,15 @@ a:hover {
 .border-secrat {
     border: 1px solid #003d66;
 }
+.dropdown-item.active,
+.dropdown-item:active {
+
+    color: #fff;
+    text-decoration: none;
+    background-color: #003d66;
+
+}
+
 /* ==========================================================================
 Browser Upgrade Prompt
 ========================================================================== */
