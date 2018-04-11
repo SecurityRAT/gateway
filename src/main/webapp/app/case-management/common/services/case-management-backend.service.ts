@@ -19,11 +19,11 @@ import {
     REQUIREMENTS_URI,
     ENHANCEMENTS_URI
 } from '../'; // this references to the index.ts Barrel
-import * as attributeKeys from '../../attributes-keys.mock.json';
-import * as attributes from '../../attributes.mock.json';
-import * as requirements from '../../requirements.mock.json';
-import * as enhancements from '../../enhancements.mock.json';
-import * as status from '../../status.mock.json';
+// import * as attributeKeys from '../../attributes-keys.mock.json';
+// import * as attributes from '../../attributes.mock.json';
+// import * as requirements from '../../requirements.mock.json';
+// import * as enhancements from '../../enhancements.mock.json';
+// import * as status from '../../status.mock.json';
 
 type RequirementSetResponseType = HttpResponse<CMRequirementSet[]>;
 type Type = Function;
