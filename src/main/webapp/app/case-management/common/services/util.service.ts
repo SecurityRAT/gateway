@@ -8,16 +8,20 @@ export class CMUtilService {
     private jhiOrderByPipe: JhiOrderByPipe
   ) { }
 
+  /**
+   * Filters out the attribute with the given property object.
+   * @param array The input array of attributes
+   * @param obj the filter object. The filter property must be a property of class @link{CMAttribute}
+   */
   filterAttributesByObj<T>(array: T[], obj: any): T[] {
-    console.log(array, obj);
     const filteredArray: T[] = [];
     this.jhiFilterPipe.transform(array, Object.assign({}, obj), '').forEach((element: any) => {
       if (element.children && element.children.length > 0) {
         this.filterAttributesByObj(element.children, obj).forEach((item: T) => {
           filteredArray.push(item);
         });
+        delete element.children;
       }
-      delete element.children;
       filteredArray.push(element);
     });
 
