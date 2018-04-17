@@ -1,8 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { editorRoutes, EditorComponent } from './';
 import { GatewaySharedModule } from '../../shared';
 import { CMSharedModule } from '../common';
+import { EditorComponent, RequirementComponent, editorRoutes } from './';
 
 const EDITOR_STATES = [
     ...editorRoutes
@@ -15,8 +15,8 @@ const EDITOR_STATES = [
         CMSharedModule
     ],
     exports: [],
-    declarations: [ EditorComponent ],
-    entryComponents: [ EditorComponent],
+    declarations: [EditorComponent, RequirementComponent],
+    entryComponents: [EditorComponent],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

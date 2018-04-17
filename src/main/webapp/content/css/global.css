@@ -1,3 +1,4 @@
+
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
@@ -28,18 +29,19 @@ a:hover {
 .btn-outline-secrat {
     background-color: transparent;
     background-image: none;
-    border-color: #003d66;
-
+    border-color: #005c99;
+    color: #005c99
 }
+
 .btn-outline-secrat:hover {
     color: #fff;
-    background-color: #003d66;
-    border-color: #003d66;
+    background-color: #005c99;
+    border-color: #005c99;
 }
 
 
 .btn-outline-secrat:focus {
-    box-shadow: 0 0 0 0.2em rgb(0, 61, 102)
+    box-shadow: 0 0 0 0.2em #005c99
 }
 
 .btn-secrat {
@@ -68,6 +70,10 @@ a:hover {
     text-decoration: none;
     background-color: #003d66;
 
+}
+.badge-secrat {
+    background-color: #005c99;
+    color: #fff;
 }
 
 /* ==========================================================================
