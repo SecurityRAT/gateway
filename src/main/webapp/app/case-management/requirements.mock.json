@@ -1,0 +1,183 @@
+[{
+        "id": 1,
+        "name": "LC-01",
+        "description": "Description lc-01",
+        "showOrder": 10,
+        "feTags": [],
+        "parameters": [3],
+        "categoryId": 4,
+        "enhancements": [{
+                "keyId": 1,
+                "contents": [{
+                        "id": 1,
+                        "content": "In case your Security Mentor is known, refer to the information security department",
+                        "showOrder": 0
+                    },
+                    {
+                        "id": 2,
+                        "content": "Test weird case where background color is not properly removed",
+                        "showOrder": 1
+                    }
+                ]
+            },
+            {
+                "keyId": 2,
+                "contents": [{
+                    "id": 3,
+                    "content": "Security Mentor is supposed to coordinate all security tasks. Testing updates available.",
+                    "showOrder": 0
+                }]
+            }
+        ],
+        "status": [{
+            "keyId": 4,
+            "values": [
+                1
+            ]
+        }]
+    },
+    {
+        "id": 2,
+        "name": "LC-02",
+        "description": "Plan relevant security trainings for the project team.",
+        "showOrder": 20,
+        "feTags": [],
+        "parameters": [1, 2],
+        "categoryId": 4,
+        "enhancements": [{
+                "keyId": 1,
+                "contents": [{
+                    "id": 1,
+                    "content": "Security Mentor can use the reporting function of the Training Tool in order to verify whether the team members have attended the relevant security trainings.",
+                    "showOrder": 0
+                }]
+            },
+            {
+                "keyId": 2,
+                "contents": [{
+                    "id": 3,
+                    "content": "Ensure that project members have an appropriate security know - how helping to protect our systems against attacks.",
+                    "showOrder": 0
+                }]
+            }
+        ],
+        "status": [{
+            "keyId": 1,
+            "values": [
+                2
+            ]
+        }]
+    },
+    {
+        "id": 3,
+        "name": "SA-01",
+        "description": "3rd party code is identified, checked for security vulnerabilities and its update process is defined.",
+        "showOrder": 10,
+        "feTags": [],
+        "parameters": [5],
+        "categoryId": 6,
+        "enhancements": [{
+                "keyId": 1,
+                "contents": [{
+                    "id": 1,
+                    "content": "Implementation of automated tooling can support this task:\n- https: //www.owasp.org/index.php/OWASP_Dependency_Check (mapping of dependencies to CVEs)\n- https: //nodesecurity.io/tools (evaluation of vulnerable packages for npm)\n- http: //retirejs.github.io/retire.js/ (JavaScript libraries with known vulnerabilites)",
+                        "showOrder": 0
+                }]
+            }
+        ],
+        "status": []
+    },
+    {
+        "id": 4,
+        "name": "SA-02",
+        "description": "No fundamentally different roles are present in the same application.",
+        "showOrder": 20,
+        "feTags": [],
+        "parameters": [8, 9, 2],
+        "categoryId": 6,
+        "enhancements": [{
+                "keyId": 1,
+                "contents": [{
+                    "id": 1,
+                    "content": "internal employees and external customers should work on completely separated systems so that the privilege escalation probability and impact in case of a DoS attack are mitigated.",
+                    "showOrder": 0
+                }]
+            }
+        ],
+        "status": []
+    },
+    {
+        "id": 5,
+        "name": "AU-01",
+        "description": "Operate all authentication controls on a trusted system",
+        "showOrder": 20,
+        "feTags": [],
+        "parameters": [],
+        "categoryId": 1,
+        "enhancements": [
+            {
+                "keyId": 1,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "Do not perform any authentication decisions on the client side (browser, mobile app, ...)",
+                        "showOrder": 0
+                    }
+                ]
+            }
+        ],
+        "status": [
+            {
+                "keyId": 1,
+                "values": [
+                    2
+                ]
+            },
+            {
+                "keyId": 3,
+                "values": [
+                    7
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "AU-02",
+        "description": "Users must re-authenticate prior to performing security critical operations.",
+        "showOrder": 20,
+        "feTags": [],
+        "parameters": [2, 1, 4],
+        "categoryId": 1,
+        "enhancements": [
+            {
+                "keyId": 1,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "To the security critical actions usually belongs:\n\n- changing of password\n- changing of other personal data (e.g. e-mail address, contact data...)\n\n- usage of particular enhanced rights if these are defined\n\nReauthentication can happen e.g. by input of password, second factor or both.",
+                        "showOrder": 0
+                    }
+                ]
+            },
+            {
+                "keyId": 2,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "Some motivation",
+                        "showOrder": 0
+                    }
+                ]
+            }
+        ],
+        "status": [
+            {
+                "keyId": 3,
+                "values": [
+                    7, 8
+                ]
+            }
+        ]
+    }
+]

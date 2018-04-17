@@ -1,0 +1,45 @@
+[{
+        "id": 1,
+        "name": "Strategy",
+        "description": "How to handle the requirement",
+        "showOrder": 10,
+        "type": "ENUM",
+        "values": [{
+            "id": 1,
+            "content": "task",
+            "description": "task",
+            "showOrder": 10
+        }, {
+            "id": 2,
+            "content": "implicit",
+            "description": "implicit",
+            "showOrder": 20
+        }, {
+            "id": 3,
+            "content": "refused",
+            "description": "refused",
+            "showOrder": 30
+        }]
+    },
+    {
+        "id": 3,
+        "name": "Comment",
+        "description": "Possible comment.",
+        "showOrder": 30,
+        "type": "FREETEXT",
+        "values": [{
+                "id": 7,
+                "content": "Hibernate implicitely implements it",
+                "description": ""
+            },
+            {
+                "id": 8,
+                "content": "XSS implicitly implemented by angular"
+            },
+            {
+                "id": 9,
+                "content": "Default spring security value implements csrf"
+            }
+        ]
+    }
+]

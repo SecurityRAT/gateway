@@ -1,0 +1,70 @@
+[
+    {
+        "id": 1,
+        "name": "Authentication",
+        "description": "Authentication description",
+        "showOrder": 30,
+        "keyId": 0,
+        "children": []
+    },
+    {
+        "id": 2,
+        "name": "Organizational Requirements",
+        "description": "Apps running on mobile devices (IOS, Android, Windows Phone)",
+        "showOrder": 10,
+        "keyId": 0,
+        "children": [
+            {
+                "id": 3,
+                "name": "None technical",
+                "description": "Non technical description",
+                "showOrder": 40,
+                "keyId": 0,
+                "children": [
+                    {
+                        "id": 4,
+                        "name": "Lifecycle",
+                        "description": "Lifecyle description",
+                        "showOrder": 70,
+                        "keyId": 0,
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Session authentication",
+        "description": "",
+        "showOrder": 20,
+        "keyId": 0,
+        "children": [
+            {
+                "id": 6,
+                "name": "Mobile app session management",
+                "description": "some description to this.",
+                "showOrder": 50,
+                "keyId": 0,
+                "children": []
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Test Category",
+        "description": "",
+        "showOrder": 20,
+        "keyId": 0,
+        "children": [
+            {
+                "id": 8,
+                "name": "Test sub category",
+                "description": "some description to this.",
+                "showOrder": 50,
+                "keyId": 0,
+                "children": []
+            }
+        ]
+    }
+]
