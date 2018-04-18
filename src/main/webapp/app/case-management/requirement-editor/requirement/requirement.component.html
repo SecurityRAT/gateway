@@ -81,7 +81,9 @@
                         <span class="fa" [attr.aria-expanded]="!toggle.parameters" [ngClass]="{'fa-eye': !toggle.parameters, 'fa-eye-slash': toggle.parameters}"
                             (click)="toggle.parameters = !toggle.parameters" ngbTooltip="Show/Hide Parameters" container="body"></span>
                     </th>
-                    <th></th>
+                    <th>
+                        <input type="checkbox" [(ngModel)]="viewProperties.selectAllState" (change)="selectAllReqs()">
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -103,7 +105,7 @@
                                                 <ngb-accordion [activeIds]="'' + req.enhancements[0].keyId + req.id">
                                                     <ngb-panel [id]="'' + reqEnhancement.keyId + req.id" [title]="enhancement.name" *ngIf="enhancement.id === reqEnhancement.keyId">
                                                         <ng-template ngbPanelContent>
-                                                            <span *ngFor="let content of reqEnhancement.contents | orderBy: 'showOrder'">{{content.content}}</span>
+                                                            <span *ngFor="let content of reqEnhancement.contents | orderBy: 'showOrder'" [innerHtml]="content.content | sanitizeMarkdown"></span>
                                                         </ng-template>
                                                     </ngb-panel>
                                                 </ngb-accordion>

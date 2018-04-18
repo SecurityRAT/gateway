@@ -35,9 +35,11 @@ export class RequirementComponent implements OnInit, OnDestroy {
 
   toggle: any;
 
+  viewProperties: any;
+
   constructor(
     // private jhiEventManager: JhiEventManager,
-    private cmUtilService: CMUtilService
+    private _cmUtilService: CMUtilService,
   ) {
     this.statusType = {
       enum: CMExtensionType.ENUM,
@@ -47,15 +49,25 @@ export class RequirementComponent implements OnInit, OnDestroy {
       enhancements: false,
       parameters: true
     };
+    this.viewProperties = {
+      selectAllState: false
+    };
   }
 
   ngOnInit() {
   }
 
+  selectAllReqs() {
+    for (let i = 0; i < this.requirements.length; i++) {
+      const element = this.requirements[i];
+      element.selected = this.viewProperties.selectAllState;
+    }
+  }
+
   getParameters(parameters: number[]): string[] {
     const result: string[] = [];
     parameters.map((id) => {
-      this.cmUtilService.filterAttributesByObj(this.parameters, { id }).map((attr) => {
+      this._cmUtilService.filterAttributesByObj(this.parameters, { id }).map((attr) => {
         result.push(attr.name);
       });
     });
