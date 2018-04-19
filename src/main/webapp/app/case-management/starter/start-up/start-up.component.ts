@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
     selector: 'jhi-start-up',
     templateUrl: 'start-up.component.html',
     styleUrls: [
-        'start-up.css'
+        './start-up.component.css'
     ]
 })
 export class StartUpComponent implements OnInit {
@@ -103,7 +103,7 @@ export class StartUpComponent implements OnInit {
     }
 
     generate() {
-        const selectedAttributes: CMAttribute[] = this.util.filterAttributesByObj(this.attributes, {selected: true});
+        const selectedAttributes: CMAttribute[] = this.util.filterAttributesByObj(this.attributes, { selected: true });
         this.router.navigate(['/requirements',
             {
                 requirementSet: this.selectedRequirementSet.id,
@@ -122,7 +122,7 @@ export class StartUpComponent implements OnInit {
     }
 
     /**
-     * Determines the value of the initial Active tab.
+     * Sets the initial Active tab.
      */
     private setInitialActiveTab(tabIndex: number) {
         this.initialActiveTab = this.tabs[tabIndex].id;

@@ -1,0 +1,13 @@
+[{
+        "id": 1,
+        "name": "More information",
+        "description": "Provides more information to requirement",
+        "showOrder": 10
+    },
+    {
+        "id": 2,
+        "name": "Motivation",
+        "description": "Provides motivation for this requirement",
+        "showOrder": 20
+    }
+]

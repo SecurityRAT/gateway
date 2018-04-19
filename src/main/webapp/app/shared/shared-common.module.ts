@@ -6,16 +6,17 @@ import locale from '@angular/common/locales/en';
 import {
     GatewaySharedLibsModule,
     JhiAlertComponent,
-    JhiAlertErrorComponent
+    JhiAlertErrorComponent,
+    SanitizeMarkdownPipe
 } from './';
-
 @NgModule({
     imports: [
         GatewaySharedLibsModule
     ],
     declarations: [
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        SanitizeMarkdownPipe
     ],
     providers: [
         Title,
@@ -27,7 +28,8 @@ import {
     exports: [
         GatewaySharedLibsModule,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+        SanitizeMarkdownPipe
     ]
 })
 export class GatewaySharedCommonModule {

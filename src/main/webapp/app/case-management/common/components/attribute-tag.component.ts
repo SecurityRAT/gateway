@@ -1,5 +1,5 @@
 // tslint:disable-next-line
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ChangeDetectionStrategy } from '@angular/core';
 import { CMAttribute } from '../';
 @Component({
     selector: 'jhi-attribute-tag',
@@ -9,13 +9,14 @@ import { CMAttribute } from '../';
                 style="margin: .1em .1em .1em 0;" ngbButtonLabel>
                     <input type="checkbox" [(ngModel)]="attribute.selected" [name]="attribute.name" ngbButton>{{attribute.name}}
                 </label>
-                <div *ngIf="attribute.selected">
+                <div *ngIf="(!showChildrenOnSelect) || (attribute.selected && showChildrenOnSelect)">
                     <jhi-attribute-tag *ngFor="let child of attribute.children"
                     [attribute]="child" [parentAttribute]="attribute" [checkboxType]="checkboxType" [count]="count">
                     </jhi-attribute-tag>
                 </div>
         </div>
-    `
+    `,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AttributeTagComponent implements OnInit {
@@ -26,9 +27,12 @@ export class AttributeTagComponent implements OnInit {
 
     @Input() checkboxType: boolean;
 
+    @Input() showChildrenOnSelect: boolean;
+
     @Input() count: number;
 
     ngOnInit() {
+        // This is needed to evaluate the indentations in the view.
         this.count++;
     }
 }

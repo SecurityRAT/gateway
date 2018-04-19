@@ -1,9 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { editorRoutes, EditorComponent } from './';
 import { GatewaySharedModule } from '../../shared';
 import { CMSharedModule } from '../common';
-import { JhiArtifactDashboardComponent } from './jhi-artifact-dashboard/jhi-artifact-dashboard.component';
+import { EditorComponent, RequirementComponent, editorRoutes, JhiArtifactDashboardComponent } from './';
 
 const EDITOR_STATES = [
     ...editorRoutes
@@ -16,8 +15,8 @@ const EDITOR_STATES = [
         CMSharedModule
     ],
     exports: [],
-    declarations: [ EditorComponent, JhiArtifactDashboardComponent ],
-    entryComponents: [ EditorComponent],
+    declarations: [EditorComponent, RequirementComponent, JhiArtifactDashboardComponent],
+    entryComponents: [EditorComponent],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -24,6 +24,7 @@ import * as attributes from '../../attributes.mock.json';
 // import * as requirements from '../../requirements.mock.json';
 // import * as enhancements from '../../enhancements.mock.json';
 // import * as status from '../../status.mock.json';
+// import * as categories from '../../categories.mock.json';
 
 type RequirementSetResponseType = HttpResponse<CMRequirementSet[]>;
 type Type = Function;
@@ -110,6 +111,9 @@ export class CaseManagementBackendService {
             id: ids
         };
         return this.query(CMAttribute, ATTRIBUTE_URI, options);
+        // return Observable.of(this.convertResponseArrayToType(new HttpResponse({
+        //     body: this.getMockAttributes()
+        // })));
     }
 
     findEnhancements(requirementSet: number): Observable<HttpResponse<CMExtensionKey[]>> {
@@ -155,6 +159,23 @@ export class CaseManagementBackendService {
         return mockAttributeKeys;
     }
 
+    // getMockCategories(): Observable<HttpResponse<CMAttribute[]>> {
+    //     const mockCategories: CMAttribute[] = [];
+    //     (<any>categories).forEach((element) => {
+    //         mockCategories.push(new CMAttribute(
+    //             element.id,
+    //             element.name,
+    //             element.showOrder,
+    //             element.keyId,
+    //             element.description,
+    //             element.children
+    //         ));
+    //     });
+    //     return Observable.of(this.convertResponseArrayToType(new HttpResponse({
+    //         body: mockCategories
+    //     })));
+    // }
+
     getMockAttributes(): CMAttribute[] {
         const mockAttributes: CMAttribute[] = [];
         (<any>attributes).forEach((element) => {
@@ -169,6 +190,7 @@ export class CaseManagementBackendService {
         });
         return mockAttributes;
     }
+
     // getMockRequirements(): CMRequirement[] {
     //     const mockRequirements: CMRequirement[] = [];
     //     (<any>requirements).forEach((element) => {
@@ -199,6 +221,7 @@ export class CaseManagementBackendService {
     //     });
     //     return mockEnhancements;
     // }
+
     // getMockStatus(): CMExtensionKey[] {
     //     const mockStatus: CMExtensionKey[] = [];
     //     (<any>status).forEach((element) => {

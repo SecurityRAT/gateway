@@ -3,10 +3,10 @@ import { BaseDomain } from '../';
 export class CMAttribute implements BaseDomain {
     constructor(
         public id: number,
-        public name: String,
+        public name: string,
         public showOrder: number,
         public keyId?: number,
-        public description?: String,
+        public description?: string,
         public children?: CMAttribute[],
         public selected?: boolean
     ) {

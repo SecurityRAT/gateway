@@ -1,0 +1,155 @@
+<section class="row">
+    <div ngbDropdown class="d-inline-block mr-2">
+        <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
+            Persist
+        </button>
+        <div ngbDropdownMenu aria-labelledby="persistDropdown">
+            <!-- Link to perisist with remote service -->
+            <button class="dropdown-item">
+                Remotely
+            </button>
+            <!-- Link to local persisting service -->
+            <button class="dropdown-item">
+                Locally
+            </button>
+        </div>
+    </div>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-secrat" id="customRequirement" ngbDropdownToggle>
+            Custom requirement
+        </button>
+        <div ngbDropdownMenu aria-labelledby="customRequirement">
+            <button class="dropdown-item">
+                Add
+            </button>
+            <button class="dropdown-item">
+                Edit
+            </button>
+            <button class="dropdown-item">
+                Remove
+            </button>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        <p class="mr-1">
+            Requirements:
+        </p>
+        <div class="mr-1" role="group">
+            <button class="btn btn-sm btn-secrat">
+                found
+                <span class="badge badge-light">{{requirements.length}}</span>
+                <span class="sr-only">Number of requirements</span>
+            </button>
+        </div>
+        <div role="group">
+            <button class="btn btn-sm btn-warning">
+                selected
+                <span class="badge badge-light">{{getSelectedRequirements().length}}</span>
+                <span class="sr-only">selected of requirements</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <ng-template #enhancementTipContent>
+                        <div *ngFor="let enhancement of enhancements">
+                            <span style="color:#cc6600;text-align: left">{{enhancement.name}}:</span> {{enhancement.description}}
+                        </div>
+                    </ng-template>
+                    <th class="text-center">
+                        <ng-container *ngIf="!toggle.enhancements">
+                            <span [ngbTooltip]="enhancementTipContent" container="body">Enhancements</span>
+                        </ng-container>
+                        <span class="fa" [attr.aria-expanded]="!toggle.enhancements" [ngClass]="{'fa-eye': !toggle.enhancements, 'fa-eye-slash': toggle.enhancements}"
+                            (click)="toggle.enhancements = !toggle.enhancements" ngbTooltip="Show/Hide Enhancements" container="body"></span>
+                    </th>
+                    <th *ngFor="let stat of status" class="text-center">
+                        <span ngbTooltip="{{stat.description}}">{{stat.name}}</span>
+                    </th>
+                    <th class="text-center">
+                        <ng-container *ngIf="!toggle.parameters">Parameters</ng-container>
+                        <!-- Toggles the Parameter column -->
+                        <span class="fa" [attr.aria-expanded]="!toggle.parameters" [ngClass]="{'fa-eye': !toggle.parameters, 'fa-eye-slash': toggle.parameters}"
+                            (click)="toggle.parameters = !toggle.parameters" ngbTooltip="Show/Hide Parameters" container="body"></span>
+                    </th>
+                    <th>
+                        <input type="checkbox" [(ngModel)]="viewProperties.selectAllState" (change)="selectAllReqs()">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let cat of categories">
+                    <ng-container *ngIf="categoriesInList.indexOf(cat.id) !== -1">
+                        <tr>
+                            <td colspan="20" class="text-center">
+                                <h5>{{cat.name}}</h5>
+                            </td>
+                        </tr>
+                        <ng-container *ngFor="let req of requirements">
+                            <tr *ngIf="req.categoryId === cat.id">
+                                <td>{{req.name}}</td>
+                                <td>{{req.description}}</td>
+                                <td class="card-enhancements">
+                                    <div [ngbCollapse]="toggle.enhancements">
+                                        <ng-container *ngFor="let enhancement of enhancements">
+                                            <ng-container *ngFor="let reqEnhancement of req.enhancements">
+                                                <ngb-accordion [activeIds]="'' + req.enhancements[0].keyId + req.id">
+                                                    <ngb-panel [id]="'' + reqEnhancement.keyId + req.id" [title]="enhancement.name" *ngIf="enhancement.id === reqEnhancement.keyId">
+                                                        <ng-template ngbPanelContent>
+                                                            <span *ngFor="let content of reqEnhancement.contents | orderBy: 'showOrder'" [innerHtml]="content.content | sanitizeMarkdown"></span>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ngb-accordion>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </td>
+                                <td *ngFor="let stat of status">
+                                    <ng-container *ngFor="let reqStat of req.status">
+                                        <ng-container *ngIf="stat.type === statusType.enum; else freeTextStatus">
+                                            <div ngbDropdown class="d-inline-block" *ngIf="stat.id === reqStat.keyId">
+                                                <button class="btn btn-sm btn-outline-secrat" id="{{'' + req.id + stat.id }}" ngbDropdownToggle>
+                                                    {{reqStat.content}}
+                                                </button>
+                                                <div ngbDropdownMenu [attr.aria-labelledby]="'' + req.id + stat.id">
+                                                    <button class="dropdown-item" [ngClass]="{'active': reqStat.values.indexOf(value.id) !== -1}" *ngFor="let value of stat.values"
+                                                        (click)="selectStatus(reqStat, stat.values, value.id)">
+                                                        {{value.content}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #freeTextStatus>
+                                            <div *ngIf="stat.id === reqStat.keyId">
+                                                <textarea class="form-control" rows="5" cols="100" [(ngModel)]="reqStat.content">
+                                                </textarea>
+                                            </div>
+                                        </ng-template>
+                                    </ng-container>
+                                </td>
+                                <td class="text-center">
+                                    <div *ngFor="let param of getParameters(req.parameters)" [ngbCollapse]="toggle.parameters">
+                                        <span class="badge badge-secrat">{{param}}</span>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="req.selected">
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</section>

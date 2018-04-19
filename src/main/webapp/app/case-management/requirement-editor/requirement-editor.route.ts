@@ -8,7 +8,7 @@ export const editorRoutes: Routes = [
         component: EditorComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'Requirement editor'
+            pageTitle: 'Requirement overview'
         },
         canActivate: [UserRouteAccessService]
     }

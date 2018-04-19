@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MarkdownModule } from 'angular2-markdown';
 import { CookieModule } from 'ngx-cookie';
 
 @NgModule({
@@ -15,7 +16,8 @@ import { CookieModule } from 'ngx-cookie';
             alertAsToast: true,
         }),
         InfiniteScrollModule,
-        CookieModule.forRoot()
+        CookieModule.forRoot(),
+        MarkdownModule.forRoot()
     ],
     exports: [
         FormsModule,
@@ -23,7 +25,9 @@ import { CookieModule } from 'ngx-cookie';
         CommonModule,
         NgbModule,
         NgJhipsterModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        MarkdownModule,
+
     ]
 })
-export class GatewaySharedLibsModule {}
+export class GatewaySharedLibsModule { }
