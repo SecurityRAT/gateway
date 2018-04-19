@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { editorRoutes, EditorComponent } from './';
 import { GatewaySharedModule } from '../../shared';
 import { CMSharedModule } from '../common';
+import { JhiArtifactDashboardComponent } from './jhi-artifact-dashboard/jhi-artifact-dashboard.component';
 
 const EDITOR_STATES = [
     ...editorRoutes
@@ -15,7 +16,7 @@ const EDITOR_STATES = [
         CMSharedModule
     ],
     exports: [],
-    declarations: [ EditorComponent ],
+    declarations: [ EditorComponent, JhiArtifactDashboardComponent ],
     entryComponents: [ EditorComponent],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

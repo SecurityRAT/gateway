@@ -6,7 +6,7 @@ import {
 
 @Component({
     selector: 'jhi-editor',
-    template: '<p>{{artifactName}}</p>'
+    template: '<jhi-artifact-dashboard></jhi-artifact-dashboard>'
 })
 
 export class EditorComponent implements OnInit {

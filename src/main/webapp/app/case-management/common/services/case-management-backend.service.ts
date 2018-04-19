@@ -19,8 +19,8 @@ import {
     REQUIREMENTS_URI,
     ENHANCEMENTS_URI
 } from '../'; // this references to the index.ts Barrel
-// import * as attributeKeys from '../../attributes-keys.mock.json';
-// import * as attributes from '../../attributes.mock.json';
+import * as attributeKeys from '../../attributes-keys.mock.json';
+import * as attributes from '../../attributes.mock.json';
 // import * as requirements from '../../requirements.mock.json';
 // import * as enhancements from '../../enhancements.mock.json';
 // import * as status from '../../status.mock.json';
@@ -68,10 +68,10 @@ export class CaseManagementBackendService {
             requirementSet,
             type
         };
-        return this.query(CMAttributeKey, ATTRIBUTEKEYS_URI, params);
-        // return Observable.of(this.convertResponseArrayToType(new HttpResponse({
-        //     body: this.getMockAttributeKeys()
-        // })));
+        // return this.query(CMAttributeKey, ATTRIBUTEKEYS_URI, params);
+        return Observable.of(this.convertResponseArrayToType(new HttpResponse({
+            body: this.getMockAttributeKeys()
+        })));
     }
 
     /**
@@ -95,10 +95,10 @@ export class CaseManagementBackendService {
             requirementSet,
             type
         };
-        return this.query(CMAttribute, ATTRIBUTES_URI, options);
-        // return Observable.of(this.convertResponseArrayToType(new HttpResponse({
-        //     body: this.getMockAttributes()
-        // })));
+        // return this.query(CMAttribute, ATTRIBUTES_URI, options);
+        return Observable.of(this.convertResponseArrayToType(new HttpResponse({
+            body: this.getMockAttributes()
+        })));
     }
 
     /**
@@ -142,33 +142,33 @@ export class CaseManagementBackendService {
         // })));
     }
 
-    // getMockAttributeKeys(): CMAttributeKey[] {
-    //     const mockAttributeKeys: CMAttributeKey[] = [];
-    //     (<any>attributeKeys).forEach((element) => {
-    //         mockAttributeKeys.push(new CMAttributeKey(
-    //             element.id,
-    //             element.name,
-    //             element.showOrder,
-    //             element.description
-    //         ));
-    //     });
-    //     return mockAttributeKeys;
-    // }
+    getMockAttributeKeys(): CMAttributeKey[] {
+        const mockAttributeKeys: CMAttributeKey[] = [];
+        (<any>attributeKeys).forEach((element) => {
+            mockAttributeKeys.push(new CMAttributeKey(
+                element.id,
+                element.name,
+                element.showOrder,
+                element.description
+            ));
+        });
+        return mockAttributeKeys;
+    }
 
-    // getMockAttributes(): CMAttribute[] {
-    //     const mockAttributes: CMAttribute[] = [];
-    //     (<any>attributes).forEach((element) => {
-    //         mockAttributes.push(new CMAttribute(
-    //             element.id,
-    //             element.name,
-    //             element.showOrder,
-    //             element.keyId,
-    //             element.description,
-    //             element.children
-    //         ));
-    //     });
-    //     return mockAttributes;
-    // }
+    getMockAttributes(): CMAttribute[] {
+        const mockAttributes: CMAttribute[] = [];
+        (<any>attributes).forEach((element) => {
+            mockAttributes.push(new CMAttribute(
+                element.id,
+                element.name,
+                element.showOrder,
+                element.keyId,
+                element.description,
+                element.children
+            ));
+        });
+        return mockAttributes;
+    }
     // getMockRequirements(): CMRequirement[] {
     //     const mockRequirements: CMRequirement[] = [];
     //     (<any>requirements).forEach((element) => {
