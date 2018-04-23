@@ -1,19 +1,21 @@
 import { CMRequirement } from '..';
+import { VERSION } from '../../../app.constants';
 
 export class ArtifactInfo {
     name: string;
-    service: any;
+    persistenceInfo: any;
 }
 
 export class YamlObject {
     constructor(
+        public securityRATVersion: string,
         public artifactInfo: ArtifactInfo,
         public settings: any,
         public generatedOn: Date,
         public lastSaved: Date,
         public requirements: CMRequirement
     ) {
-
+        this.securityRATVersion = VERSION;
     }
 }
 
