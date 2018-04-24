@@ -1,0 +1,24 @@
+<div [ngSwitch]="checkboxType">
+        <div class="btn-group-toggle" *ngSwitchCase="true">
+                <label [ngbTooltip]="attribute.description" placement="top" class="btn-outline-secondary btn-sm" [ngStyle]="{'margin-left.%': 5 * count}"
+                style="margin: .1em .1em .1em 0;" ngbButtonLabel>
+                    <input type="checkbox" [(ngModel)]="attribute.selected" [name]="attribute.name" ngbButton>{{attribute.name}}
+                </label>
+                <div *ngIf="(!showChildrenOnSelect) || (attribute.selected && showChildrenOnSelect)">
+                    <jhi-attribute-tag *ngFor="let child of attribute.children"
+                    [attribute]="child" [parentAttribute]="attribute" [checkboxType]="checkboxType" [count]="count" >
+                    </jhi-attribute-tag>
+                </div>
+            </div>
+
+            <div *ngSwitchCase="false">
+                    <label class="badge badge-secondary"[ngStyle]="{'margin-left.%': 2 * count,'background-color':'#003D66', 'color':'#fff'}"
+                    style="margin: .1em .1em .1em 0;">{{attribute.name}}</label> 
+                        <jhi-attribute-tag *ngFor="let child of attribute.children"
+                        [attribute]="child" [parentAttribute]="attribute" [checkboxType]="checkboxType" [count]="count">
+                        </jhi-attribute-tag>
+                    </div>
+         </div>
+</div>
+
+

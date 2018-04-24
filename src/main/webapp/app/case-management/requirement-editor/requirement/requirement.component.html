@@ -1,59 +1,61 @@
-<section class="row">
-    <div ngbDropdown class="d-inline-block mr-2">
-        <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
-            Persist
-        </button>
-        <div ngbDropdownMenu aria-labelledby="persistDropdown">
-            <!-- Link to perisist with remote service -->
-            <button class="dropdown-item">
-                Remotely
-            </button>
-            <!-- Link to local persisting service -->
-            <button class="dropdown-item">
-                Locally
-            </button>
-        </div>
-    </div>
-    <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-secrat" id="customRequirement" ngbDropdownToggle>
-            Custom requirement
-        </button>
-        <div ngbDropdownMenu aria-labelledby="customRequirement">
-            <button class="dropdown-item">
-                Add
-            </button>
-            <button class="dropdown-item">
-                Edit
-            </button>
-            <button class="dropdown-item">
-                Remove
-            </button>
-        </div>
-    </div>
-</section>
 <section>
-    <div class="row">
-        <p class="mr-1">
-            Requirements:
-        </p>
-        <div class="mr-1" role="group">
-            <button class="btn btn-sm btn-secrat">
-                found
-                <span class="badge badge-light">{{requirements.length}}</span>
-                <span class="sr-only">Number of requirements</span>
-            </button>
-        </div>
-        <div role="group">
-            <button class="btn btn-sm btn-warning">
-                selected
-                <span class="badge badge-light">{{getSelectedRequirements().length}}</span>
-                <span class="sr-only">selected of requirements</span>
-            </button>
-        </div>
-    </div>
+<jhi-artifact-dashboard></jhi-artifact-dashboard>
 </section>
 
+
 <section>
+        <div ngbDropdown class="d-inline-block mr-2">
+                <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
+                    Persist
+                </button>
+                <div ngbDropdownMenu aria-labelledby="persistDropdown">
+                    <!-- Link to perisist with remote service -->
+                    <button class="dropdown-item">
+                        Remotely
+                    </button>
+                    <!-- Link to local persisting service -->
+                    <button class="dropdown-item">
+                        Locally
+                    </button>
+                </div>
+            </div>
+            <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-secrat" id="customRequirement" ngbDropdownToggle>
+                    Custom requirement
+                </button>
+                <div ngbDropdownMenu aria-labelledby="customRequirement">
+                    <button class="dropdown-item">
+                        Add
+                    </button>
+                    <button class="dropdown-item">
+                        Edit
+                    </button>
+                    <button class="dropdown-item">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="row">
+                <p class="mr-1">
+                    Requirements:
+                </p>
+                <div class="mr-1" role="group">
+                    <button class="btn btn-sm btn-secrat">
+                        found
+                        <span class="badge badge-light">{{requirements.length}}</span>
+                        <span class="sr-only">Number of requirements</span>
+                    </button>
+                </div>
+                <div role="group">
+                    <button class="btn btn-sm btn-warning">
+                        selected
+                        <span class="badge badge-light">{{getSelectedRequirements().length}}</span>
+                        <span class="sr-only">selected of requirements</span>
+                    </button>
+                </div>
+            </div>
     <div class="table-responsive">
         <table class="table">
             <thead class="thead-light">

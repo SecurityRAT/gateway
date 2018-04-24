@@ -1,0 +1,57 @@
+<h2>
+    {{artifactInfo.name}}</h2>
+<div class="row">
+    <div class="col-sm-6">
+        <ngb-accordion  activeIds="static-1" (panelChange)="changeIcon()" >
+            <ngb-panel id="static-1">
+                <ng-template ngbPanelTitle>
+                    <span [ngStyle]="{'color':'#fff'}" >Artifact Settings
+                        <div class="pull-right" placement="top" ngbTooltip="Expand/Reduce" >
+                            <i *ngIf="isOpen" class="fa fa-window-minimize" ></i>
+                            <i *ngIf="!isOpen" class="fa fa-window-maximize"></i>
+                        </div>
+                    </span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12">Created on:
+                                <strong>
+                                    <b>{{creationDate}}</b>
+                                </strong>
+                                <label class="btn btn-secrat pull-right" ngbButtonLabel>Change Settings</label>        
+                            </div>                                         
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">Implementation Type:
+                                <strong>
+                                    <b>{{requierementset}}</b>
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th *ngFor="let key of attributeKeys">{{key.name}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td *ngFor="let key of attributeKeys">
+                                                <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: key.id})" [attribute]="attribute" [checkboxType]="false"
+                                                    count=-1>
+                                                </jhi-attribute-tag>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
