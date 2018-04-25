@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 import { GatewayTestModule } from '../../../../test.module';
 import { EditorComponent } from '../../../../../../../main/webapp/app/case-management/requirement-editor/editor/editor.component';
 import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
 import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/common/services/case-management-backend.service';
 import { MockActivatedRoute } from '../../../../helpers/mock-route.service';
-import { BaseDomain, CMRequirement, CMStatusSubType, CMExtensionKey, CMExtensionType, CMExtension } from '../../../../../../../main/webapp/app/case-management/common';
+import { CMRequirement, CMStatusSubType, CMExtensionKey, CMExtensionType, CMExtension } from '../../../../../../../main/webapp/app/case-management/common';
 import { HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 
