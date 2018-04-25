@@ -9,6 +9,9 @@ import {
     CMAttributeKey,
     CMAttribute,
     CMAttributeType,
+    ATTRIBUTEKEYS_URI,
+    ATTRIBUTES_URI,
+    REQUIREMENTSETS_URI,
 } from '../../common';
 import { Router } from '@angular/router';
 
@@ -59,7 +62,7 @@ export class StartUpComponent implements OnInit {
         // });
 
         // Loads the requirements sets
-        this.caseManagementBackendService.getRequirementSets().subscribe((res: HttpResponse<CMRequirementSet[]>) => {
+        this.caseManagementBackendService.query(CMRequirementSet, REQUIREMENTSETS_URI).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
             this.onSuccess(res.body, this.requirementSets);
             // TODO Implement change settings. The selected Ids should be available in the queryParms variable.
             // TODO Implement reaction to cases where the Ids from the queryParams do not exist in the received values from the server.
@@ -77,12 +80,23 @@ export class StartUpComponent implements OnInit {
     // }
 
     loadAll() {
-        this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
-            this.onSuccess(res.body, this.attributeKeys);
-        });
-        this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
-            this.onSuccess(res.body, this.attributes);
-        });
+        /* Mock load ATTRIBUTE and ATTRIBUTE KEYS */
+        // this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        //     this.onSuccess(res.body, this.attributeKeys);
+        // });
+        // this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        //     this.onSuccess(res.body, this.attributes);
+        // });
+
+        /* Backend load ATTRIBUTE and ATTRIBUTE KEYS */
+        this.caseManagementBackendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI,
+            { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+                this.onSuccess(res.body, this.attributeKeys);
+            });
+        this.caseManagementBackendService.query(CMAttribute, ATTRIBUTES_URI,
+            { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+                this.onSuccess(res.body, this.attributes);
+            });
     }
     /**
      * Bounds to the ngTab 'tabchange' event.
@@ -103,7 +117,7 @@ export class StartUpComponent implements OnInit {
     }
 
     generate() {
-        const selectedAttributes: CMAttribute[] = this.util.filterAttributesByObj(this.attributes, { selected: true });
+        const selectedAttributes: CMAttribute[] = this.util.filterByObj(this.attributes, { selected: true });
         this.router.navigate(['/requirements',
             {
                 requirementSet: this.selectedRequirementSet.id,
