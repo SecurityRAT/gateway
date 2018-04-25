@@ -83,7 +83,9 @@ export class CaseManagementBackendService {
     //     const params = {
     //         ids
     //     };
-    //     return this.query(CMAttributeKey, ATTRIBUTEKEY_URI, params);
+    //     return Observable.of(this.convertResponseArrayToType(new HttpResponse({
+    //         body: this.getMockAttributeKeys()
+    //     })));
     // }
 
     // /**

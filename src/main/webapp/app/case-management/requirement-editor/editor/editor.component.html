@@ -1,6 +1,9 @@
 <div class="row">
-<jhi-filter [tags]="tagObject.tags" [tagKeys]="tagObject.tagKeys" [categories]="categoryObject.formattedCategories" [requirements]="requirements">
-</jhi-filter>
+    <jhi-artifact-dashboard class="col" [attributes]="artifactSettings.parameterAttributes.content" [attributeKeys]="artifactSettings.parameterAttributeKeys.content"
+        [requirementSet]="artifactSettings.requirementSet.content" [artifactInfo]="artifactSettings.artifactInfo" [creationDate]="artifactSettings.generatedOn"></jhi-artifact-dashboard>
+    <jhi-filter class="col" [tags]="tagObject.tags" [tagKeys]="tagObject.tagKeys" [categories]="categoryObject.formattedCategories"
+        [requirements]="requirements">
+    </jhi-filter>
 </div>
 <jhi-requirement [requirements]="requirements" [status]="status" [categories]="categoryObject.formattedCategories" [enhancements]="enhancements"
     [parameters]="artifactSettings.parameterAttributes.content" [categoriesInList]="categoryObject.categoryIdsInList">

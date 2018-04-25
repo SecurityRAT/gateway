@@ -2,8 +2,10 @@ import { CMRequirement } from '..';
 import { VERSION } from '../../../app.constants';
 
 export class ArtifactInfo {
-    name: string;
-    persistenceInfo: any;
+    constructor(
+        public name: string,
+        public persistenceInfo?: any
+    ) { }
 }
 
 export class YamlObject {
@@ -24,5 +26,5 @@ export class YamlFile {
         public filename: string,
         public generatedOn: Date,
         public contentUrl: string // URL from where the file content could be downloaded.
-    ) {}
+    ) { }
 }

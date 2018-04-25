@@ -1,38 +1,25 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CMAttribute, ArtifactInfo, CMAttributeKey } from '../../common';
+import { CMAttribute, ArtifactInfo, CMAttributeKey, CMRequirementSet } from '../../common';
 
 @Component({
   selector: 'jhi-artifact-dashboard',
   templateUrl: './jhi-artifact-dashboard.component.html',
-  styles: [`
-  .dashboard /deep/ .card-header{
-    background-color: #003D66;
-  }
-
-  .dashboard /deep/ .card-header > a {
-    color: #fff;
-  }
-`]
+  styleUrls: [
+    './jhi-artifact-dashboard.component.css'
+  ]
 })
 
 export class JhiArtifactDashboardComponent implements OnInit {
   isOpen: boolean;
 
   @Input() artifactInfo: ArtifactInfo;
-  @Input() creationDate: String;
-  @Input() requirementSet: String;
+  @Input() creationDate: Date;
+  @Input() lastSaved: Date;
+  @Input() requirementSet: CMRequirementSet;
   @Input() attributes: CMAttribute[];
   @Input() attributeKeys: CMAttributeKey[];
 
-  @Input() attribute: CMAttribute;
-  @Input() parentAttribute: CMAttribute;
-
   constructor() {
-    this.artifactInfo = new ArtifactInfo();
-    this.artifactInfo.name = ' TestArtifactName';
-    this.creationDate = '10-10-1980';
-    this.requirementSet = 'External';
-
     this.attributeKeys = [
       // new CMAttributeKey(1, 'first Key', 10),
       // new CMAttributeKey(2, 'second Key', 20),

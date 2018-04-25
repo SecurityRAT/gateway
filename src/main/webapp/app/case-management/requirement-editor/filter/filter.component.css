@@ -29,3 +29,22 @@ section {
 .table-borderless>thead>tr>th {
     border: none;
 }
+
+@media (min-width: 34em) {
+    .filter ::ng-deep .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 75em) {
+    .filter ::ng-deep .card-columns {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+}
+section {
+    margin-bottom: 0.5em;
+}

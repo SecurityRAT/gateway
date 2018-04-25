@@ -50,7 +50,7 @@
             "keyId": 2,
             "children": [{
                 "id": 13,
-                "name": "NativeScript framework, NativeScript framework,sdfgsdfgsdfg",
+                "name": "NativeScript framework",
                 "description": "NativeScript framework is used",
                 "showOrder": 60,
                 "keyId": 2,
@@ -76,14 +76,7 @@
                     "description": "Implicitely resolves SQL Issues",
                     "showOrder": 80,
                     "keyId": 2,
-                    "children": [{
-                            "id": 16,
-                            "name": "Spring JPA Hibernate Framework",
-                            "description": "Implicitely resolves SQL Issues",
-                            "showOrder": 90,
-                            "keyId": 2,
-                            "children": []
-                        }]
+                    "children": []
                 }]
         }]
     },

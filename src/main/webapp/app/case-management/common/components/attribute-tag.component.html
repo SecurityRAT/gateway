@@ -11,10 +11,8 @@
         </ng-container>
     </div>
     <div *ngSwitchCase="false">
-        <label class="badge badge-secondary" [ngStyle]="{'margin-left.%': 2 * count,'background-color':'#003D66', 'color':'#fff'}"
-            style="margin: .1em .1em .1em 0;">{{attribute.name}}</label>
-        <jhi-attribute-tag *ngFor="let child of attribute.children" [attribute]="child" [parentAttribute]="attribute" [checkboxType]="checkboxType"
-            [count]="count">
+        <label class="badge badge-secrat" [ngStyle]="{'margin-left.%': 1 * count}" style="margin: .1em .1em .1em 0;">{{attribute.name}}</label>
+        <jhi-attribute-tag *ngFor="let child of attribute.children" [attribute]="child" [checkboxType]="checkboxType" [count]="count">
         </jhi-attribute-tag>
     </div>
 </div>

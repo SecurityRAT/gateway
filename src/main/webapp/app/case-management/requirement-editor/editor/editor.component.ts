@@ -23,7 +23,8 @@ import {
   REQUIREMENTS_URI,
   ATTRIBUTE_URI,
   REQUIREMENTSET_URI,
-  ATTRIBUTEKEY_URI
+  ATTRIBUTEKEY_URI,
+  ArtifactInfo
 } from '../../common/';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
@@ -39,13 +40,31 @@ type TagObject = {
   tags: CMAttribute[],
   tagKeys: CMAttributeKey[]
 };
+
+type ArtifactSettings = {
+  artifactInfo: ArtifactInfo,
+  generatedOn?: Date,
+  lastSaved?: Date,
+  parameterAttributes: {
+    ids: number[],
+    content: CMAttribute[]
+  },
+  parameterAttributeKeys: {
+    ids: number[],
+    content: CMAttributeKey[]
+  },
+  requirementSet: {
+    id: number,
+    content: CMRequirementSet
+  }
+};
 @Component({
   selector: 'jhi-editor',
   templateUrl: 'editor.component.html'
 })
 export class EditorComponent implements OnInit {
 
-  artifactSettings: any;
+  artifactSettings: ArtifactSettings;
   enhancements: CMExtensionKey[];
   status: CMExtensionKey[];
   tags: CMAttribute[];
@@ -69,7 +88,6 @@ export class EditorComponent implements OnInit {
       tags: [],
       tagKeys: []
     };
-    this.artifactSettings = {};
     this.enhancements = [];
     this.status = [];
     this.tags = [];
@@ -82,17 +100,21 @@ export class EditorComponent implements OnInit {
     this._activatedRoute.paramMap.subscribe((values) => {
       if (values.has(ARTIFACTNAME_PARAM) && values.has(REQUIREMENTSET_PARAM) &&
         values.has(ATTRIBUTE_PARAM) && values.has(ATTRIBUTEKEYS_PARAM)) {
-        this.artifactSettings.name = values.get(ARTIFACTNAME_PARAM);
-        this.artifactSettings.parameterAttributes = {
-          ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
-          content: []
-        };
-        this.artifactSettings.parameterAttributeKeys = {
-          ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
-          content: []
-        };
-        this.artifactSettings.requirementSet = {
-          id: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true)[0]
+        this.artifactSettings = {
+          artifactInfo: new ArtifactInfo(values.get(ARTIFACTNAME_PARAM)),
+          parameterAttributes: {
+            ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
+            content: []
+          },
+          parameterAttributeKeys: {
+            ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTEKEYS_PARAM), true),
+            content: []
+          },
+          requirementSet: {
+            id: this._cmUtilService.convertStringToNumberArray(values.get(REQUIREMENTSET_PARAM), true)[0],
+            content: new CMRequirementSet(1, 'Test requirement set', 10)
+          },
+          generatedOn: new Date()
         };
         this.loadAll();
         this.loadRequirements();
@@ -107,6 +129,16 @@ export class EditorComponent implements OnInit {
     // this._backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
     //   this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
     // });
+
+    // this._backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
+    //   const filter: CMAttributeKey[] = [];
+    //   this.artifactSettings.parameterAttributeKeys.ids.forEach((id) => {
+    //     filter.push(...this._cmUtilService.filterByObj(this.artifactSettings.parameterAttributeKeys.content, { id }));
+    //   });
+    //   this.artifactSettings.parameterAttributeKeys.content = filter;
+    // });
+
     /* Backend load Attribute with ids */
     this._backendService.query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids }).subscribe((res: HttpResponse<CMAttribute[]>) => {
       this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
@@ -127,10 +159,12 @@ export class EditorComponent implements OnInit {
         this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
       });
 
+    /* Mock load Categories */
     // this._backendService.getMockCategories().subscribe((res: HttpResponse<CMAttribute[]>) => {
     //   this.onSuccess(res.body, this.categoryObject.categories);
     //   this.categoryObject.formattedCategories = this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
     // });
+
     /* Load FE_TAGS */
     this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
       .subscribe((res: HttpResponse<CMAttribute[]>) => {
@@ -149,6 +183,7 @@ export class EditorComponent implements OnInit {
     //   this.onSuccess(res.body, this.tagObject.tags);
     // });
 
+    /* Backend load ENHANCEMENT and STATUS */
     this._backendService.query(CMExtensionKey, ENHANCEMENTS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
       .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
         this.onSuccess(res.body, this.enhancements);
