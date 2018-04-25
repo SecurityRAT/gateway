@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Requirement Owner",
+        "description": "Definition of criticality of the system.",
+        "showOrder": 10
+    },
+    {
+        "id": 2,
+        "name": "Phase relevance",
+        "description": "Characteristics of the developed system",
+        "showOrder": 20
+    },
+    {
+        "id": 3,
+        "name": "Documentation",
+        "description": "How are the consumers of the system authenticated?",
+        "showOrder": 30
+    },
+    {
+        "id": 4,
+        "name": "QA",
+        "description": "Does the system implement a session management?",
+        "showOrder": 40
+    }
+]

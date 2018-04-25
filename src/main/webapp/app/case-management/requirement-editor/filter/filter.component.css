@@ -1,0 +1,31 @@
+section {
+    margin-bottom: 0.5em;
+}
+
+.filter ::ng-deep .card-header {
+    padding: 0.5rem 0.5rem;
+    /* border-color: #6c757d !important */
+}
+
+.filter ::ng-deep .card-header a {
+    color: black;
+    font-weight: normal
+}
+
+.filter ::ng-deep .card-header a:hover {
+    text-decoration: none;
+}
+
+.filter ::ng-deep .card {
+    margin-bottom: 0.25em;
+    border-color: #343a40 !important
+}
+
+.filter ::ng-deep .card-body {
+    padding: 0.2rem
+}
+
+.table-borderless>tbody>tr>td,
+.table-borderless>thead>tr>th {
+    border: none;
+}
