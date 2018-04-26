@@ -18,9 +18,7 @@ describe('Attribute e2e test', () => {
     it('should load Attributes', () => {
         navBarPage.goToEntity('attribute');
         attributeComponentsPage = new AttributeComponentsPage();
-        expect(attributeComponentsPage.getTitle())
-            .toMatch(/Attributes/);
-
+        expect(attributeComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
     });
 
     it('should load create Attribute dialog', () => {

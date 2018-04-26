@@ -15,7 +15,16 @@ import {
   CMRequirement,
   CMExtension,
   CMStatusSubType,
-  CMExtensionType
+  CMExtensionType,
+  ATTRIBUTES_URI,
+  ATTRIBUTEKEYS_URI,
+  ENHANCEMENTS_URI,
+  STATUS_URI,
+  REQUIREMENTS_URI,
+  ATTRIBUTE_URI,
+  REQUIREMENTSET_URI,
+  ATTRIBUTEKEY_URI,
+  ArtifactInfo
 } from '../../common/';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
@@ -26,28 +35,48 @@ type CategoryObject = {
   formattedCategories: CMAttribute[],
   categoryIdsInList: number[]
 };
+
+type TagObject = {
+  tags: CMAttribute[],
+  tagKeys: CMAttributeKey[]
+};
+
+type ArtifactSettings = {
+  artifactInfo: ArtifactInfo,
+  generatedOn?: Date,
+  lastSaved?: Date,
+  parameterAttributes: {
+    ids: number[],
+    content: CMAttribute[]
+  },
+  parameterAttributeKeys: {
+    ids: number[],
+    content: CMAttributeKey[]
+  },
+  requirementSet: {
+    id: number,
+    content: CMRequirementSet
+  }
+};
 @Component({
   selector: 'jhi-editor',
-  template: `
-    <jhi-requirement [requirements]="requirements" [status]="status" [categories]="categoryObject.formattedCategories"
-    [enhancements]="enhancements" [parameters]="artifactSettings.parameterAttributes.content" [categoriesInList]="categoryObject.categoryIdsInList">
-    </jhi-requirement>
-  `
+  templateUrl: 'editor.component.html'
 })
 export class EditorComponent implements OnInit {
 
-  artifactSettings: any;
+  artifactSettings: ArtifactSettings;
   enhancements: CMExtensionKey[];
   status: CMExtensionKey[];
   tags: CMAttribute[];
   requirements: CMRequirement[];
   totalRequests: number;
   categoryObject: CategoryObject;
+  tagObject: TagObject;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private cmUtilService: CMUtilService,
-    private backendService: CaseManagementBackendService,
+    private _activatedRoute: ActivatedRoute,
+    private _cmUtilService: CMUtilService,
+    private _backendService: CaseManagementBackendService,
     // private jhiEventManager: JhiEventManager
   ) {
     this.categoryObject = {
@@ -55,9 +84,12 @@ export class EditorComponent implements OnInit {
       categoryIdsInList: [],
       categories: []
     };
-    this.artifactSettings = {};
+    this.tagObject = {
+      tags: [],
+      tagKeys: []
+    };
     this.enhancements = [];
-    // this.status = [];
+    this.status = [];
     this.tags = [];
     this.requirements = [];
     this.totalRequests = 8; // this will help to the progressbar.
@@ -65,20 +97,24 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     // extracts artifact settings from matrix params
-    this.activatedRoute.paramMap.subscribe((values) => {
+    this._activatedRoute.paramMap.subscribe((values) => {
       if (values.has(ARTIFACTNAME_PARAM) && values.has(REQUIREMENTSET_PARAM) &&
         values.has(ATTRIBUTE_PARAM) && values.has(ATTRIBUTEKEYS_PARAM)) {
-        this.artifactSettings.name = values.get(ARTIFACTNAME_PARAM);
-        this.artifactSettings.parameterAttributes = {
-          ids: this.cmUtilService.convertParamMapStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
-          content: []
-        };
-        this.artifactSettings.parameterAttributeKeys = {
-          ids: this.cmUtilService.convertParamMapStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
-          content: []
-        };
-        this.artifactSettings.requirementSet = {
-          id: this.cmUtilService.convertParamMapStringToNumberArray(values.get(ATTRIBUTE_PARAM), true)[0]
+        this.artifactSettings = {
+          artifactInfo: new ArtifactInfo(values.get(ARTIFACTNAME_PARAM)),
+          parameterAttributes: {
+            ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
+            content: []
+          },
+          parameterAttributeKeys: {
+            ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTEKEYS_PARAM), true),
+            content: []
+          },
+          requirementSet: {
+            id: this._cmUtilService.convertStringToNumberArray(values.get(REQUIREMENTSET_PARAM), true)[0],
+            content: new CMRequirementSet(1, 'Test requirement set', 10)
+          },
+          generatedOn: new Date()
         };
         this.loadAll();
         this.loadRequirements();
@@ -89,47 +125,103 @@ export class EditorComponent implements OnInit {
 
   loadAll() {
     // implement error handlers
-    this.backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
+    /* Mock load Attribute with ids */
+    // this._backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
+    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
+    // });
+
+    // this._backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
+    //   const filter: CMAttributeKey[] = [];
+    //   this.artifactSettings.parameterAttributeKeys.ids.forEach((id) => {
+    //     filter.push(...this._cmUtilService.filterByObj(this.artifactSettings.parameterAttributeKeys.content, { id }));
+    //   });
+    //   this.artifactSettings.parameterAttributeKeys.content = filter;
+    // });
+
+    /* Backend load Attribute with ids */
+    this._backendService.query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids }).subscribe((res: HttpResponse<CMAttribute[]>) => {
       this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
     });
 
-    this.backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    /* Backend load Attribute keys and requirement sets */
+    this._backendService.query(CMAttributeKey, ATTRIBUTEKEY_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids }).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
       this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
     });
-    this.backendService.getRequirementSets([this.artifactSettings.requirementSet.id]).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
+    this._backendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: this.artifactSettings.requirementSet.id }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
       this.artifactSettings.requirementSet.content = res.body[0];
     });
-    this.backendService.findAttributes(this.artifactSettings.requirementSet.id, CMAttributeType.CATEGORY).subscribe((res: HttpResponse<CMAttribute[]>) => {
-      this.onSuccess(res.body, this.categoryObject.categories);
-      this.formatCategoryListForView(this.categoryObject.categories, '');
-    });
-    // this.backendService.getMockCategories().subscribe((res: HttpResponse<CMAttribute[]>) => {
+
+    /* Backend load Categories */
+    this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.CATEGORY })
+      .subscribe((res: HttpResponse<CMAttribute[]>) => {
+        this.onSuccess(res.body, this.categoryObject.categories);
+        this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
+      });
+
+    /* Mock load Categories */
+    // this._backendService.getMockCategories().subscribe((res: HttpResponse<CMAttribute[]>) => {
     //   this.onSuccess(res.body, this.categoryObject.categories);
-    //   this.formatCategoryListForView(this.categoryObject.categories, '');
+    //   this.categoryObject.formattedCategories = this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
     // });
-    this.backendService.findAttributes(this.artifactSettings.requirementSet.id, CMAttributeType.FETAG).subscribe((res: HttpResponse<CMAttribute[]>) => {
-      this.onSuccess(res.body, this.tags);
-    });
-    this.backendService.findEnhancements(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
-      this.onSuccess(res.body, this.enhancements);
-    });
-    this.backendService.findStatus(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
-      this.onSuccess(res.body, this.status);
-      this.updateStatusInReqs();
-    });
+
+    /* Load FE_TAGS */
+    this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
+      .subscribe((res: HttpResponse<CMAttribute[]>) => {
+        this.onSuccess(res.body, this.tagObject.tags);
+      });
+    this._backendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
+      .subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+        this.onSuccess(res.body, this.tagObject.tagKeys);
+      });
+
+    /* Mock load FE_TAGS */
+    // this._backendService.getMockTagKeys().subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    //   this.onSuccess(res.body, this.tagObject.tagKeys);
+    // });
+    // this._backendService.getMockTags().subscribe((res: HttpResponse<CMAttribute[]>) => {
+    //   this.onSuccess(res.body, this.tagObject.tags);
+    // });
+
+    /* Backend load ENHANCEMENT and STATUS */
+    this._backendService.query(CMExtensionKey, ENHANCEMENTS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
+      .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+        this.onSuccess(res.body, this.enhancements);
+      });
+    this._backendService.query(CMExtensionKey, STATUS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
+      .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+        this.onSuccess(res.body, this.status);
+      });
+
+    /* Mock load ENHANCEMENT and STATUS */
+    // this._backendService.findEnhancements(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+    //   this.onSuccess(res.body, this.enhancements);
+    // });
+    // this._backendService.findStatus(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+    //   this.onSuccess(res.body, this.status);
+    //   this.updateStatusInReqs();
+    // });
 
   }
 
   private loadRequirements() {
-    this.backendService.fetchRequirements(this.artifactSettings.requirementSet.id, this.artifactSettings.parameterAttributes.ids)
-      .subscribe((res: HttpResponse<CMRequirement[]>) => {
-        this.onSuccess(res.body, this.requirements);
-        this.updateStatusInReqs();
-      });
+    this._backendService.query(CMRequirement, REQUIREMENTS_URI, {
+      requirementSet: this.artifactSettings.requirementSet.id,
+      attributeIds: this.artifactSettings.parameterAttributes.ids
+    }).subscribe((res: HttpResponse<CMRequirement[]>) => {
+      this.onSuccess(res.body, this.requirements);
+      this.updateStatusInReqs();
+    });
+    /* Mock load REQUIREMENTS */
+    // this._backendService.fetchRequirements(this.artifactSettings.requirementSet.id, this.artifactSettings.parameterAttributes.ids)
+    //   .subscribe((res: HttpResponse<CMRequirement[]>) => {
+    //     this.onSuccess(res.body, this.requirements);
+    //     this.updateStatusInReqs();
+    //   });
   }
 
   private onSuccess<T>(res: T[], target: T[]) {
-    const sortedResponse = this.cmUtilService.sortArrayByPredicate(res, 'showOrder');
+    const sortedResponse = this._cmUtilService.sortArrayByPredicate(res, 'showOrder');
     for (let i = 0; i < sortedResponse.length; i++) {
       target.push(sortedResponse[i]);
     }
@@ -140,36 +232,43 @@ export class EditorComponent implements OnInit {
    */
   updateStatusInReqs() {
     if (this.requirements && this.status) {
-      this.requirements.map((req) => {
+      this.requirements.forEach((req) => {
         /* Extract the category ids present in the requirement list. This facilitates parcing in the view. */
         if (this.categoryObject.categoryIdsInList.indexOf(req.categoryId) === -1) {
           this.categoryObject.categoryIdsInList.push(req.categoryId);
         }
         // Sets the display value of the status for the requirement
-        this.status.map((stat) => {
+        this.status.forEach((stat) => {
           let found = false;
           // First sorts the status by showOrder.
           // This must be done because the first value is eventually used as default value.
-          this.cmUtilService.sortArrayByPredicate(stat.values, 'showOrder');
+          this._cmUtilService.sortArrayByPredicate(stat.values, 'showOrder');
           // requirement contains preselected values
           if (req.status.length > 0) {
             for (let i = 0; i < req.status.length; i++) {
               const reqStatus = req.status[i];
               if (reqStatus.keyId === stat.id) {
-                found = true;
                 const displayValue: string[] = this.getStatusContentFromIds(stat.values, reqStatus.values);
-                if (stat.type === CMExtensionType.ENUM) {
-                  reqStatus.content = displayValue.join(', ');
-                } else {
-                  reqStatus.content = displayValue.join('\n');
+                // In case the contents of the selected values were not found.
+                if (displayValue !== undefined && displayValue.length > 0) {
+                  found = true;
+                  if (stat.type === CMExtensionType.ENUM) {
+                    reqStatus.content = displayValue.join(', ');
+                  } else {
+                    reqStatus.content = displayValue.join('\n');
+                  }
                 }
+                /* Uncomment to delete the statusObj from the req's status array in case a selected value id was not found */
+                // else {
+                //   req.status.splice(i, 1);
+                // }
                 break;
+
               }
             }
           }
 
           if (!found || req.status.length === 0) {
-
             let content = '';
             const values = [];
             // TODO ask whether a default value should be selected
@@ -185,36 +284,24 @@ export class EditorComponent implements OnInit {
   }
 
   /**
-   * Retrieves a list of status contents for a list of value ids from a list of all status values
-   * @param statusValues The list of possible values
-   * @param referenceValueIds The value ids
+   * Retrieves the contents corresponding to the given value ids.
+   * @param statusValues The list of possible status values.
+   * @param referenceValueIds The list of value ids who's content are to be returned.
    */
   getStatusContentFromIds(statusValues: CMExtension[], referenceValueIds: number[]): string[] {
-    const returnValue = referenceValueIds.map((id) => {
+    const returnValue = [];
+    referenceValueIds.forEach((id) => {
       // first sor
       for (let i = 0; i < statusValues.length; i++) {
         const value = statusValues[i];
         if (value.id === id) {
-          return value.content;
+          returnValue.push(value.content);
         }
       }
     });
 
     return returnValue;
   }
-
-  formatCategoryListForView(categories: CMAttribute[], prefixName: string) {
-    categories.forEach((cat) => {
-      const catCopy: CMAttribute = Object.assign({}, cat);
-      catCopy.name = prefixName + catCopy.name;
-      if (catCopy.children.length > 0) {
-        this.formatCategoryListForView(cat.children, `${catCopy.name} > `);
-        delete catCopy.children;
-      }
-      this.categoryObject.formattedCategories.push(catCopy);
-    });
-  }
-
   // TODO Change the page title accordingly using the ActivatedRoute service.
 
 }

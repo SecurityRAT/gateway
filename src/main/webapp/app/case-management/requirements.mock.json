@@ -3,7 +3,7 @@
         "name": "LC-01",
         "description": "Description lc-01",
         "showOrder": 10,
-        "feTags": [],
+        "feTags": [1, 2, 3],
         "parameters": [3],
         "categoryId": 4,
         "enhancements": [{
@@ -15,7 +15,7 @@
                     },
                     {
                         "id": 2,
-                        "content": "Test weird case where background color is not properly removed",
+                        "content": "Test weird case where background color is not properly removed. <script>alert(1);</script>",
                         "showOrder": 1
                     }
                 ]
@@ -41,9 +41,9 @@
         "name": "LC-02",
         "description": "Plan relevant security trainings for the project team.",
         "showOrder": 20,
-        "feTags": [],
+        "feTags": [4, 5, 6, 1],
         "parameters": [1, 2],
-        "categoryId": 4,
+        "categoryId": 3,
         "enhancements": [{
                 "keyId": 1,
                 "contents": [{
@@ -73,14 +73,14 @@
         "name": "SA-01",
         "description": "3rd party code is identified, checked for security vulnerabilities and its update process is defined.",
         "showOrder": 10,
-        "feTags": [],
+        "feTags": [7, 8, 2, 5],
         "parameters": [5],
         "categoryId": 6,
         "enhancements": [{
                 "keyId": 1,
                 "contents": [{
                     "id": 1,
-                    "content": "Implementation of automated tooling can support this task:\n- https: //www.owasp.org/index.php/OWASP_Dependency_Check (mapping of dependencies to CVEs)\n- https: //nodesecurity.io/tools (evaluation of vulnerable packages for npm)\n- http: //retirejs.github.io/retire.js/ (JavaScript libraries with known vulnerabilites)",
+                    "content": "Implementation of automated\n\n ```html\r\n<span></span>\n<script>alert(1);<script>```\ntooling can support this task:\n- [https://www.owasp.org/index.php/OWASP_Dependency_Check](javascript:alert('Injected!'%29)) (mapping of dependencies to CVEs)\n- https://nodesecurity.io/tools (evaluation of vulnerable packages for npm)\n- http://retirejs.github.io/retire.js/ (JavaScript libraries with known vulnerabilites)",
                         "showOrder": 0
                 }]
             }
@@ -92,14 +92,14 @@
         "name": "SA-02",
         "description": "No fundamentally different roles are present in the same application.",
         "showOrder": 20,
-        "feTags": [],
+        "feTags": [10, 11, 12, 7],
         "parameters": [8, 9, 2],
         "categoryId": 6,
         "enhancements": [{
                 "keyId": 1,
                 "contents": [{
                     "id": 1,
-                    "content": "internal employees and external customers should work on completely separated systems so that the privilege escalation probability and impact in case of a DoS attack are mitigated.",
+                    "content": "dependency-check-maven shall be configured in the following way:\n```xml\n<plugin>\n  <groupId>org.owasp</groupId>\n  <artifactId>dependency-check-maven</artifactId>\n  <version>1.4.3</version>\n  <executions>\n    <execution>\n      <goals>\n        <goal>check</goal>\n      </goals>\n    </execution>\n  </executions>\n</plugin>\n\n```\nMore information available at https://jeremylong.github.io/DependencyCheck/dependency-check-maven/index.html",
                     "showOrder": 0
                 }]
             }
@@ -111,7 +111,7 @@
         "name": "AU-01",
         "description": "Operate all authentication controls on a trusted system",
         "showOrder": 20,
-        "feTags": [],
+        "feTags": [11, 12, 13, 14, 15],
         "parameters": [],
         "categoryId": 1,
         "enhancements": [
@@ -146,7 +146,7 @@
         "name": "AU-02",
         "description": "Users must re-authenticate prior to performing security critical operations.",
         "showOrder": 20,
-        "feTags": [],
+        "feTags": [1, 2, 3],
         "parameters": [2, 1, 4],
         "categoryId": 1,
         "enhancements": [
@@ -178,6 +178,21 @@
                     7, 8
                 ]
             }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "AU-03",
+        "description": "Users must re-authenticate prior to performing security critical operations. Yeah whatever.",
+        "showOrder": 30,
+        "feTags": [
+        ],
+        "parameters": [
+        ],
+        "categoryId": 1,
+        "enhancements": [
+        ],
+        "status": [
         ]
     }
 ]

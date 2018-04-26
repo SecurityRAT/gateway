@@ -15,11 +15,11 @@ describe('AttributeKey e2e test', () => {
         browser.waitForAngular();
     });
 
-    it('should load AttributeKeys', () => {
+   it('should load AttributeKeys with correct Title', () => {
         navBarPage.goToEntity('attribute-key');
         attributeKeyComponentsPage = new AttributeKeyComponentsPage();
-        expect(attributeKeyComponentsPage.getTitle())
-            .toMatch(/Attribute Keys/);
+        expect(attributeKeyComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
+        // .toMatch(/Attribute Keys/);
 
     });
 
@@ -54,22 +54,105 @@ describe('AttributeKey e2e test', () => {
         expect(attributeKeyDialogPage.getSaveButton().isPresent()).toBeFalsy();
     });
 
+    it('should click every column and check the text inside them',  () => {
+        attributeKeyComponentsPage.clickIdColumn();
+        expect((attributeKeyComponentsPage.getIdColumn().getText())).toContain('ID');
+        console.log(attributeKeyComponentsPage.getIdColumn().getCssValue);
+        attributeKeyComponentsPage.clickNameColumn();
+        expect((attributeKeyComponentsPage.getNameColumn().getText())).toContain('Name');
+        attributeKeyComponentsPage.clickDescriptionColumn();
+        expect((attributeKeyComponentsPage.getDescriptionColumn().getText())).toContain('Description');
+        attributeKeyComponentsPage.clickTypeColumn();
+        expect((attributeKeyComponentsPage.getTypeColumn().getText())).toContain('Type');
+        attributeKeyComponentsPage.clickShowOrderColumn();
+        expect((attributeKeyComponentsPage.getShowOrderColumn().getText())).toContain('Show Order');
+        attributeKeyComponentsPage.clickActiveColumn();
+        expect((attributeKeyComponentsPage.getActiveColumn().getText())).toContain('Active');
+        attributeKeyComponentsPage.clickRequirementSets();
+        expect((attributeKeyComponentsPage.getRequirementSetColumn().getText())).toContain('Requirement Set');
+    });
+
     afterAll(() => {
-        navBarPage.autoSignOut();
+     //   navBarPage.autoSignOut();
     });
 });
 
 export class AttributeKeyComponentsPage {
-    createButton = element(by.css('.jh-create-entity'));
-    title = element.all(by.css('jhi-attribute-key div h2 span')).first();
+     createButton = element(by.css('.jh-create-entity'));
+     title = element.all(by.css('jhi-attribute-key div h2 span')).first();
+
+     IdColumn = element(by.cssContainingText('table thead tr th', 'ID'));
+     NameColumn =  element(by.cssContainingText('table thead tr th', 'Name'));
+     DescriptionColumn =  element(by.cssContainingText('table thead tr th', 'Description'));
+     TypeColumn =  element(by.cssContainingText('table thead tr th', 'Type'));
+     ShowOrderColumn = element(by.cssContainingText('table thead tr th', 'Show Order'));
+     ActiveColumn = element(by.cssContainingText('table thead tr th', 'Active'));
+     RequirementSetColumn = element(by.cssContainingText('table thead tr th', 'Requirement Set'));
 
     clickOnCreateButton() {
-        return this.createButton.click();
+         return this.createButton.click();
     }
 
     getTitle() {
         return this.title.getText();
     }
+
+    clickIdColumn() {
+        return this.IdColumn.click();
+    }
+
+    clickNameColumn() {
+        return this.NameColumn.click();
+    }
+
+    clickDescriptionColumn() {
+        return this.DescriptionColumn.click();
+    }
+
+    clickTypeColumn() {
+        return this.TypeColumn.click();
+    }
+
+    clickShowOrderColumn() {
+        return this.ShowOrderColumn.click();
+    }
+
+    clickActiveColumn() {
+        return this.ActiveColumn.click();
+    }
+
+    clickRequirementSets() {
+        return this.RequirementSetColumn.click();
+    }
+
+    getIdColumn() {
+        return this.IdColumn;
+    }
+
+    getNameColumn() {
+        return this.NameColumn;
+    }
+
+    getDescriptionColumn() {
+        return this.DescriptionColumn;
+    }
+
+    getTypeColumn() {
+        return this.TypeColumn;
+    }
+
+    getShowOrderColumn() {
+        return this.ShowOrderColumn;
+    }
+
+    getActiveColumn() {
+        return this.ActiveColumn;
+    }
+
+    getRequirementSetColumn() {
+        return this.RequirementSetColumn;
+    }
+
 }
 
 export class AttributeKeyDialogPage {

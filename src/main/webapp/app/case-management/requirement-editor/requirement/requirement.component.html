@@ -1,61 +1,59 @@
-<section>
-<jhi-artifact-dashboard></jhi-artifact-dashboard>
+<section class="container-fluid row">
+    <!-- <div class="row"> -->
+        <div ngbDropdown class="d-inline-block mr-2">
+            <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
+                Persist
+            </button>
+            <div ngbDropdownMenu aria-labelledby="persistDropdown">
+                <!-- Link to perisist with remote service -->
+                <button class="dropdown-item">
+                    Remotely
+                </button>
+                <!-- Link to local persisting service -->
+                <button class="dropdown-item">
+                    Locally
+                </button>
+            </div>
+        </div>
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-secrat" id="customRequirement" ngbDropdownToggle>
+                Custom requirement
+            </button>
+            <div ngbDropdownMenu aria-labelledby="customRequirement">
+                <button class="dropdown-item">
+                    Add
+                </button>
+                <button class="dropdown-item">
+                    Edit
+                </button>
+                <button class="dropdown-item">
+                    Remove
+                </button>
+            </div>
+        </div>
+    <!-- </div> -->
+</section>
+<section class="container-fluid row">
+    <p class="mr-1">
+        Requirements:
+    </p>
+    <div class="mr-1" role="group">
+        <button class="btn btn-sm btn-secrat">
+            found
+            <span class="badge badge-light">{{requirements.length}}</span>
+            <span class="sr-only">Number of requirements</span>
+        </button>
+    </div>
+    <div role="group">
+        <button class="btn btn-sm btn-warning">
+            selected
+            <span class="badge badge-light">{{getSelectedRequirements().length}}</span>
+            <span class="sr-only">selected of requirements</span>
+        </button>
+    </div>
 </section>
 
-
 <section>
-        <div ngbDropdown class="d-inline-block mr-2">
-                <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
-                    Persist
-                </button>
-                <div ngbDropdownMenu aria-labelledby="persistDropdown">
-                    <!-- Link to perisist with remote service -->
-                    <button class="dropdown-item">
-                        Remotely
-                    </button>
-                    <!-- Link to local persisting service -->
-                    <button class="dropdown-item">
-                        Locally
-                    </button>
-                </div>
-            </div>
-            <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-outline-secrat" id="customRequirement" ngbDropdownToggle>
-                    Custom requirement
-                </button>
-                <div ngbDropdownMenu aria-labelledby="customRequirement">
-                    <button class="dropdown-item">
-                        Add
-                    </button>
-                    <button class="dropdown-item">
-                        Edit
-                    </button>
-                    <button class="dropdown-item">
-                        Remove
-                    </button>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="row">
-                <p class="mr-1">
-                    Requirements:
-                </p>
-                <div class="mr-1" role="group">
-                    <button class="btn btn-sm btn-secrat">
-                        found
-                        <span class="badge badge-light">{{requirements.length}}</span>
-                        <span class="sr-only">Number of requirements</span>
-                    </button>
-                </div>
-                <div role="group">
-                    <button class="btn btn-sm btn-warning">
-                        selected
-                        <span class="badge badge-light">{{getSelectedRequirements().length}}</span>
-                        <span class="sr-only">selected of requirements</span>
-                    </button>
-                </div>
-            </div>
     <div class="table-responsive">
         <table class="table">
             <thead class="thead-light">
@@ -72,7 +70,8 @@
                             <span [ngbTooltip]="enhancementTipContent" container="body">Enhancements</span>
                         </ng-container>
                         <span class="fa" [attr.aria-expanded]="!toggle.enhancements" [ngClass]="{'fa-eye': !toggle.enhancements, 'fa-eye-slash': toggle.enhancements}"
-                            (click)="toggle.enhancements = !toggle.enhancements" ngbTooltip="Show/Hide Enhancements" container="body"></span>
+                            (click)="toggle.enhancements = !toggle.enhancements" ngbTooltip="Show/Hide Enhancements" container="body"
+                            style="cursor: pointer"></span>
                     </th>
                     <th *ngFor="let stat of status" class="text-center">
                         <span ngbTooltip="{{stat.description}}">{{stat.name}}</span>
@@ -81,7 +80,8 @@
                         <ng-container *ngIf="!toggle.parameters">Parameters</ng-container>
                         <!-- Toggles the Parameter column -->
                         <span class="fa" [attr.aria-expanded]="!toggle.parameters" [ngClass]="{'fa-eye': !toggle.parameters, 'fa-eye-slash': toggle.parameters}"
-                            (click)="toggle.parameters = !toggle.parameters" ngbTooltip="Show/Hide Parameters" container="body"></span>
+                            (click)="toggle.parameters = !toggle.parameters" ngbTooltip="Show/Hide Parameters" container="body"
+                            style="cursor: pointer"></span>
                     </th>
                     <th>
                         <input type="checkbox" [(ngModel)]="viewProperties.selectAllState" (change)="selectAllReqs()">
@@ -97,14 +97,14 @@
                             </td>
                         </tr>
                         <ng-container *ngFor="let req of requirements">
-                            <tr *ngIf="req.categoryId === cat.id">
+                            <tr *ngIf="req.categoryId === cat.id && req.viewOptions.show">
                                 <td>{{req.name}}</td>
                                 <td>{{req.description}}</td>
                                 <td class="card-enhancements">
                                     <div [ngbCollapse]="toggle.enhancements">
                                         <ng-container *ngFor="let enhancement of enhancements">
                                             <ng-container *ngFor="let reqEnhancement of req.enhancements">
-                                                <ngb-accordion [activeIds]="'' + req.enhancements[0].keyId + req.id">
+                                                <ngb-accordion [activeIds]="getActiveEnhancement(enhancements, req)">
                                                     <ngb-panel [id]="'' + reqEnhancement.keyId + req.id" [title]="enhancement.name" *ngIf="enhancement.id === reqEnhancement.keyId">
                                                         <ng-template ngbPanelContent>
                                                             <span *ngFor="let content of reqEnhancement.contents | orderBy: 'showOrder'" [innerHtml]="content.content | sanitizeMarkdown"></span>
@@ -124,7 +124,7 @@
                                                 </button>
                                                 <div ngbDropdownMenu [attr.aria-labelledby]="'' + req.id + stat.id">
                                                     <button class="dropdown-item" [ngClass]="{'active': reqStat.values.indexOf(value.id) !== -1}" *ngFor="let value of stat.values"
-                                                        (click)="selectStatus(reqStat, stat.values, value.id)">
+                                                        (click)="selectStatus(reqStat, value)">
                                                         {{value.content}}
                                                     </button>
                                                 </div>

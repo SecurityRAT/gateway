@@ -18,8 +18,7 @@ describe('Skeleton e2e test', () => {
     it('should load Skeletons', () => {
         navBarPage.goToEntity('skeleton');
         skeletonComponentsPage = new SkeletonComponentsPage();
-        expect(skeletonComponentsPage.getTitle())
-            .toMatch(/Skeletons/);
+        expect(skeletonComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
 
     });
 

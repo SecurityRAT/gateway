@@ -18,8 +18,7 @@ describe('SkAtEx e2e test', () => {
     it('should load SkAtExes', () => {
         navBarPage.goToEntity('sk-at-ex');
         skAtExComponentsPage = new SkAtExComponentsPage();
-        expect(skAtExComponentsPage.getTitle())
-            .toMatch(/Sk At Exes/);
+        expect(skAtExComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
 
     });
 

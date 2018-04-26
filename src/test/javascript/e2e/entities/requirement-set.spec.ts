@@ -18,8 +18,7 @@ describe('RequirementSet e2e test', () => {
     it('should load RequirementSets', () => {
         navBarPage.goToEntity('requirement-set');
         requirementSetComponentsPage = new RequirementSetComponentsPage();
-        expect(requirementSetComponentsPage.getTitle())
-            .toMatch(/Requirement Sets/);
+        expect(requirementSetComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
 
     });
 

@@ -18,9 +18,7 @@ describe('ExtensionKey e2e test', () => {
     it('should load ExtensionKeys', () => {
         navBarPage.goToEntity('extension-key');
         extensionKeyComponentsPage = new ExtensionKeyComponentsPage();
-        expect(extensionKeyComponentsPage.getTitle())
-            .toMatch(/Extension Keys/);
-
+        expect(extensionKeyComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
     });
 
     it('should load create ExtensionKey dialog', () => {

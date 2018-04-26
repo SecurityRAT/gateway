@@ -18,8 +18,7 @@ describe('Extension e2e test', () => {
     it('should load Extensions', () => {
         navBarPage.goToEntity('extension');
         extensionComponentsPage = new ExtensionComponentsPage();
-        expect(extensionComponentsPage.getTitle())
-            .toMatch(/Extensions/);
+        expect(extensionComponentsPage.getTitle()).toMatch(/OWASP SecurityRAT/);
 
     });
 

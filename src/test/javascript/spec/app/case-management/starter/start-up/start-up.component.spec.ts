@@ -1,15 +1,16 @@
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs/observable/of';
 import { HttpResponse } from '@angular/common/http';
-import { JhiFilterPipe, JhiOrderByPipe } from 'ng-jhipster';
+import { Router } from '@angular/router';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { CMRequirementSet } from '../../../../../../../main/webapp/app/case-management/common/models/requirement-set.model';
 import { StartUpComponent } from '../../../../../../../main/webapp/app/case-management/starter/start-up/start-up.component';
 import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/common/services/case-management-backend.service';
 import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
-import { Router } from '@angular/router';
-import { CMAttribute, CMAttributeKey, CMAttributeType } from '../../../../../../../main/webapp/app/case-management/common';
+import { CMRequirementSet } from '../../../../../../../main/webapp/app/case-management/common/models/requirement-set.model';
+import { CMAttributeKey, CMAttributeType } from '../../../../../../../main/webapp/app/case-management/common/models/attribute-key.model';
+import { CMAttribute } from '../../../../../../../main/webapp/app/case-management/common/models/attribute.model';
+import { ATTRIBUTES_URI, ATTRIBUTEKEYS_URI } from '../../../../../../../main/webapp/app/case-management/common';
 
 describe('Component Tests', () => {
     describe('Startup Component', () => {
@@ -20,19 +21,16 @@ describe('Component Tests', () => {
         let mockRouter: any;
 
         beforeEach(async(() => {
-            // const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
             TestBed.configureTestingModule({
                 imports: [GatewayTestModule],
                 declarations: [StartUpComponent],
                 providers: [
-                    CaseManagementBackendService,
                     CMUtilService,
-                    JhiFilterPipe,
-                    JhiOrderByPipe
+                    CaseManagementBackendService
                 ]
             })
-                .overrideTemplate(StartUpComponent, '')
-                .compileComponents();
+            .overrideTemplate(StartUpComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {
@@ -46,17 +44,17 @@ describe('Component Tests', () => {
         describe('OnInit', () => {
             it('#getRequirementSets and #loadAll should be called', () => {
 
-                spyOn(cmBackendService, 'getRequirementSets').and.returnValue(of(new HttpResponse({
+                spyOn(cmBackendService, 'query').and.returnValue(of(new HttpResponse({
                     body: [new CMRequirementSet(1, 'test', 10)]
                 })));
                 component.ngOnInit();
 
-                expect(cmBackendService.getRequirementSets).toHaveBeenCalled();
+                expect(cmBackendService.query).toHaveBeenCalled();
             });
 
             it('No requirement set should be selected and initial values are unchanged', fakeAsync(() => {
                 // GIVEN
-                spyOn(cmBackendService, 'getRequirementSets').and.returnValue(of(new HttpResponse({
+                spyOn(cmBackendService, 'query').and.returnValue(of(new HttpResponse({
                     body: [new CMRequirementSet(1, 'test', 10), new CMRequirementSet(2, 'test2', 20)]
                 })));
 
@@ -73,7 +71,7 @@ describe('Component Tests', () => {
 
             it('Requirement set and initial tab should have been selected', fakeAsync(() => {
                 // GIVEN
-                spyOn(cmBackendService, 'getRequirementSets').and.returnValue(of(new HttpResponse({
+                spyOn(cmBackendService, 'query').and.returnValue(of(new HttpResponse({
                     body: [new CMRequirementSet(1, 'test', 10)]
                 })));
 
@@ -92,20 +90,23 @@ describe('Component Tests', () => {
                 // GIVEN
                 const reqSet = new CMRequirementSet(1, 'test', 10);
                 component.selectedRequirementSet = reqSet;
-                spyOn(cmBackendService, 'findAttributes').and.returnValue(of(new HttpResponse({
+                spyOn(cmBackendService, 'query').and.returnValue(of(new HttpResponse({
                     body: [new CMAttribute(1, 'some attribue', 10)]
                 })));
-                spyOn(cmBackendService, 'findAttributeKeys').and.returnValue(of(new HttpResponse({
-                    body: [new CMAttributeKey(1, 'some attribue', 10)]
-                })));
+                // spyOn(cmBackendService, 'query').and.returnValue(of(new HttpResponse({
+                //     body: [new CMAttributeKey(1, 'some attribue', 10)]
+                // })));
 
                 // WHEN
                 component.loadAll();
                 tick();
-
+                const option = {
+                    requirementSet: reqSet.id,
+                    type: CMAttributeType.PARAMETER
+                };
                 // THEN
-                expect(cmBackendService.findAttributeKeys).toHaveBeenCalledWith(reqSet.id, CMAttributeType.PARAMETER);
-                expect(cmBackendService.findAttributes).toHaveBeenCalledWith(reqSet.id, CMAttributeType.PARAMETER);
+                expect(cmBackendService.query).toHaveBeenCalledWith(CMAttribute, ATTRIBUTES_URI, option);
+                expect(cmBackendService.query).toHaveBeenCalledWith(CMAttributeKey, ATTRIBUTEKEYS_URI, option);
                 expect(component.attributes[0].id).toBe(1);
                 expect(component.attributeKeys[0].id).toBe(1);
             }));
@@ -119,13 +120,13 @@ describe('Component Tests', () => {
                 component.artifactSettings.name = artifactName;
                 component.attributes = attributes;
 
-                spyOn(util, 'filterAttributesByObj').and.returnValue(attributes);
+                spyOn(util, 'filterByObj').and.returnValue(attributes);
 
                 // WHEN
                 component.generate();
 
                 // THEN
-                expect(util.filterAttributesByObj).toHaveBeenCalledWith(attributes, {selected: true});
+                expect(util.filterByObj).toHaveBeenCalledWith(attributes, {selected: true});
                 expect(mockRouter.navigateSpy).toHaveBeenCalled();
             });
         });

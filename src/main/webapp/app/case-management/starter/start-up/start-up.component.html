@@ -5,6 +5,7 @@
         (tabChange)="beforeChange($event)">
         <ngb-tab [title]="tabs[0].title" [id]="tabs[0].id">
             <ng-template ngbTabContent class="d-flex justify-content-center">
+                <!-- <ngb-alert type="danger" class="text-center" [dismissible]="false" *ngIf="requirementSets.length === 0">No requirement set were found. Please contact the tool administrator for more information.</ngb-alert> -->
                 <div class="card-deck">
                     <div class="card border-secrat jh-card text-center" [ngClass]="selectedRequirementSet && {'border-success text-success': requirementSet.id == selectedRequirementSet.id, 'border-light text-secondary': requirementSet.id != selectedRequirementSet.id}"
                         *ngFor="let requirementSet of requirementSets" (click)="selectedRequirementSet = requirementSet" style="cursor: pointer">
@@ -61,17 +62,8 @@
                             </label>
                             
                             <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: attributeKey.id})" [attribute]="attribute" [count]="-1"
-                                [checkboxType]="true">
+                                [checkboxType]="true" [showChildrenOnSelect]="true">
                             </jhi-attribute-tag>
-                            <!-- <div class="btn-group-toggle" *ngFor="let attribute of (attributes | filter: {keyId: attributeKey.id})">
-                                <label class="btn-outline-secondary btn-sm" style="margin: 0 .1em .1em 0" ngbButtonLabel>
-                                    <input type="checkbox" [(ngModel)]="attribute.selected" [name]="attribute.name" ngbButton> {{attribute.name}}
-                                </label>
-                                <div *ngIf="attribute.selected">
-                                    <jhi-attribute-tag  *ngFor="let child of attribute.children" [attribute]="child" [parentAttribute]="attribute" [count]="0" [checkboxType]="true">
-                                    </jhi-attribute-tag>
-                                </div>
-                            </div> -->
                         </div>
 
                         <div class="row float-right">

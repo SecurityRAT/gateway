@@ -1,41 +1,41 @@
-<h2>
-    {{artifactInfo.name}}</h2>
-<div class="row">
-    <div class="col-sm-6">
-        <ngb-accordion activeIds="static-1" (panelChange)="changeIcon()">
+<div>
+    <section>
+        <h3>{{artifactInfo.name}}</h3>
+        <a *ngIf="artifactInfo.persistenceInfo" [href]="artifactInfo.persistenceInfo.url" target="_blank">{{artifactInfo.persistenceInfo.alias}}</a>
+        <ngb-accordion activeIds="static-1" (panelChange)="changeIcon()" class="dashboard">
             <ngb-panel id="static-1">
                 <ng-template ngbPanelTitle>
-                    <span [ngStyle]="{'color':'#fff'}">Artifact Settings
-                        <div class="pull-right" placement="top" ngbTooltip="Expand/Reduce">
-                            <i *ngIf="isOpen" class="fa fa-window-minimize"></i>
-                            <i *ngIf="!isOpen" class="fa fa-window-maximize"></i>
-                        </div>
+                    Artifact Information
+                    <span class="float-right">
+                        <i *ngIf="isOpen" class="fa fa-window-minimize" ngbTooltip="Reduce"></i>
+                        <i *ngIf="!isOpen" class="fa fa-window-maximize" ngbTooltip="Expand"></i>
                     </span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-sm-12">Created on:
-                                <strong>
-                                    <b>{{creationDate}}</b>
-                                </strong>
-                                <label class="btn btn-secrat pull-right" (click)="open(content)" ngbButtonLabel>Change Settings</label>
-                            </div>
+                            <h4 class="col">
+                                Created on:
+                                <strong>{{creationDate | date: 'dd-MM-yyyy'}}</strong>
+                            </h4>
+                            <h4 *ngIf="lastSaved">
+                                last saved:
+                                <strong>{{lastSaved | date: 'dd-MM-yyyy'}}</strong>
+                            </h4>
+                            <button type="button" class="btn btn-secrat float-right">Change selection</button>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-12">Implementation Type:
-                                <strong>
-                                    <b>{{requierementset}}</b>
-                                </strong>
-                            </div>
+                            <h4 class="col">Requirement set:
+                                <strong>{{requirementSet.name}}</strong>
+                            </h4>
                         </div>
                         <div class="row">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th *ngFor="let key of attributeKeys">{{key.name}}</th>
+                                            <th style="border-top: none" *ngFor="let key of attributeKeys">{{key.name}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -54,32 +54,5 @@
                 </ng-template>
             </ngb-panel>
         </ngb-accordion>
-    </div>
-
-
-    <ng-template #content let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h4 class="modal-title">Confirm</h4>
-        </div>
-        <div class="modal-body">
-            <p>By changing the settings, some requirements might be removed. Please be sure this is what you want.</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secrat" (click)="open(content2)">OK</button>
-            <button type="button" class="btn btn-outline-primary" (click)="c('Close click')">Cancel</button>
-        </div>
-    </ng-template>
-
-
-    <ng-template #content2 let-c="close" let-d="dismiss">
-            <div class="modal-header">
-                    <h4 class="modal-title">Confirm</h4>
-                </div>
-                <div class="modal-body">
-                    <jhi-start-up></jhi-start-up>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" (click)="c('Close click')">Cancel</button>
-                </div>
-       
-    </ng-template>
+    </section>
+</div>

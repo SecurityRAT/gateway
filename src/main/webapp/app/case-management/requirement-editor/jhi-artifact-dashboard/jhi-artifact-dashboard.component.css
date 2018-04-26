@@ -1,0 +1,16 @@
+.dashboard ::ng-deep .card-header a:hover {
+    text-decoration: none;
+}
+
+.dashboard ::ng-deep .card-header {
+    background-color: #003D66;
+    padding: 0.5rem 0.5rem;
+}
+
+.dashboard ::ng-deep .card-header>a {
+    color: #fff;
+    font-weight: normal;
+}
+section {
+    margin-bottom: 0.5em;
+}

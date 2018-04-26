@@ -15,21 +15,20 @@
         "keyId": 0,
         "children": [
             {
+                "id": 4,
+                "name": "Lifecycle",
+                "description": "Lifecyle description",
+                "showOrder": 70,
+                "keyId": 0,
+                "children": []
+            },
+            {
                 "id": 3,
                 "name": "None technical",
                 "description": "Non technical description",
                 "showOrder": 40,
                 "keyId": 0,
-                "children": [
-                    {
-                        "id": 4,
-                        "name": "Lifecycle",
-                        "description": "Lifecyle description",
-                        "showOrder": 70,
-                        "keyId": 0,
-                        "children": []
-                    }
-                ]
+                "children": []
             }
         ]
     },

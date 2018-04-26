@@ -30,9 +30,21 @@ export class CMRequirement implements BaseDomain {
         public status: CMStatusSubType[],
         public description?: string,
         public selected?: boolean,
-        public tickets?: any[]
+        public tickets?: any[],
+        public viewOptions?: any
 
     ) {
+        /*  This prevents filters from returning new array references after filtering, which is a best practice
+            (See https://angular.io/guide/pipes#appendix-no-filterpipe-or-orderbypipe.)
+
+            This is done because the filtered array can be edited from the user. These Changes have to be tracked once
+            the filters are removed or changed resulting to increased complexity.
+
+            This solution can be temporary.
+        */
+        this.viewOptions = {
+            show: true
+        };
 
     }
 }

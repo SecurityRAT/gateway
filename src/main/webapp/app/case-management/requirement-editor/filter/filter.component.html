@@ -1,0 +1,62 @@
+<div>
+    <ng-template #minimize>
+        <span class="float-right fa fa-window-minimize" ngbTooltip="Reduce" container="body"></span>
+    </ng-template>
+    <ng-template #maximize>
+        <span class="float-right fa fa-window-maximize" ngbTooltip="Expand" container="body"></span>
+    </ng-template>
+    <ng-template #tagFilterStrategy>
+
+    </ng-template>
+    <section>
+        <!-- <h3>Filters</h3> -->
+        <ngb-accordion #acc="ngbAccordion" class="filter" (panelChange)="beforePanelChange($event)" [closeOthers]="true">
+            <ngb-panel [id]="panelTags.id">
+                <ng-template ngbPanelTitle>
+                    {{panelTags.title}}
+                    <span class="fa fa-tags mr-5"></span>
+                    <ng-container *ngIf="panelTags.active; then minimize; else maximize"></ng-container>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <!-- <ngb-alert type="warning" [dismissible]="true" class=" d-flex justify-content-center text-center">Filtering with tags performs an 'OR' filter with tags of the same category (across the horizontal) and an 'AND' filter with
+                    tags from different categories (across the veritcal) </ngb-alert> -->
+                    <div class="table-responsive-sm">
+                        <table class="table">
+                            <tbody>
+                                <tr *ngFor="let tagKey of tagKeys">
+                                    <td>
+                                        <strong>{{tagKey.name}}:</strong>
+                                        <span>
+                                            <i class="fa fa-question-circle-o" [ngbTooltip]="tagKey.description"></i>
+                                        </span>
+                                    </td>
+                                    <ng-container *ngFor="let tag of tags">
+                                        <td *ngIf="tag.keyId === tagKey.id">
+                                            <jhi-attribute-tag [attribute]="tag" [count]="-1" [checkboxType]="true" [showChildrenOnSelect]="false" (attributeSelectionChanged)="updateSelectedTags($event)">
+                                            </jhi-attribute-tag>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel [id]="panelCategory.id">
+                <ng-template ngbPanelTitle>
+                    {{panelCategory.title}}
+                    <span class="fa fa-bars mr-5"></span>
+                    <ng-container *ngIf="panelCategory.active; then minimize; else maximize"></ng-container>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <div class="card-columns">
+                        <jhi-attribute-tag *ngFor="let cat of categories" [attribute]="cat" [count]="-1" [checkboxType]="true" [showChildrenOnSelect]="false"
+                            (attributeSelectionChanged)="updateSelectCategoriesAndFilter($event)">
+                        </jhi-attribute-tag>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </section>
+</div>

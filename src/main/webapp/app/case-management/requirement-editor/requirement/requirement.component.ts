@@ -66,8 +66,8 @@ export class RequirementComponent implements OnInit, OnDestroy {
 
   getParameters(parameters: number[]): string[] {
     const result: string[] = [];
-    parameters.map((id) => {
-      this._cmUtilService.filterAttributesByObj(this.parameters, { id }).map((attr) => {
+    parameters.forEach((id) => {
+      this._cmUtilService.filterByObj(this.parameters, { id }).forEach((attr) => {
         result.push(attr.name);
       });
     });
@@ -75,40 +75,43 @@ export class RequirementComponent implements OnInit, OnDestroy {
     return result;
   }
 
+  getActiveEnhancement(enhancements: CMExtensionKey[], req: CMRequirement): string {
+    if (req.enhancements.length === 1) {
+      return `${req.enhancements[0].keyId}${req.id}`;
+    } else if (req.enhancements.length === 0) {
+      return '';
+    }
+
+    return `${enhancements[0].id}${req.id}`;
+  }
+
   getSelectedRequirements(): CMRequirement[] {
     return this.requirements.filter((req) => req.selected);
   }
 
-  selectStatus(status: CMStatusSubType, allStatusValues: CMExtension[], newValueId: number, multiselect = false) {
-    let newValueContent = '';
-    allStatusValues.forEach((valueItem) => {
-      if (valueItem.id === newValueId) {
-        newValueContent = valueItem.content;
-      }
-    });
+  selectStatus(status: CMStatusSubType, newValue: CMExtension, multiselect = false) {
     /* Multiselection of status value is not possible */
     if (!multiselect) {
       // remove old value
-      status.values = [newValueId];
-      status.content = newValueContent;
+      status.values = [newValue.id];
+      status.content = newValue.content;
     } else {
       /* Multiselection of status values is allowed */
-      const index: number = status.values.indexOf(newValueId);
+      const index: number = status.values.indexOf(newValue.id);
       /* selected value was already selected => deselection */
       if (index !== -1) {
         const contents = status.content.split(',');
         /* Minimum selection is one */
         if (contents.length > 1) {
           status.values.splice(index, 1);
-          status.content = contents.filter((elem) => elem !== newValueContent).join(',');
+          status.content = contents.filter((elem) => elem.trim().toLowerCase() !== newValue.content.trim().toLowerCase()).join(',');
         }
       } else {
-        /* selected value was not preselect => selection */
-        status.values.push(newValueId);
-        status.content = `${status.content}, ${newValueContent}`;
+        /* selected value was not preselected => selection */
+        status.values.push(newValue.id);
+        status.content = `${status.content}, ${newValue.content}`;
       }
     }
-    console.log(this.requirements);
   }
 
   ngOnDestroy() {
