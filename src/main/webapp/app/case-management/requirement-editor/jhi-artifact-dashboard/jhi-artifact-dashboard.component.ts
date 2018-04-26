@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CMAttribute, ArtifactInfo, CMAttributeKey } from '../../common';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-artifact-dashboard',
@@ -21,6 +22,7 @@ export class JhiArtifactDashboardComponent implements OnInit {
   private creationDate: String;
   private requierementset: String;
   private isOpen: boolean;
+  closeResult: string;
 
   @Input() attributes: CMAttribute[];
   @Input() attributeKeys: CMAttributeKey[];
@@ -28,7 +30,7 @@ export class JhiArtifactDashboardComponent implements OnInit {
   @Input() attribute: CMAttribute;
   @Input() parentAttribute: CMAttribute;
 
-  constructor() {
+  constructor(private modalService: NgbModal) {
     this.artifactInfo = new ArtifactInfo();
     this.artifactInfo.name = ' TestArtifactName';
     this.creationDate = '10-10-1980';
@@ -76,4 +78,23 @@ export class JhiArtifactDashboardComponent implements OnInit {
   ngOnInit() {
     this.isOpen = true;
   }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
 }

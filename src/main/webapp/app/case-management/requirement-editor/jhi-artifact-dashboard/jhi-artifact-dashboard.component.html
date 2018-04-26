@@ -2,12 +2,12 @@
     {{artifactInfo.name}}</h2>
 <div class="row">
     <div class="col-sm-6">
-        <ngb-accordion  activeIds="static-1" (panelChange)="changeIcon()" >
+        <ngb-accordion activeIds="static-1" (panelChange)="changeIcon()">
             <ngb-panel id="static-1">
                 <ng-template ngbPanelTitle>
-                    <span [ngStyle]="{'color':'#fff'}" >Artifact Settings
-                        <div class="pull-right" placement="top" ngbTooltip="Expand/Reduce" >
-                            <i *ngIf="isOpen" class="fa fa-window-minimize" ></i>
+                    <span [ngStyle]="{'color':'#fff'}">Artifact Settings
+                        <div class="pull-right" placement="top" ngbTooltip="Expand/Reduce">
+                            <i *ngIf="isOpen" class="fa fa-window-minimize"></i>
                             <i *ngIf="!isOpen" class="fa fa-window-maximize"></i>
                         </div>
                     </span>
@@ -19,8 +19,8 @@
                                 <strong>
                                     <b>{{creationDate}}</b>
                                 </strong>
-                                <label class="btn btn-secrat pull-right" ngbButtonLabel>Change Settings</label>        
-                            </div>                                         
+                                <label class="btn btn-secrat pull-right" (click)="open(content)" ngbButtonLabel>Change Settings</label>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -55,3 +55,31 @@
             </ngb-panel>
         </ngb-accordion>
     </div>
+
+
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Confirm</h4>
+        </div>
+        <div class="modal-body">
+            <p>By changing the settings, some requirements might be removed. Please be sure this is what you want.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secrat" (click)="open(content2)">OK</button>
+            <button type="button" class="btn btn-outline-primary" (click)="c('Close click')">Cancel</button>
+        </div>
+    </ng-template>
+
+
+    <ng-template #content2 let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                    <h4 class="modal-title">Confirm</h4>
+                </div>
+                <div class="modal-body">
+                    <jhi-start-up></jhi-start-up>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" (click)="c('Close click')">Cancel</button>
+                </div>
+       
+    </ng-template>
