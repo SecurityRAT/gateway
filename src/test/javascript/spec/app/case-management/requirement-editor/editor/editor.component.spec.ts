@@ -49,12 +49,16 @@ describe('Component Tests', () => {
       });
 
       it('should do nothing on init', fakeAsync(() => {
-        spyOn(component, 'loadAll').and.returnValue('');
+        spyOn(component, 'loadParameters').and.returnValue('');
+        spyOn(component, 'loadExtensions').and.returnValue('');
+        spyOn(component, 'loadFilters').and.returnValue('');
         component.ngOnInit();
 
         tick();
 
-        expect(component.loadAll).toHaveBeenCalledTimes(0);
+        expect(component.loadParameters).toHaveBeenCalledTimes(0);
+        expect(component.loadExtensions).toHaveBeenCalledTimes(0);
+        expect(component.loadFilters).toHaveBeenCalledTimes(0);
       }));
 
     });
