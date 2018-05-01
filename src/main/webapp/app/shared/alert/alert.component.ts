@@ -6,9 +6,9 @@ import { ALERTCSSTOP, ALERTCSSOFFSET } from '../';
     selector: 'jhi-alert',
     template: `
         <div class="alerts" role="alert">
-            <div *ngFor="let alert of alerts" class="{{alert.position}}" [ngStyle]="{'top.px': alert.cssTop}" [ngClass]="{\'toast\': alert.toast}">
+            <div *ngFor="let alert of alerts" style="z-index: 10000" class="{{alert.position}}" [ngStyle]="{'top.px': alert.cssTop}" [ngClass]="{\'toast\': alert.toast}">
                 <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
-                    <p [innerHTML]="alert.msg"></p>
+                    <p [innerHTML]="alert.msg | sanitizeMarkdown"></p>
                 </ngb-alert>
             </div>
         </div>`
