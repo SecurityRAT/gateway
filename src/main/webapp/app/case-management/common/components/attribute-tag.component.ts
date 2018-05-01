@@ -1,10 +1,9 @@
 // tslint:disable-next-line
-import { Component, OnInit, Input, forwardRef, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { CMAttribute } from '../';
 @Component({
     selector: 'jhi-attribute-tag',
-    templateUrl: './attribute-tag.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './attribute-tag.component.html'
 })
 
 export class AttributeTagComponent implements OnInit {

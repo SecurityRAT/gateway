@@ -15,7 +15,7 @@ export class CMUtilService {
    * @param {any} obj the filter object. The filter property must be a property of class @link{CMAttribute}
    */
   filterByObj<T>(array: T[], obj: any): T[] {
-    if (obj === undefined) {
+    if (obj === undefined || (array !== undefined && array.length === 0)) {
       return array;
     }
     const filteredArray: T[] = [];
@@ -38,6 +38,21 @@ export class CMUtilService {
     });
 
     return filteredArray;
+  }
+
+  updatePropertyInArray<T>(array: T[], propertyObj, specificIds?: number[]) {
+    if (propertyObj !== undefined) {
+      const key = Object.keys(propertyObj)[0];
+      array.forEach((elem: any) => {
+        if ((specificIds === undefined) || (specificIds !== undefined && specificIds.length > 0 && specificIds.indexOf(elem.id) !== -1)) {
+          elem[key] = propertyObj[key];
+        }
+
+        if (elem.children && elem.children.length > 0) {
+          this.updatePropertyInArray(elem.children, propertyObj, specificIds);
+        }
+      });
+    }
   }
 
   /**

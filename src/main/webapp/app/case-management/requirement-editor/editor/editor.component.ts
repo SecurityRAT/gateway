@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   CaseManagementBackendService,
   CMUtilService,
@@ -26,8 +26,9 @@ import {
   ATTRIBUTEKEY_URI,
   ArtifactInfo
 } from '../../common/';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
+import { JhiAlertService } from 'ng-jhipster';
 // import { JhiEventManager } from 'ng-jhipster';
 
 type CategoryObject = {
@@ -42,18 +43,18 @@ type TagObject = {
 };
 
 type ArtifactSettings = {
-  artifactInfo: ArtifactInfo,
+  artifactInfo?: ArtifactInfo,
   generatedOn?: Date,
   lastSaved?: Date,
-  parameterAttributes: {
+  parameterAttributes?: {
     ids: number[],
     content: CMAttribute[]
   },
-  parameterAttributeKeys: {
+  parameterAttributeKeys?: {
     ids: number[],
     content: CMAttributeKey[]
   },
-  requirementSet: {
+  requirementSet?: {
     id: number,
     content: CMRequirementSet
   }
@@ -62,8 +63,9 @@ type ArtifactSettings = {
   selector: 'jhi-editor',
   templateUrl: 'editor.component.html'
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, OnDestroy {
 
+  routeSub: any;
   artifactSettings: ArtifactSettings;
   enhancements: CMExtensionKey[];
   status: CMExtensionKey[];
@@ -77,8 +79,11 @@ export class EditorComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _cmUtilService: CMUtilService,
     private _backendService: CaseManagementBackendService,
+    private _router: Router,
+    private _jhiAlert: JhiAlertService,
     // private jhiEventManager: JhiEventManager
   ) {
+    this.artifactSettings = {};
     this.categoryObject = {
       formattedCategories: [],
       categoryIdsInList: [],
@@ -97,61 +102,60 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     // extracts artifact settings from matrix params
-    this._activatedRoute.paramMap.subscribe((values) => {
+    this.routeSub = this._activatedRoute.paramMap.subscribe((values) => {
+      this.totalRequests = 8;
+      /* This implies either 'generate requirements' or 'selection change' */
       if (values.has(ARTIFACTNAME_PARAM) && values.has(REQUIREMENTSET_PARAM) &&
         values.has(ATTRIBUTE_PARAM) && values.has(ATTRIBUTEKEYS_PARAM)) {
-        this.artifactSettings = {
-          artifactInfo: new ArtifactInfo(values.get(ARTIFACTNAME_PARAM)),
-          parameterAttributes: {
-            ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true),
-            content: []
-          },
-          parameterAttributeKeys: {
-            ids: this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTEKEYS_PARAM), true),
-            content: []
-          },
-          requirementSet: {
-            id: this._cmUtilService.convertStringToNumberArray(values.get(REQUIREMENTSET_PARAM), true)[0],
+        let stayUnChanged = false;
+        if (this.artifactSettings.requirementSet === undefined) {
+          this.artifactSettings.requirementSet = {
+            /* a requirement set muss be selected */
+            id: +values.get(REQUIREMENTSET_PARAM),
+            /* change to null when removing mock data */
             content: new CMRequirementSet(1, 'Test requirement set', 10)
-          },
-          generatedOn: new Date()
-        };
-        this.loadAll();
-        this.loadRequirements();
+          };
+        } else {
+          /* Prevents requirementSet from being change in the URL */
+          if (this.artifactSettings.requirementSet.id.toString() !== values.get(REQUIREMENTSET_PARAM)) {
+            stayUnChanged = true;
+            this._jhiAlert.error('You cannot change the requirement set from the URL. Please define a new artifact.');
+          }
+        }
+        if (!stayUnChanged) {
+          Object.assign(this.artifactSettings, {
+            /* artifact name cannot be empty */
+            artifactInfo: new ArtifactInfo(values.get(ARTIFACTNAME_PARAM)),
+            parameterAttributes: {
+              ids: values.get(ATTRIBUTE_PARAM).length > 0 ? this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTE_PARAM), true) : [],
+              content: []
+            },
+            parameterAttributeKeys: {
+              ids: values.get(ATTRIBUTEKEYS_PARAM).length > 0 ? this._cmUtilService.convertStringToNumberArray(values.get(ATTRIBUTEKEYS_PARAM), true) : [],
+              content: []
+            },
+            generatedOn: new Date()
+          });
+          this.loadParameters();
+          if (this.requirements.length === 0) {
+            this.loadFilters();
+            this.loadExtensions();
+            this.loadRequirements();
+          } else {
+            this._router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+            /* This block is executed on change selection */
+            const copyReqs = Object.assign([], this.requirements);
+            this.requirements = [];
+            this.totalRequests -= 5; // this will help to the progressbar.
+            this.loadRequirements(copyReqs);
+          }
+        }
       }
 
     });
   }
 
-  loadAll() {
-    // implement error handlers
-    /* Mock load Attribute with ids */
-    // this._backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
-    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
-    // });
-
-    // this._backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
-    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
-    //   const filter: CMAttributeKey[] = [];
-    //   this.artifactSettings.parameterAttributeKeys.ids.forEach((id) => {
-    //     filter.push(...this._cmUtilService.filterByObj(this.artifactSettings.parameterAttributeKeys.content, { id }));
-    //   });
-    //   this.artifactSettings.parameterAttributeKeys.content = filter;
-    // });
-
-    /* Backend load Attribute with ids */
-    this._backendService.query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids }).subscribe((res: HttpResponse<CMAttribute[]>) => {
-      this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
-    });
-
-    /* Backend load Attribute keys and requirement sets */
-    this._backendService.query(CMAttributeKey, ATTRIBUTEKEY_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids }).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
-      this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
-    });
-    this._backendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: this.artifactSettings.requirementSet.id }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
-      this.artifactSettings.requirementSet.content = res.body[0];
-    });
-
+  loadFilters() {
     /* Backend load Categories */
     this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.CATEGORY })
       .subscribe((res: HttpResponse<CMAttribute[]>) => {
@@ -183,6 +187,9 @@ export class EditorComponent implements OnInit {
     //   this.onSuccess(res.body, this.tagObject.tags);
     // });
 
+  }
+
+  loadExtensions() {
     /* Backend load ENHANCEMENT and STATUS */
     this._backendService.query(CMExtensionKey, ENHANCEMENTS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
       .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
@@ -191,6 +198,7 @@ export class EditorComponent implements OnInit {
     this._backendService.query(CMExtensionKey, STATUS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
       .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
         this.onSuccess(res.body, this.status);
+        this.updateStatusInReqs();
       });
 
     /* Mock load ENHANCEMENT and STATUS */
@@ -201,22 +209,60 @@ export class EditorComponent implements OnInit {
     //   this.onSuccess(res.body, this.status);
     //   this.updateStatusInReqs();
     // });
-
   }
 
-  private loadRequirements() {
+  loadParameters() {
+    // implement error handlers
+    /* Mock load Attribute with ids */
+    // this._backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
+    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
+    // });
+
+    // this._backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    //   this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
+    //   const filter: CMAttributeKey[] = [];
+    //   this.artifactSettings.parameterAttributeKeys.ids.forEach((id) => {
+    //     filter.push(...this._cmUtilService.filterByObj(this.artifactSettings.parameterAttributeKeys.content, { id }));
+    //   });
+    //   this.artifactSettings.parameterAttributeKeys.content = filter;
+    // });
+
+    /* Backend load Attribute with ids */
+    this._backendService.query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+      this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
+    });
+
+    /* Backend load Attribute keys and requirement sets */
+    this._backendService.query(CMAttributeKey, ATTRIBUTEKEY_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids }).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+      this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
+    });
+    this._backendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: this.artifactSettings.requirementSet.id }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
+      this.artifactSettings.requirementSet.content = res.body[0];
+    });
+  }
+
+  private loadRequirements(oldRequirements?: CMRequirement[]) {
     this._backendService.query(CMRequirement, REQUIREMENTS_URI, {
       requirementSet: this.artifactSettings.requirementSet.id,
       attributeIds: this.artifactSettings.parameterAttributes.ids
     }).subscribe((res: HttpResponse<CMRequirement[]>) => {
       this.onSuccess(res.body, this.requirements);
       this.updateStatusInReqs();
+      if (oldRequirements) {
+        this._jhiAlert.success(this.compareAndUpdateRequirements(oldRequirements, this.requirements));
+      }
     });
     /* Mock load REQUIREMENTS */
     // this._backendService.fetchRequirements(this.artifactSettings.requirementSet.id, this.artifactSettings.parameterAttributes.ids)
     //   .subscribe((res: HttpResponse<CMRequirement[]>) => {
     //     this.onSuccess(res.body, this.requirements);
     //     this.updateStatusInReqs();
+    //     /* On change selection or import */
+    //     if (oldRequirements) {
+    //       oldRequirements.splice(3, 1);
+    //       this.requirements.splice(6, 1);
+    //       this._jhiAlert.success(this.compareAndUpdateRequirements(oldRequirements, this.requirements));
+    //     }
     //   });
   }
 
@@ -248,30 +294,31 @@ export class EditorComponent implements OnInit {
             for (let i = 0; i < req.status.length; i++) {
               const reqStatus = req.status[i];
               if (reqStatus.keyId === stat.id) {
-                const displayValue: string[] = this.getStatusContentFromIds(stat.values, reqStatus.values);
-                // In case the contents of the selected values were not found.
-                if (displayValue !== undefined && displayValue.length > 0) {
-                  found = true;
-                  if (stat.type === CMExtensionType.ENUM) {
-                    reqStatus.content = displayValue.join(', ');
+                found = true;
+                if (reqStatus.values.length > 0) {
+                  const displayValue: string[] = this.getStatusContentFromIds(stat.values, reqStatus.values);
+                  // In case the contents of the selected values were not found.
+                  if (displayValue.length > 0) {
+                    if (stat.type === CMExtensionType.ENUM) {
+                      reqStatus.content = displayValue.join(', ');
+                    } else {
+                      reqStatus.content = displayValue.join('\n');
+                    }
                   } else {
-                    reqStatus.content = displayValue.join('\n');
+                    found = false;
+                    /* Uncomment to delete the statusObj from the req's status array in case a selected value id was not found */
+                    // req.status.splice(i, 1);
                   }
                 }
-                /* Uncomment to delete the statusObj from the req's status array in case a selected value id was not found */
-                // else {
-                //   req.status.splice(i, 1);
-                // }
                 break;
 
               }
             }
           }
 
-          if (!found || req.status.length === 0) {
+          if (!found) {
             let content = '';
             const values = [];
-            // TODO ask whether a default value should be selected
             if (stat.type === CMExtensionType.ENUM) {
               content = stat.values[0].content;
               values.push(stat.values[0].id);
@@ -302,6 +349,50 @@ export class EditorComponent implements OnInit {
 
     return returnValue;
   }
+
+  compareAndUpdateRequirements(oldValues: CMRequirement[], newValues: CMRequirement[]): string {
+    const toBeRemoved: number[] = [];
+    let toBeRemovedMessage = '';
+    let addedReqMessage = '';
+    let resultMessage = 'The requirement list was successfully changed: \n\n';
+    oldValues.forEach((oldReq, index) => {
+      const i = newValues.findIndex((elem) => elem.id === oldReq.id);
+      if (i !== -1) {
+        newValues.splice(i, 1);
+        /* Change the following check for the appriopriate custom requirement abbr. */
+      } else if (i === -1 && oldReq.name.indexOf('CUS-') === -1) {
+        toBeRemoved.push(index);
+      }
+    });
+
+    for (let j = 0; j < toBeRemoved.length; j++) {
+      const index = toBeRemoved[j];
+      const value = oldValues.splice(index, 1)[0];
+      toBeRemovedMessage += `- **${value.name}:** ${value.description}\n\n`;
+    }
+
+    for (let p = 0; p < newValues.length; p++) {
+      const elem = newValues[p];
+      addedReqMessage += `- **${elem.name}** ${elem.description}\n\n`;
+    }
+
+    if (addedReqMessage !== '') {
+      resultMessage += `<p style="color:#b3ffb3"><strong>Requirements added:</strong></p>${addedReqMessage}`;
+    }
+
+    if (toBeRemovedMessage !== '') {
+      resultMessage += `<p style="color:#ff4d4d"><strong>Requirements removed:</strong><p>${toBeRemovedMessage}`;
+    }
+    /* update the requirement array */
+    // Object.assign(oldValues, newValues);
+    /* combines both list containing the filtered values */
+    this.requirements = [...oldValues, ...newValues];
+    this._cmUtilService.sortArrayByPredicate(this.requirements, 'showOrder');
+    return resultMessage;
+  }
   // TODO Change the page title accordingly using the ActivatedRoute service.
 
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+  }
 }
