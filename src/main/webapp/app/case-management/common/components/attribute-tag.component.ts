@@ -3,7 +3,7 @@ import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@ang
 import { CMAttribute } from '../';
 @Component({
     selector: 'jhi-attribute-tag',
-    templateUrl: './attribute-tag.component.html'
+    templateUrl: './attribute-tag.component.html',
 })
 
 export class AttributeTagComponent implements OnInit {
@@ -35,4 +35,5 @@ export class AttributeTagComponent implements OnInit {
             this.attributeSelectionChanged.emit(this.attribute);
         }
     }
+
 }

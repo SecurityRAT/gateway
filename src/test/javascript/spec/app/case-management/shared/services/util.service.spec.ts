@@ -78,8 +78,6 @@ describe('Service Tests', () => {
         const filteredArray = service.filterByObj(givenArray, { selected: true });
 
         expect(filteredArray.length).toBe(2);
-        expect(filteredArray[0].children).toBeUndefined();
-        expect(filteredArray[1].children).toBeUndefined();
         expect(filteredArray.map((item) => item.id).indexOf(1) !== -1).toBeTruthy();
         expect(filteredArray.map((item) => item.id).indexOf(3) !== -1).toBeTruthy();
       });

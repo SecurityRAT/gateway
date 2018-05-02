@@ -2,6 +2,7 @@ import { Component, OnInit, Optional } from '@angular/core';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { JhiAlertService } from 'ng-jhipster';
 import { NgbTabChangeEvent, NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MOCK_DATA } from '../../../app.constants';
 import 'rxjs/add/operator/filter';
 import {
     CaseManagementBackendService,
@@ -92,27 +93,32 @@ export class StartUpComponent implements OnInit {
     // }
 
     loadAll() {
-        /* Mock load ATTRIBUTE and ATTRIBUTE KEYS */
-        // this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
-        //     this.onSuccess(res.body, this.attributeKeys);
-        // });
-        // this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
-        //     this.onSuccess(res.body, this.attributes);
-        //     if (this.changeSelectionProperties.selectedAttributes !== undefined && this.attributes) {
-        //         this.util.updatePropertyInArray(this.attributes, { selected: true }, this.changeSelectionProperties.selectedAttributes);
-        //         this.attributes = [...this.attributes];
-        //     }
-        // });
-
-        /* Backend load ATTRIBUTE and ATTRIBUTE KEYS */
-        this.caseManagementBackendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI,
-            { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        if (MOCK_DATA) {
+            /* Mock load ATTRIBUTE and ATTRIBUTE KEYS */
+            this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
                 this.onSuccess(res.body, this.attributeKeys);
             });
-        this.caseManagementBackendService.query(CMAttribute, ATTRIBUTES_URI,
-            { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+            this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
                 this.onSuccess(res.body, this.attributes);
+                if (this.changeSelectionProperties.selectedAttributes !== undefined && this.attributes) {
+                    this.util.updatePropertyInArray(this.attributes, { selected: true }, this.changeSelectionProperties.selectedAttributes);
+                }
             });
+        } else {
+            /* Backend load ATTRIBUTE and ATTRIBUTE KEYS */
+            this.caseManagementBackendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI,
+                { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+                    this.onSuccess(res.body, this.attributeKeys);
+                });
+            this.caseManagementBackendService.query(CMAttribute, ATTRIBUTES_URI,
+                { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+                    this.onSuccess(res.body, this.attributes);
+                    if (this.changeSelectionProperties.selectedAttributes !== undefined && this.attributes) {
+                        this.util.updatePropertyInArray(this.attributes, { selected: true }, this.changeSelectionProperties.selectedAttributes);
+                        this.attributes = [...this.attributes];
+                    }
+                });
+        }
     }
     /**
      * Bounds to the ngTab 'tabchange' event.
@@ -217,22 +223,34 @@ export class ChangeSelectionComponent implements OnInit {
                 const parameters = this._router.parseUrl(this._router.url).root.children[PRIMARY_OUTLET].segments[0].parameters;
                 /* Exception can be thrown due not non parseble string -> number */
                 const requirementSetId = this._cmUtilService.convertStringToNumberArray(parameters[REQUIREMENTSET_PARAM], true)[0];
-                this._cmBackendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: [requirementSetId] }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
+                if (MOCK_DATA) {
                     this.ngbModalRef = this._modalService.open(component, {
                         size: 'lg'
                     });
-                    /* Backend load */
-                    this.ngbModalRef.componentInstance.selectedRequirementSet = res.body[0];
 
                     /* Mock load */
-                    // this.ngbModalRef.componentInstance.selectedRequirementSet = new CMRequirementSet(requirementSetId, 'Test requirement set', 10);
+                    this.ngbModalRef.componentInstance.selectedRequirementSet = new CMRequirementSet(requirementSetId, 'Test requirement set', 10);
 
                     this.ngbModalRef.componentInstance.artifactSettings.name = parameters[ARTIFACTNAME_PARAM];
 
                     this.ngbModalRef.componentInstance.changeSelectionProperties.active = true;
                     this.ngbModalRef.componentInstance.changeSelectionProperties.selectedAttributes = parameters[ATTRIBUTE_PARAM].length > 0 ?
                         this._cmUtilService.convertStringToNumberArray(parameters[ATTRIBUTE_PARAM], true) : [];
-                });
+                } else {
+                    this._cmBackendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: [requirementSetId] }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
+                        this.ngbModalRef = this._modalService.open(component, {
+                            size: 'lg'
+                        });
+                        /* Backend load */
+                        this.ngbModalRef.componentInstance.selectedRequirementSet = res.body[0];
+
+                        this.ngbModalRef.componentInstance.artifactSettings.name = parameters[ARTIFACTNAME_PARAM];
+
+                        this.ngbModalRef.componentInstance.changeSelectionProperties.active = true;
+                        this.ngbModalRef.componentInstance.changeSelectionProperties.selectedAttributes = parameters[ATTRIBUTE_PARAM].length > 0 ?
+                            this._cmUtilService.convertStringToNumberArray(parameters[ATTRIBUTE_PARAM], true) : [];
+                    });
+                }
                 this.ngbModalRef.result.then((result) => {
                     this.ngbModalRef = null;
                     /* tslint:disable-next-line:no-unused-variable*/
