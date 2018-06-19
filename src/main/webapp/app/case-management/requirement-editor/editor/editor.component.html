@@ -5,6 +5,8 @@
         [requirements]="requirements">
     </jhi-filter>
 </div>
-<jhi-requirement [requirements]="requirements" [status]="status" [categories]="categoryObject.formattedCategories" [enhancements]="enhancements"
+<jhi-requirement *ngIf="!customMode" (customMode)=changeMode($event) [requirements]="requirements" [status]="status" [categories]="categoryObject.formattedCategories" [enhancements]="enhancements"
     [parameters]="artifactSettings.parameterAttributes.content" [categoriesInList]="categoryObject.categoryIdsInList">
 </jhi-requirement>
+
+<jhi-custom-requirement *ngIf="customMode" (customMode)=changeMode($event)></jhi-custom-requirement>

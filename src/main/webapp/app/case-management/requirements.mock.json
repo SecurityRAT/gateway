@@ -172,6 +172,7 @@
             }
         ],
         "status": [
+            
             {
                 "keyId": 3,
                 "values": [
@@ -193,6 +194,91 @@
         "enhancements": [
         ],
         "status": [
+        ]
+    },{
+        "id": 8,
+        "name": "CUS-01",
+        "description": "This is a CUSTOM_REQUIREMENT",
+        "showOrder": 10,
+        "feTags": [
+        ],
+        "parameters": [
+        ],
+        "categoryId": 4,
+        "enhancements": [
+            {
+                "keyId": 1,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "CUS-CONTENT",
+                        "showOrder": 0
+                    }
+                ]
+            },
+            {
+                "keyId": 2,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "Some motivation",
+                        "showOrder": 0
+                    }
+                ]
+            }
+        ],
+        "status": [
+            {
+                "keyId": 1,
+                "values": [
+                    2
+                ]
+            }
+        ]
+    }, 
+    {
+        "id": 9,
+        "name": "CUS-02",
+        "description": "This is a another CUSTOM_REQUIREMENT",
+        "showOrder": 0,
+        "feTags": [
+        ],
+        "parameters": [2, 1, 4],
+        "categoryId": 1,
+        "enhancements": [
+            {
+                "keyId": 1,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "CUS-CONTENT",
+                        "showOrder": 0
+                    }
+                ]
+            },
+            {
+                "keyId": 2,
+                "contents": [
+                    {
+                        "id": 1,
+                        "content": "Another motivation",
+                        "showOrder": 0
+                    }
+                ]
+            }
+        ],
+        "status": [
+            {
+                "keyId": 1,
+                "values": [
+                    3
+                ]
+            },
+            {
+                "keyId": 3,
+                "values": [],
+                "content": "CUS-02 CONTENT COMMENT"
+            }
         ]
     }
 ]

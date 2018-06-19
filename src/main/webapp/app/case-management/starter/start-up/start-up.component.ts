@@ -81,22 +81,22 @@ export class StartUpComponent implements OnInit {
 
     loadAll() {
         /* Mock load ATTRIBUTE and ATTRIBUTE KEYS */
-        // this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
-        //     this.onSuccess(res.body, this.attributeKeys);
-        // });
-        // this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
-        //     this.onSuccess(res.body, this.attributes);
-        // });
+        this.caseManagementBackendService.findAttributeKeys(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+            this.onSuccess(res.body, this.attributeKeys);
+        });
+        this.caseManagementBackendService.findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER).subscribe((res: HttpResponse<CMAttribute[]>) => {
+            this.onSuccess(res.body, this.attributes);
+        });
 
         /* Backend load ATTRIBUTE and ATTRIBUTE KEYS */
-        this.caseManagementBackendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI,
-            { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
-                this.onSuccess(res.body, this.attributeKeys);
-            });
-        this.caseManagementBackendService.query(CMAttribute, ATTRIBUTES_URI,
-            { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
-                this.onSuccess(res.body, this.attributes);
-            });
+        // this.caseManagementBackendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI,
+        //     { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        //         this.onSuccess(res.body, this.attributeKeys);
+        //     });
+        // this.caseManagementBackendService.query(CMAttribute, ATTRIBUTES_URI,
+        //     { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER }).subscribe((res: HttpResponse<CMAttribute[]>) => {
+        //         this.onSuccess(res.body, this.attributes);
+        //     });
     }
     /**
      * Bounds to the ngTab 'tabchange' event.

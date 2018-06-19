@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 // import { JhiEventManager } from 'ng-jhipster';
 import {
   CMRequirement,
@@ -31,6 +32,9 @@ export class RequirementComponent implements OnInit, OnDestroy {
 
   @Input() categoriesInList: number[];
 
+  @Output() customMode: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  customizes = false;
   statusType: any;
 
   toggle: any;
@@ -40,6 +44,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
   constructor(
     // private jhiEventManager: JhiEventManager,
     private _cmUtilService: CMUtilService,
+    private router: Router
   ) {
     this.statusType = {
       enum: CMExtensionType.ENUM,
@@ -112,6 +117,11 @@ export class RequirementComponent implements OnInit, OnDestroy {
         status.content = `${status.content}, ${newValue.content}`;
       }
     }
+  }
+
+  customize() {
+    this.customizes = !this.customizes;
+    this.customMode.emit(this.customizes);
   }
 
   ngOnDestroy() {

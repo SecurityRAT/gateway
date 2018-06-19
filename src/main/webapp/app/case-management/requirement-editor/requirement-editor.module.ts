@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { GatewaySharedModule } from '../../shared';
 import { CMSharedModule } from '../common/shared-module.module';
 import { EditorComponent, RequirementComponent, FilterComponent, editorRoutes, JhiArtifactDashboardComponent } from './';
+import { CustomRequirementComponent } from './custom-requirement/custom-requirement.component';
+import { RequirementEditorDataShareService } from './requirement-editor-data-share.service';
 
 const EDITOR_STATES = [
     ...editorRoutes
@@ -12,12 +14,13 @@ const EDITOR_STATES = [
     imports: [
         RouterModule.forChild(EDITOR_STATES),
         GatewaySharedModule,
-        CMSharedModule
+        CMSharedModule,
+
     ],
     exports: [],
-    declarations: [EditorComponent, RequirementComponent, FilterComponent, JhiArtifactDashboardComponent],
+    declarations: [EditorComponent, RequirementComponent, FilterComponent, JhiArtifactDashboardComponent, CustomRequirementComponent],
     entryComponents: [EditorComponent],
-    providers: [],
+    providers: [RequirementEditorDataShareService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RequirementEditorModule { }

@@ -1,25 +1,25 @@
 <section class="container-fluid row">
     <!-- <div class="row"> -->
-        <div ngbDropdown class="d-inline-block mr-2">
-            <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
-                Persist
+    <div ngbDropdown class="d-inline-block mr-2">
+        <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
+            Persist
+        </button>
+        <div ngbDropdownMenu aria-labelledby="persistDropdown">
+            <!-- Link to perisist with remote service -->
+            <button class="dropdown-item">
+                Remotely
             </button>
-            <div ngbDropdownMenu aria-labelledby="persistDropdown">
-                <!-- Link to perisist with remote service -->
-                <button class="dropdown-item">
-                    Remotely
-                </button>
-                <!-- Link to local persisting service -->
-                <button class="dropdown-item">
-                    Locally
-                </button>
-            </div>
+            <!-- Link to local persisting service -->
+            <button class="dropdown-item">
+                Locally
+            </button>
         </div>
-        <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-secrat" id="customRequirement" ngbDropdownToggle>
-                Custom requirement
-            </button>
-            <div ngbDropdownMenu aria-labelledby="customRequirement">
+    </div>
+    <div class="d-inline-block">
+        <button class="btn btn-outline-secrat" id="customRequirement" (click)='customize()' ngbButtonLabel>
+            Custom requirement
+        </button>
+        <!-- <div ngbDropdownMenu aria-labelledby="customRequirement">
                 <button class="dropdown-item">
                     Add
                 </button>
@@ -30,8 +30,8 @@
                     Remove
                 </button>
             </div>
-        </div>
-    <!-- </div> -->
+        </div> -->
+        <!-- </div> -->
 </section>
 <section class="container-fluid row">
     <p class="mr-1">
@@ -54,7 +54,7 @@
 </section>
 
 <section>
-    <div class="table-responsive">
+    <span class="table-responsive">
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -99,7 +99,10 @@
                         <ng-container *ngFor="let req of requirements">
                             <tr *ngIf="req.categoryId === cat.id && req.viewOptions.show">
                                 <td>{{req.name}}</td>
-                                <td>{{req.description}}</td>
+                                <td>
+                                    {{req.description}}                                
+                                </td>
+
                                 <td class="card-enhancements">
                                     <div [ngbCollapse]="toggle.enhancements">
                                         <ng-container *ngFor="let enhancement of enhancements">
@@ -153,5 +156,5 @@
                 </ng-container>
             </tbody>
         </table>
-    </div>
+        </div>
 </section>

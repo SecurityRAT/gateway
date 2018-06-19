@@ -28,6 +28,7 @@ import {
 } from '../../common/';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
+import { RequirementEditorDataShareService } from '../requirement-editor-data-share.service';
 // import { JhiEventManager } from 'ng-jhipster';
 
 type CategoryObject = {
@@ -72,11 +73,16 @@ export class EditorComponent implements OnInit {
   totalRequests: number;
   categoryObject: CategoryObject;
   tagObject: TagObject;
+  customMode = false;
 
+  changeMode(cm: boolean) {
+    this.customMode = cm;
+  }
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _cmUtilService: CMUtilService,
     private _backendService: CaseManagementBackendService,
+    private _requirementEditorDataShare: RequirementEditorDataShareService
     // private jhiEventManager: JhiEventManager
   ) {
     this.categoryObject = {
@@ -126,98 +132,104 @@ export class EditorComponent implements OnInit {
   loadAll() {
     // implement error handlers
     /* Mock load Attribute with ids */
-    // this._backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
+    this._backendService.getAttributes(this.artifactSettings.parameterAttributes.ids).subscribe((res: HttpResponse<CMAttribute[]>) => {
+      this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
+      this._requirementEditorDataShare.setAttributes(this.artifactSettings.parameterAttributes.content);
+    });
+
+    this._backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+      this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
+      const filter: CMAttributeKey[] = [];
+      this.artifactSettings.parameterAttributeKeys.ids.forEach((id) => {
+        filter.push(...this._cmUtilService.filterByObj(this.artifactSettings.parameterAttributeKeys.content, { id }));
+      });
+      this.artifactSettings.parameterAttributeKeys.content = filter;
+    });
+
+    // /* Backend load Attribute with ids */
+    // this._backendService.query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids }).subscribe((res: HttpResponse<CMAttribute[]>) => {
     //   this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
     // });
 
-    // this._backendService.getAttributeKeys(this.artifactSettings.parameterAttributeKeys.ids).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    // /* Backend load Attribute keys and requirement sets */
+    // this._backendService.query(CMAttributeKey, ATTRIBUTEKEY_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids }).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
     //   this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
-    //   const filter: CMAttributeKey[] = [];
-    //   this.artifactSettings.parameterAttributeKeys.ids.forEach((id) => {
-    //     filter.push(...this._cmUtilService.filterByObj(this.artifactSettings.parameterAttributeKeys.content, { id }));
-    //   });
-    //   this.artifactSettings.parameterAttributeKeys.content = filter;
+    // });
+    // this._backendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: this.artifactSettings.requirementSet.id }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
+    //   this.artifactSettings.requirementSet.content = res.body[0];
     // });
 
-    /* Backend load Attribute with ids */
-    this._backendService.query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids }).subscribe((res: HttpResponse<CMAttribute[]>) => {
-      this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
-    });
-
-    /* Backend load Attribute keys and requirement sets */
-    this._backendService.query(CMAttributeKey, ATTRIBUTEKEY_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids }).subscribe((res: HttpResponse<CMAttributeKey[]>) => {
-      this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
-    });
-    this._backendService.query(CMRequirementSet, REQUIREMENTSET_URI, { ids: this.artifactSettings.requirementSet.id }).subscribe((res: HttpResponse<CMRequirementSet[]>) => {
-      this.artifactSettings.requirementSet.content = res.body[0];
-    });
-
-    /* Backend load Categories */
-    this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.CATEGORY })
-      .subscribe((res: HttpResponse<CMAttribute[]>) => {
-        this.onSuccess(res.body, this.categoryObject.categories);
-        this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
-      });
+    // /* Backend load Categories */
+    // this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.CATEGORY })
+    //   .subscribe((res: HttpResponse<CMAttribute[]>) => {
+    //     this.onSuccess(res.body, this.categoryObject.categories);
+    //     this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
+    //   });
 
     /* Mock load Categories */
-    // this._backendService.getMockCategories().subscribe((res: HttpResponse<CMAttribute[]>) => {
-    //   this.onSuccess(res.body, this.categoryObject.categories);
-    //   this.categoryObject.formattedCategories = this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
-    // });
+    this._backendService.getMockCategories().subscribe((res: HttpResponse<CMAttribute[]>) => {
+      this.onSuccess(res.body, this.categoryObject.categories);
+      this.categoryObject.formattedCategories = this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
+      this._requirementEditorDataShare.setCategories( this.categoryObject.formattedCategories);
+      this._requirementEditorDataShare.setCategoriesInList(this.categoryObject.categoryIdsInList);
+    });
 
     /* Load FE_TAGS */
-    this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
-      .subscribe((res: HttpResponse<CMAttribute[]>) => {
-        this.onSuccess(res.body, this.tagObject.tags);
-      });
-    this._backendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
-      .subscribe((res: HttpResponse<CMAttributeKey[]>) => {
-        this.onSuccess(res.body, this.tagObject.tagKeys);
-      });
+    // this._backendService.query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
+    //   .subscribe((res: HttpResponse<CMAttribute[]>) => {
+    //     this.onSuccess(res.body, this.tagObject.tags);
+    //   });
+    // this._backendService.query(CMAttributeKey, ATTRIBUTEKEYS_URI, { requirementSet: this.artifactSettings.requirementSet.id, type: CMAttributeType.FETAG })
+    //   .subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+    //     this.onSuccess(res.body, this.tagObject.tagKeys);
+    //   });
 
     /* Mock load FE_TAGS */
-    // this._backendService.getMockTagKeys().subscribe((res: HttpResponse<CMAttributeKey[]>) => {
-    //   this.onSuccess(res.body, this.tagObject.tagKeys);
-    // });
-    // this._backendService.getMockTags().subscribe((res: HttpResponse<CMAttribute[]>) => {
-    //   this.onSuccess(res.body, this.tagObject.tags);
-    // });
+    this._backendService.getMockTagKeys().subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+      this.onSuccess(res.body, this.tagObject.tagKeys);
+    });
+    this._backendService.getMockTags().subscribe((res: HttpResponse<CMAttribute[]>) => {
+      this.onSuccess(res.body, this.tagObject.tags);
+    });
 
     /* Backend load ENHANCEMENT and STATUS */
-    this._backendService.query(CMExtensionKey, ENHANCEMENTS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
-      .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
-        this.onSuccess(res.body, this.enhancements);
-      });
-    this._backendService.query(CMExtensionKey, STATUS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
-      .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
-        this.onSuccess(res.body, this.status);
-      });
+    // this._backendService.query(CMExtensionKey, ENHANCEMENTS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
+    //   .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+    //     this.onSuccess(res.body, this.enhancements);
+    //   });
+    // this._backendService.query(CMExtensionKey, STATUS_URI, { requirementSet: this.artifactSettings.requirementSet.id })
+    //   .subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+    //     this.onSuccess(res.body, this.status);
+    //   });
 
     /* Mock load ENHANCEMENT and STATUS */
-    // this._backendService.findEnhancements(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
-    //   this.onSuccess(res.body, this.enhancements);
-    // });
-    // this._backendService.findStatus(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
-    //   this.onSuccess(res.body, this.status);
-    //   this.updateStatusInReqs();
-    // });
+    this._backendService.findEnhancements(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+      this.onSuccess(res.body, this.enhancements);
+      this._requirementEditorDataShare.setEnhancements(this.enhancements);
+    });
+    this._backendService.findStatus(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
+      this.onSuccess(res.body, this.status);
+      this.updateStatusInReqs();
+      this._requirementEditorDataShare.setStatus(this.status);
+    });
 
   }
 
   private loadRequirements() {
-    this._backendService.query(CMRequirement, REQUIREMENTS_URI, {
-      requirementSet: this.artifactSettings.requirementSet.id,
-      attributeIds: this.artifactSettings.parameterAttributes.ids
-    }).subscribe((res: HttpResponse<CMRequirement[]>) => {
-      this.onSuccess(res.body, this.requirements);
-      this.updateStatusInReqs();
-    });
+    // this._backendService.query(CMRequirement, REQUIREMENTS_URI, {
+    //   requirementSet: this.artifactSettings.requirementSet.id,
+    //   attributeIds: this.artifactSettings.parameterAttributes.ids
+    // }).subscribe((res: HttpResponse<CMRequirement[]>) => {
+    //   this.onSuccess(res.body, this.requirements);
+    //   this.updateStatusInReqs();
+    // });
     /* Mock load REQUIREMENTS */
-    // this._backendService.fetchRequirements(this.artifactSettings.requirementSet.id, this.artifactSettings.parameterAttributes.ids)
-    //   .subscribe((res: HttpResponse<CMRequirement[]>) => {
-    //     this.onSuccess(res.body, this.requirements);
-    //     this.updateStatusInReqs();
-    //   });
+    this._backendService.fetchRequirements(this.artifactSettings.requirementSet.id, this.artifactSettings.parameterAttributes.ids)
+      .subscribe((res: HttpResponse<CMRequirement[]>) => {
+        this.onSuccess(res.body, this.requirements);
+        this.updateStatusInReqs();
+        this._requirementEditorDataShare.setRequirements(this.requirements);
+      });
   }
 
   private onSuccess<T>(res: T[], target: T[]) {
