@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from '../../shared/auth/user-route-access-service';
-import { StartUpComponent } from './start-up/start-up.component';
+import { StartUpComponent, ChangeSelectionComponent } from './start-up/start-up.component';
 
 export const startUpRoutes: Routes = [
     {
@@ -11,5 +11,18 @@ export const startUpRoutes: Routes = [
             pageTitle: 'Define artifact'
         },
         canActivate: [UserRouteAccessService]
+    }
+];
+
+export const changeSelectionRoutes: Routes = [
+    {
+        path: 'change-selection',
+        component: ChangeSelectionComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Change selection'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
     }
 ];

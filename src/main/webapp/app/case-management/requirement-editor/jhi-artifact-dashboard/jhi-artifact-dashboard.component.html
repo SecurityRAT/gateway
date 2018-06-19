@@ -22,26 +22,26 @@
                                 last saved:
                                 <strong>{{lastSaved | date: 'dd-MM-yyyy'}}</strong>
                             </h4>
-                            <button type="button" class="btn btn-secrat float-right">Change selection</button>
+                            <button [routerLink]="['/', { outlets: { popup: 'change-selection'} }]" replaceUrl="true" type="button" class="btn btn-secrat float-right">Change selection</button>
                         </div>
 
-                        <div class="row">
-                            <h4 class="col">Requirement set:
+                        <div class="row ">
+                            <h4 class="col ">Requirement set:
                                 <strong>{{requirementSet.name}}</strong>
                             </h4>
                         </div>
-                        <div class="row">
-                            <div class="table-responsive">
-                                <table class="table">
+                        <div class="row ">
+                            <div class="table-responsive ">
+                                <table class="table ">
                                     <thead>
                                         <tr>
-                                            <th style="border-top: none" *ngFor="let key of attributeKeys">{{key.name}}</th>
+                                            <th style="border-top: none " *ngFor="let key of attributeKeys ">{{key.name}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td *ngFor="let key of attributeKeys">
-                                                <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: key.id})" [attribute]="attribute" [checkboxType]="false"
+                                            <td *ngFor="let key of attributeKeys ">
+                                                <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: key.id}) " [attribute]="attribute " [checkboxType]="false "
                                                     count=-1>
                                                 </jhi-attribute-tag>
                                             </td>

@@ -10,9 +10,13 @@ export class SanitizeMarkdownPipe implements PipeTransform {
     private _sanitizer: DomSanitizer,
     private _markdown: MarkdownService
   ) { }
-  transform(value: string, args?: any): SafeHtml {
+  transform(value: string, safe?: boolean, args?: any): SafeHtml {
     if (value) {
-      return this._sanitizer.sanitize(SecurityContext.HTML, this._markdown.compile(value));
+      if (!safe) {
+        return this._sanitizer.sanitize(SecurityContext.HTML, this._markdown.compile(value));
+      } else {
+        return this._sanitizer.bypassSecurityTrustHtml(this._markdown.compile(value));
+      }
     }
     return '';
   }

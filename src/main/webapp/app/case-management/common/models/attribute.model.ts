@@ -10,5 +10,6 @@ export class CMAttribute implements BaseDomain {
         public children?: CMAttribute[],
         public selected?: boolean
     ) {
+        this.selected = false;
     }
 }

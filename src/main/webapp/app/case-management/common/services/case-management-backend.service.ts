@@ -10,15 +10,8 @@ import {
     CMAttributeType,
     CMRequirement,
     CMExtensionKey,
-    STATUS_URI,
-    ATTRIBUTE_URI,
-    ATTRIBUTES_URI,
-    ATTRIBUTEKEY_URI,
-    ATTRIBUTEKEYS_URI,
     REQUIREMENTSET_URI,
-    REQUIREMENTS_URI,
     REQUIREMENTSETS_URI,
-    ENHANCEMENTS_URI
 } from '../'; // this references to the index.ts Barrel
 import * as attributeKeys from '../../attributes-keys.mock.json';
 import * as attributes from '../../attributes.mock.json';
@@ -29,7 +22,7 @@ import * as categories from '../../categories.mock.json';
 import * as tagKeys from '../../tag-keys.mock.json';
 import * as tags from '../../tags.mock.json';
 
- type RequirementSetResponseType = HttpResponse<CMRequirementSet[]>;
+type RequirementSetResponseType = HttpResponse<CMRequirementSet[]>;
 @Injectable()
 export class CaseManagementBackendService {
 
@@ -66,10 +59,6 @@ export class CaseManagementBackendService {
      * @param type The type of the attribute key
      */
     findAttributeKeys(requirementSet: number, type?: CMAttributeType): Observable<HttpResponse<CMAttributeKey[]>> {
-        const params = {
-            requirementSet,
-            type
-        };
         return Observable.of(this.convertResponseArrayToType(new HttpResponse({
             body: this.getMockAttributeKeys()
         })));
@@ -80,9 +69,6 @@ export class CaseManagementBackendService {
      * @param ids the list of the attribute key ids
      */
     getAttributeKeys(ids: number[]): Observable<HttpResponse<CMAttribute[]>> {
-        const params = {
-            ids
-        };
         return Observable.of(this.convertResponseArrayToType(new HttpResponse({
             body: this.getMockAttributeKeys()
         })));
@@ -94,10 +80,6 @@ export class CaseManagementBackendService {
      * @param type The type of the attribute key
      */
     findAttributes(requirementSet: number, type?: CMAttributeType): Observable<HttpResponse<CMAttribute[]>> {
-        const options = {
-            requirementSet,
-            type
-        };
         return Observable.of(this.convertResponseArrayToType(new HttpResponse({
             body: this.getMockAttributes()
         })));
@@ -108,9 +90,6 @@ export class CaseManagementBackendService {
      * @param ids the list of the attribute ids
      */
     getAttributes(ids: number[]): Observable<HttpResponse<CMAttribute[]>> {
-        const options = {
-            ids
-        };
         return Observable.of(this.convertResponseArrayToType(new HttpResponse({
             body: this.getMockAttributes()
         })));
@@ -134,10 +113,6 @@ export class CaseManagementBackendService {
      * @param attributeIds the list of attribute ids
      */
     fetchRequirements(requirementSet: number, attributeIds: number[]): Observable<HttpResponse<CMRequirement[]>> {
-        const options = {
-            requirementSet,
-            attributeIds
-        };
         return Observable.of(this.convertResponseArrayToType(new HttpResponse({
             body: this.getMockRequirements()
         })));
@@ -235,17 +210,6 @@ export class CaseManagementBackendService {
             ));
         });
         return mockRequirements;
-    }
-
-    getMockCustomRequirements(): CMRequirement[] {
-       const customRequirements: CMRequirement[] = [];
-       const allRequirements: CMRequirement[] = this.getMockRequirements();
-       allRequirements.forEach((element: CMRequirement ) => {
-           if (element.name.includes('CUS')) {
-            customRequirements.push(element);
-           }
-       });
-       return customRequirements;
     }
 
     getMockEnhancements(): CMExtensionKey[] {

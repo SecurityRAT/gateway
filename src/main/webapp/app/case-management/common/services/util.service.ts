@@ -10,34 +10,46 @@ export class CMUtilService {
   ) { }
 
   /**
-   * Filters out the attribute with the given property object.
+   * Recursively filter an array with the given property object.
    * @param {T} array The input array of attributes
-   * @param {any} obj the filter object. The filter property must be a property of class @link{CMAttribute}
+   * @param {any} obj the filter object.
    */
   filterByObj<T>(array: T[], obj: any): T[] {
-    if (obj === undefined) {
+    if (obj === undefined || (array !== undefined && array.length === 0)) {
       return array;
     }
     const filteredArray: T[] = [];
     /* go through the children */
     array.forEach((elem: any) => {
-      let children: T[] = [];
       if (elem.children && elem.children.length > 0) {
-        children = this.filterByObj(elem.children, obj);
+        this.filterByObj(elem.children, obj).forEach((item: T) => {
+          filteredArray.push(Object.assign({}, item));
+        });
       }
-      children.forEach((item: T) => {
-        filteredArray.push(item);
-      });
     });
     /* Go through the top level array */
     this.jhiFilterPipe.transform(array, Object.assign({}, obj), '').forEach((element: any) => {
-      if (element.children && element.children.length > 0) {
-        delete element.children;
-      }
-      filteredArray.push(element);
+      filteredArray.push(Object.assign({}, element));
     });
 
     return filteredArray;
+  }
+
+  updatePropertyInArray<T>(array: T[], propertyObj, specificIds?: number[]) {
+    if (propertyObj !== undefined) {
+      const key = Object.keys(propertyObj)[0];
+      array.forEach((elem: any) => {
+
+        if (elem.children && elem.children.length > 0) {
+          this.updatePropertyInArray(elem.children, propertyObj, specificIds);
+        }
+
+        if ((specificIds === undefined) || (specificIds !== undefined && specificIds.length > 0 && specificIds.indexOf(elem.id) !== -1)) {
+          elem[key] = propertyObj[key];
+          // elem = Object.assign({}, elem);
+        }
+      });
+    }
   }
 
   /**
