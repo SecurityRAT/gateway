@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { CMRequirement, CMExtensionKey, CMAttribute } from '../common/';
 
 @Injectable()
-export class RequirementEditorDataShareService {
+export class RequirementEditorDataShareService implements OnInit {
   requirements: CMRequirement[];
   customRequirements: CMRequirement[];
   enhancements: CMExtensionKey[];
@@ -11,7 +11,17 @@ export class RequirementEditorDataShareService {
   categories: CMAttribute[];
   categoriesInList: number[];
 
-  constructor() { }
+  ngOnInit() {}
+
+  constructor() {
+    this.requirements = [];
+    this.customRequirements = [];
+    this.enhancements = [];
+    this.attributes = [];
+    this.status = [];
+    this.categories = [];
+    this.categoriesInList = [];
+  }
 
   setAttributes(attributes: CMAttribute[]) {
     this.attributes = attributes;

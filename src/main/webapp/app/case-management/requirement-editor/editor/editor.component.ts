@@ -30,6 +30,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { JhiAlertService } from 'ng-jhipster';
 import { MOCK_DATA } from '../../../app.constants';
+import { RequirementEditorDataShareService } from '../requirement-editor-data-share.service';
 // import { JhiEventManager } from 'ng-jhipster';
 
 type CategoryObject = {
@@ -86,6 +87,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     private _backendService: CaseManagementBackendService,
     private _router: Router,
     private _jhiAlert: JhiAlertService,
+    private _requirementEditorDataShare: RequirementEditorDataShareService,
     // private jhiEventManager: JhiEventManager
   ) {
     this.artifactSettings = {};
@@ -191,6 +193,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           this._cmUtilService.formatCategoryListForView(this.categoryObject.categories, '', '>');
         });
     }
+    this._requirementEditorDataShare.setCategories(this.categoryObject.formattedCategories);
   }
 
   loadExtensions() {
@@ -215,6 +218,8 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.updateStatusInReqs();
         });
     }
+    this._requirementEditorDataShare.setStatus(this.status);
+    this._requirementEditorDataShare.setEnhancements(this.enhancements);
   }
 
   loadParameters() {
@@ -249,6 +254,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.artifactSettings.requirementSet.content = res.body[0];
       });
     }
+    this._requirementEditorDataShare.setAttributes(this.artifactSettings.parameterAttributes.content);
   }
 
   private loadRequirements(oldRequirements?: CMRequirement[]) {
@@ -277,6 +283,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this._requirementEditorDataShare.setRequirements(this.requirements);
   }
 
   private onSuccess<T>(res: T[], target: T[]) {

@@ -9,6 +9,7 @@ import { MockActivatedRoute } from '../../../../helpers/mock-route.service';
 import { CMRequirement, CMStatusSubType, CMExtensionKey, CMExtensionType, CMExtension } from '../../../../../../../main/webapp/app/case-management/common';
 import { HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
+import { RequirementEditorDataShareService } from './../../../../../../../main/webapp/app/case-management/requirement-editor/requirement-editor-data-share.service';
 
 describe('Component Tests', () => {
 
@@ -33,7 +34,7 @@ describe('Component Tests', () => {
         TestBed.configureTestingModule({
           imports: [GatewayTestModule],
           declarations: [EditorComponent],
-          providers: [CMUtilService, CaseManagementBackendService,
+          providers: [CMUtilService, RequirementEditorDataShareService, CaseManagementBackendService,
             { provide: ActivatedRoute, useValue: nonValidParams }
           ]
         })
@@ -68,7 +69,7 @@ describe('Component Tests', () => {
         TestBed.configureTestingModule({
           imports: [GatewayTestModule],
           declarations: [EditorComponent],
-          providers: [CMUtilService, CaseManagementBackendService,
+          providers: [CMUtilService, RequirementEditorDataShareService, CaseManagementBackendService,
             { provide: ActivatedRoute, useValue: paramOnGenerate }
           ]
         })

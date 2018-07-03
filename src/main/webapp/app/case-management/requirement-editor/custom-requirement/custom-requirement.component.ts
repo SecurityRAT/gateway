@@ -14,37 +14,40 @@ import {
 
 @Component({
   selector: 'jhi-custom-requirement',
-  templateUrl: './custom-requirement.component.html',
-  styles: [`
-  .light-blue-backdrop {
-    background-color: #5cb3fd;
-  }
-`]
+  templateUrl: 'custom-requirement.component.html',
+  styles: []
 })
 export class CustomRequirementComponent implements OnInit {
 
   @Output() customMode: EventEmitter<boolean> = new EventEmitter<boolean>();
-  openModals: any[];
   closeResult: string;
+  // list of all enhancementNames
   enhancementNames: string[];
+  // status if user is in the Custom-Requirement view. Important to load the correct component inside the editor
   customizes: boolean;
+  // true while user is editing existing custom-Requirement
   editMode: boolean;
   statusType: any;
 
+ // List of all attributes.
   attributeList: CMAttribute[];
 
+  // list of all customRequirements
   customRequirementList: CMRequirement[];
+  // CustomRequirement-Object. Used when user adds a new CustomRequirement
   customRequirementObj: CMRequirement;
+  // CustomRequirement especially for editing .Used when user edits existing customRequiremnt
   customRequirementEditCopy: CMRequirement;
+  // contains the customRequirement before editing. when user cancels editing this object is used to restore old values
   cmRequirementBeforeEdit: CMRequirement;
 
   enhancementList: CMExtensionKey[];
   status: CMExtensionKey[];
 
   categories: CMAttributeKey[];
-  categoriesInList: number[];
 
-  modalRef: any;
+  // list of categoryIds which are in our table/list
+  categoriesInList: number[];
 
   constructor(
     private modalService: NgbModal,
@@ -52,7 +55,6 @@ export class CustomRequirementComponent implements OnInit {
   ) {
     this.attributeList = this._requirementEditorDataShare.getAttributes();
     this.categories = this._requirementEditorDataShare.getCategories();
-    // this.categoriesInList = this._requirementEditorDataShare.getCategoriesInList();
 
     this.customRequirementList = this._requirementEditorDataShare.getCustomRequirements();
     this.enhancementList = this._requirementEditorDataShare.getEnhancements();
@@ -62,16 +64,13 @@ export class CustomRequirementComponent implements OnInit {
     this.editMode = false;
     this.categoriesInList = [];
     this.enhancementNames = [];
-    this.openModals = [];
     this.statusType = {
       enum: CMExtensionType.ENUM,
       freeText: CMExtensionType.FREETEXT
     };
 
-    // this.collectEnhancementNames(this.enhancementList);
     this.createEmptyCustomRequirementObject();
     this.filterCategorieIds();
-
   }
 
   ngOnInit() { }
@@ -102,12 +101,14 @@ export class CustomRequirementComponent implements OnInit {
     let tempNumber: number;
     maxNumber = 0;
     this.customRequirementList.forEach((element) => {
+      // Cuts the numbers of "CUS-XX" and saves it in tempNumber
       tempNumber = +element.name.slice(CUSTOMREQUIREMENT_PREFIX.length, element.name.length);
       if (maxNumber < tempNumber) {
         maxNumber = tempNumber;
       }
     });
     maxNumber++;
+    // Depending on the highest number this method return CUS-X or CUS-XX
     if (maxNumber < 10) {
       return CUSTOMREQUIREMENT_PREFIX + '0' + maxNumber;
     } else {
@@ -133,27 +134,12 @@ export class CustomRequirementComponent implements OnInit {
    * @param useOldCustReq set to true if need a empty custom requirement
    */
   open(content: any, useOldCustReq: boolean ) {
-    const tempArray = [];
+
     if (!useOldCustReq) {
     this.createEmptyCustomRequirementObject();
     }
-    this.modalService.open(content, {backdrop: false, centered: true});
-   // const modalReference = this.modalService.open(content, {backdrop: false, centered: true});
-    // modalReference.result.then((result) => {
-    //     // this.editMode = false;
-    //   }, (reason) => {
-    //    // this.editMode = false;
-    //   });
-
-     // this.openModals.push(modalReference);
+    this.modalService.open(content, {backdrop: false, centered: true, keyboard: false});
     }
-
-  closeAllOpenModals() {
-    this.openModals.forEach((element) => {
-      element.close();
-    });
-    this.openModals = [];
-  }
 
   /**
    * Deep-Copy a given CMRequirement into the EditCopy.
@@ -163,7 +149,7 @@ export class CustomRequirementComponent implements OnInit {
   editCustomRequirement(cmRequirementObj: CMRequirement) {
     this.editMode = true;
     // way to deepcopy nested object
-    this.customRequirementEditCopy = JSON.parse(JSON.stringify(cmRequirementObj));
+    this.customRequirementEditCopy =  JSON.parse(JSON.stringify(cmRequirementObj));
   }
 
   /**
@@ -189,7 +175,7 @@ export class CustomRequirementComponent implements OnInit {
   }
 
   /**
-   * After filling the form, this function pushes the new cusgtomRequirement to the customRequirementList
+   * After filling the form, this function pushes the new customRequirement to the customRequirementList
    */
   submitCustomRequirement() {
     this.customRequirementList.push(this.customRequirementObj);
@@ -201,16 +187,28 @@ export class CustomRequirementComponent implements OnInit {
    * @param cmRequirementObj customRequirment-Object which name is used to find and delete it in the customRequirementList
    */
   removeCustomRequirement(cmRequirementObj: CMRequirement) {
-
     this.customRequirementList.forEach((element, index) => {
-
       if (cmRequirementObj.name === element.name) {
         this.customRequirementList.splice(index, 1);
       }
     });
     this.searchAndRemoveEmptyCategories();
   }
-  // this.filterCategorieIds();
+
+  /**
+   * Makes sure when user wants to add a Custom Requirement, that all important dropdowns are set
+   * @param cmRequirementObj CustomtomRequirement that we want to check
+   */
+  importantFieldsAreSet(cmRequirementObj: CMRequirement): boolean {
+    let correctIndex = 0;
+
+      cmRequirementObj.status.forEach((element, index) => {
+        if (element.keyId === 1 ) {
+          correctIndex = index;
+        }
+      });
+      return (cmRequirementObj.categoryId !== null && cmRequirementObj.status[correctIndex].content !== null);
+  }
 
   /**
    * Finds all categories without CustomRequirements and removes them from the categoriesInList.
@@ -259,5 +257,4 @@ export class CustomRequirementComponent implements OnInit {
       }
     }
   }
-
 }

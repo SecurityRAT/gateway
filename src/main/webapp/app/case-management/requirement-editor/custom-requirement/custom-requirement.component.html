@@ -5,7 +5,6 @@
     <button type="button" class="btn btn-secrat" (click)='customize()'> Requirement
     </button>
 </p>
-
 <div class="table-responsive">
     <table class="table" id='cmrequirementTable'>
         <thead class="thead-light">
@@ -40,34 +39,35 @@
                     <ng-container *ngFor="let customRequirement of customRequirementList">
                         <tr *ngIf="customRequirement.categoryId === cat.id">
                             <td>{{customRequirement.name}}</td>
-                            <td>{{customRequirement.description}}</td>
                             <td>
-                                <div *ngFor="let enhancement of customRequirement.enhancements">
-                                    <div *ngFor="let content of enhancement.contents">
-                                        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                                <jhi-click-changer textWhenEmpty="No description given" (clickChangerSubmit)="customRequirement.description=$event" [shownText]="customRequirement.description"></jhi-click-changer>
+                            </td>
+                            <td>
+                                <div *ngFor="let enhancement of customRequirement.enhancements" style="margin-bottom: 5px">
+                                    <ng-container *ngFor="let content of enhancement.contents">
+                                        <ngb-accordion #acc="ngbAccordion" activeIds="enhancementPanel">
                                             <div *ngFor="let enhancementList of enhancementList">
-                                                <ngb-panel *ngIf="enhancementList.id === enhancement.keyId && content.content !== null && content.content !== ''">
+                                                <ngb-panel id="enhancementPanel" *ngIf="enhancementList.id === enhancement.keyId && content.content !== null && content.content !== ''">
                                                     <ng-template ngbPanelTitle>
                                                         <span>
                                                             <b>{{enhancementList.name}}</b>
                                                         </span>
                                                     </ng-template>
                                                     <ng-template ngbPanelContent>
-                                                        {{content.content}}
+                                                        <jhi-click-changer textWhenEmpty="" (clickChangerSubmit)="content.content=$event" [shownText]="content.content"></jhi-click-changer>
                                                     </ng-template>
                                                 </ngb-panel>
                                             </div>
                                         </ngb-accordion>
-                                    </div>
+                                    </ng-container>
                                 </div>
                             </td>
-
                             <td *ngFor="let stat of status">
                                 <ng-container *ngFor="let reqStat of customRequirement.status">
                                     <ng-container *ngIf="stat.type === statusType.enum; else freeTextStatus">
                                         <div *ngIf="stat.id === reqStat.keyId">
-                                            <div ngbDropdown class="d-inline-block">
-                                                <button disabled ngbDropdownToggle class="btn btn-sm btn-secrat" id="{{'' + customRequirement.id + stat.id }}">
+                                            <div ngbDropdown class="class=" d-inline-block>
+                                                <button ngbDropdownToggle class="btn btn-sm btn-outline-secrat" id="{{'' + customRequirement.id + stat.id }}">
                                                     {{reqStat.content}}
                                                 </button>
                                                 <div ngbDropdownMenu [attr.aria-labelledby]="'' + customRequirement.id + stat.id">
@@ -81,18 +81,17 @@
                                     </ng-container>
                                     <ng-template #freeTextStatus>
                                         <div *ngIf="stat.id === reqStat.keyId">
-                                            <textarea readonly class="form-control" rows="5" cols="100" [(ngModel)]="reqStat.content">
-                                            </textarea>
+                                            <jhi-click-changer textWhenEmpty="No comment given" (clickChangerSubmit)="reqStat.content=$event" [shownText]="reqStat.content"></jhi-click-changer>
                                         </div>
                                     </ng-template>
                                 </ng-container>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-secrat" (click)="editCustomRequirement(customRequirement);open(content,false)">
-                                    <i class="fa fa-edit"></i> Edit
+                                <button type="button" class="btn btn-primary btn-sm" (click)="editCustomRequirement(customRequirement);open(content,false)">
+                                    <i class="fa fa-pencil"></i> Edit
                                 </button>
-                                <button type="button" class="btn btn-danger" (click)="removeCustomRequirement(customRequirement)">
-                                    <i class="fa fa-times"></i> Remove
+                                <button type="button" class="btn btn-danger btn-sm" (click)="removeCustomRequirement(customRequirement)">
+                                    <i class="fa fa-remove"></i> Delete
                                 </button>
                             </td>
                         </tr>
@@ -101,16 +100,14 @@
             </ng-container>
         </tbody>
     </table>
-
 </div>
 
 <!-- ADD CustomRequirement / Edit CustomRequirement -->
 
 <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
+    <div class="modal-header">modal
         <h4 *ngIf="!editMode" class="modal-title">Add custom requirement</h4>
         <h4 *ngIf="editMode" class="modal-title">Edit custom requirement</h4>
-
     </div>
     <div class="modal-body">
         <form (ngSubmit)="submitCustomRequirement()">
@@ -130,11 +127,10 @@
                 <textarea *ngIf="!editMode" id='description' class="form-control" [(ngModel)]='customRequirementObj.description' [ngModelOptions]="{standalone: true}"></textarea>
                 <textarea *ngIf="editMode" id='description' class="form-control" [(ngModel)]='customRequirementEditCopy.description' [ngModelOptions]="{standalone: true}"></textarea>
             </div>
-
             <div class="form-group">
-                <h5>Categor</h5>
+                <h5>Category</h5>
                 <div ngbDropdown class="d-inline-block">
-                    <button type="button" class="btn btn-outline-primary" ngbDropdownToggle>
+                    <button type="button" class="btn btn-sm btn-outline-secrat" ngbDropdownToggle>
                         <span *ngFor="let categorie of categories">
                             <span *ngIf="!editMode">
                                 <span *ngIf="categorie.id === customRequirementObj.categoryId">
@@ -148,13 +144,11 @@
                             </span>
                         </span>
                     </button>
-
                     <div ngbDropdownMenu *ngIf="!editMode">
                         <button class="dropdown-item" type="button" *ngFor="let categorie of categories" (click)="customRequirementObj.categoryId=categorie.id">
                             {{categorie.name}}
                         </button>
                     </div>
-
                     <div ngbDropdownMenu *ngIf="editMode">
                         <button class="dropdown-item" type="button" *ngFor="let categorie of categories" (click)="customRequirementEditCopy.categoryId=categorie.id">
                             {{categorie.name}}
@@ -162,11 +156,8 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="form-group">
                 <h5>Enhancements</h5>
-
                 <div *ngFor="let enhancement of enhancementList; let i = index">
                     <b>{{enhancement.name}}</b>
                     <textarea *ngIf="!editMode" class="form-control" [(ngModel)]="customRequirementObj.enhancements[i].contents[0].content" [ngModelOptions]="{standalone: true}">
@@ -183,13 +174,11 @@
                     </div>
                 </div>
             </div>
-
             <div *ngFor="let status of status; let i = index">
                 <h5>{{status.name}}</h5>
-
                 <span *ngIf="status.type === statusType.enum; else freeTextStatus">
                     <div ngbDropdown class="d-inline-block">
-                        <button type="button" class="btn btn-outline-primary" ngbDropdownToggle>
+                        <button type="button" class="btn btn-sm btn-outline-secrat" ngbDropdownToggle>
                             <span *ngIf="!editMode">
                                 {{customRequirementObj.status[i].content}}
                             </span>
@@ -202,7 +191,6 @@
                                 {{value.content}}
                             </button>
                         </div>
-
                         <div ngbDropdownMenu *ngIf="editMode">
                             <button class="dropdown-item" type="button" *ngFor="let value of status.values" (click)="selectStatus(customRequirementEditCopy.status[i], value)">
                                 {{value.content}}
@@ -210,7 +198,6 @@
                         </div>
                     </div>
                 </span>
-
                 <ng-template #freeTextStatus>
                     <textarea *ngIf="!editMode" class="form-control" rows="5" cols="100" [(ngModel)]="customRequirementObj.status[i].content"
                         [ngModelOptions]="{standalone: true}"></textarea>
@@ -218,25 +205,35 @@
                         [ngModelOptions]="{standalone: true}"></textarea>
                 </ng-template>
             </div>
-
             <div class="form-group">
                 <div class="modal-footer" *ngIf="!editMode">
-                    <!--<button type="button" class="btn btn-success" (click)="openLg(content2);submitCustomRequirement();c()">Save</button>-->
-                    <button type="button" class="btn btn-success" (click)="submitCustomRequirement();c()">Save</button>
-                    <button type="button" (click)="c();open(confirmation,true)" class="btn btn-danger">Cancel</button>
+                    <button type="button" (click)="c();open(confirmation,true)" class="btn btn-secondary">
+                        <span class="fa fa-ban"></span>&nbsp;
+                        <span>Cancel</span>
+                    </button>
+                    <button [disabled]="!importantFieldsAreSet(customRequirementObj)" type="button" class="btn btn-primary" (click)="test();submitCustomRequirement();c()">
+                        <span class="fa fa-save"></span>&nbsp;
+                        <span>Save</span>
+                    </button>
+
                 </div>
                 <div class="modal-footer" *ngIf="editMode">
-                    <button type="button" class="btn btn-success" (click)="editingFinished();c();">Save</button>
-                    <button type="button" (click)="c();open(confirmation,true);" class="btn btn-danger">Cancel</button>
+                    <button type="button" (click)="c();open(confirmation,true);" class="btn btn-secondary">
+                        <span class="fa fa-ban"></span>&nbsp;
+                        <span>Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="editingFinished();c();">
+                        <span class="fa fa-save"></span>&nbsp;
+                        <span>Save</span>
+                    </button>
                 </div>
             </div>
         </form>
     </div>
 </ng-template>
 
-
+<!--Dialog if user really wants to cancel-->
 <ng-template #confirmation let-c="close" let-d="dismiss">
-
     <div class="modal-header">
         <h4 class="modal-title">Confirmation</h4>
     </div>
@@ -248,8 +245,7 @@
         <button type="button" class="btn btn-danger" (click)="c();open(content,true)">No</button>
     </div>
     <div class="modal-footer" *ngIf="editMode">
-        <button type="button" class="btn btn-success" (click)="c();">Yes</button>
+        <button type="button" class="btn btn-success" (click)="c();editMode=false">Yes</button>
         <button type="button" class="btn btn-danger" (click)="c();open(content,true)">No</button>
     </div>
-
 </ng-template>

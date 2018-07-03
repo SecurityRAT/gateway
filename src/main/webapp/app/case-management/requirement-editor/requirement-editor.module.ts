@@ -5,6 +5,7 @@ import { CMSharedModule } from '../common/shared-module.module';
 import { EditorComponent, RequirementComponent, FilterComponent, editorRoutes, JhiArtifactDashboardComponent } from './';
 import { CustomRequirementComponent } from './custom-requirement/custom-requirement.component';
 import { RequirementEditorDataShareService } from './requirement-editor-data-share.service';
+import { ClickChangerComponent } from './custom-requirement/click-changer/click-changer.component';
 
 const EDITOR_STATES = [
     ...editorRoutes
@@ -18,7 +19,7 @@ const EDITOR_STATES = [
 
     ],
     exports: [],
-    declarations: [EditorComponent, RequirementComponent, FilterComponent, JhiArtifactDashboardComponent, CustomRequirementComponent],
+    declarations: [EditorComponent, RequirementComponent, FilterComponent, JhiArtifactDashboardComponent, CustomRequirementComponent, ClickChangerComponent],
     entryComponents: [EditorComponent],
     providers: [RequirementEditorDataShareService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+ // import { Router } from '@angular/router';
 // import { JhiEventManager } from 'ng-jhipster';
 import {
   CMRequirement,
@@ -44,7 +44,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
   constructor(
     // private jhiEventManager: JhiEventManager,
     private _cmUtilService: CMUtilService,
-    private router: Router
+     // private router: Router
   ) {
     this.statusType = {
       enum: CMExtensionType.ENUM,

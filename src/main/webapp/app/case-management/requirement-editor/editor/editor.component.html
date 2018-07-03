@@ -2,7 +2,7 @@
 <div class="row">
     <jhi-artifact-dashboard class="col" [attributes]="artifactSettings.parameterAttributes.content" [attributeKeys]="artifactSettings.parameterAttributeKeys.content"
         [requirementSet]="artifactSettings.requirementSet.content" [artifactInfo]="artifactSettings.artifactInfo" [creationDate]="artifactSettings.generatedOn"></jhi-artifact-dashboard>
-    <jhi-filter class="col" [tags]="tagObject.tags" [tagKeys]="tagObject.tagKeys" [categories]="categoryObject.formattedCategories"
+    <jhi-filter *ngIf="!customMode" class="col" [tags]="tagObject.tags" [tagKeys]="tagObject.tagKeys" [categories]="categoryObject.formattedCategories"
         [requirements]="requirements">
     </jhi-filter>
 </div>
