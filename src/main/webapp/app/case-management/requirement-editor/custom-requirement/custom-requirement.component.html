@@ -121,14 +121,14 @@
 <!-- ADD CustomRequirement / Edit CustomRequirement -->
 
 <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Add or edit custom requirement</h4>
-        <button type="button" class="close" aria-label="Close" (click)="c();editMode=false">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form>
+    <form>
+        <div class="modal-header">
+            <h4 class="modal-title">Add or edit custom requirement</h4>
+            <button type="button" class="close" aria-label="Close" (click)="c();editMode=false">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
             <div class="form-group">
                 <h6>Name</h6>
                 <input type="text" class="form-control" readonly [attr.value]="customRequirementObj.name" />
@@ -198,20 +198,17 @@
                         [ngModelOptions]="{standalone: true}"></textarea>
                 </ng-template>
             </div>
-            <div class="form-group">
-                <div class="modal-footer">
-                    <button type="button" (click)="c()" class="btn btn-secondary">
-                        <span class="fa fa-ban"></span>&nbsp;
-                        <span>Cancel</span>
-                    </button>
-                    <button [disabled]="!importantFieldsAreSet(customRequirementObj)" type="button"
-                        class="btn btn-primary" (click)="saveCustomRequirement();c()">
-                        <span class="fa fa-save"></span>&nbsp;
-                        <span>Save</span>
-                    </button>
-
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="c()" class="btn btn-secondary">
+                <span class="fa fa-ban"></span>&nbsp;
+                <span>Cancel</span>
+            </button>
+            <button [disabled]="!importantFieldsAreSet(customRequirementObj)" type="button" class="btn btn-primary"
+                (click)="saveCustomRequirement();c()">
+                <span class="fa fa-save"></span>&nbsp;
+                <span>Save</span>
+            </button>
+        </div>
+    </form>
 </ng-template>
