@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="skeleton">
+            <h2><span>Skeleton</span> {{skeleton.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{skeleton.name}}</span>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{skeleton.description}}</span>
+                </dd>
+                <dt><span>Show Order</span></dt>
+                <dd>
+                    <span>{{skeleton.showOrder}}</span>
+                </dd>
+                <dt><span>Active</span></dt>
+                <dd>
+                    <span>{{skeleton.active}}</span>
+                </dd>
+                <dt><span>Requirement Set</span></dt>
+                <dd>
+                    <div *ngIf="skeleton.requirementSet">
+                        <a [routerLink]="['/requirement-set', skeleton.requirementSet?.id, 'view']">{{skeleton.requirementSet?.name}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/skeleton', skeleton.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

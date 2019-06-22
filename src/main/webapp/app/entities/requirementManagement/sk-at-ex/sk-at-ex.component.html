@@ -1,0 +1,73 @@
+<div>
+    <h2 id="page-heading">
+        <span>Sk At Exes</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-sk-at-ex" [routerLink]="['/sk-at-ex/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Sk At Ex
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="skAtExes?.length === 0">
+        <span>No skAtExes found</span>
+    </div>
+    <div class="table-responsive" *ngIf="skAtExes?.length > 0">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="skeleton.name"><span>Skeleton</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="attribute.name"><span>Attribute</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="extension.content"><span>Extension</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let skAtEx of skAtExes ;trackBy: trackId">
+                <td><a [routerLink]="['/sk-at-ex', skAtEx.id, 'view' ]">{{skAtEx.id}}</a></td>
+                <td>
+                    <div *ngIf="skAtEx.skeleton">
+                        <a [routerLink]="['../skeleton', skAtEx.skeleton?.id, 'view' ]" >{{skAtEx.skeleton?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="skAtEx.attribute">
+                        <a [routerLink]="['../attribute', skAtEx.attribute?.id, 'view' ]" >{{skAtEx.attribute?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="skAtEx.extension">
+                        <a [routerLink]="['../extension', skAtEx.extension?.id, 'view' ]" >{{skAtEx.extension?.content}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/sk-at-ex', skAtEx.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/sk-at-ex', skAtEx.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'sk-at-ex', { outlets: { popup: skAtEx.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

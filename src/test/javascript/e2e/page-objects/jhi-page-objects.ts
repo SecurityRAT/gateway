@@ -1,132 +1,135 @@
 import { element, by, ElementFinder, browser } from 'protractor';
 
 export class NavBarPage {
-    entityMenu = element(by.id('entity-menu'));
-    accountMenu = element(by.id('account-menu'));
-    adminMenu: ElementFinder;
-    signIn = element(by.id('login'));
-    register = element(by.css('[routerLink="register"]'));
-    signOut = element(by.id('logout'));
-    passwordMenu = element(by.css('[routerLink="password"]'));
-    settingsMenu = element(by.css('[routerLink="settings"]'));
+  entityMenu = element(by.id('entity-menu'));
+  accountMenu = element(by.id('account-menu'));
+  adminMenu: ElementFinder;
+  signIn = element(by.id('login'));
+  register = element(by.css('[routerLink="register"]'));
+  signOut = element(by.id('logout'));
+  passwordMenu = element(by.css('[routerLink="password"]'));
+  settingsMenu = element(by.css('[routerLink="settings"]'));
 
-    constructor(asAdmin?: Boolean) {
-        if (asAdmin) {
-            this.adminMenu = element(by.id('admin-menu'));
-        }
+  constructor(asAdmin?: Boolean) {
+    if (asAdmin) {
+      this.adminMenu = element(by.id('admin-menu'));
     }
+  }
 
-    clickOnEntityMenu() {
-        return this.entityMenu.click();
-    }
+  async clickOnEntityMenu() {
+    await this.entityMenu.click();
+  }
 
-    clickOnAccountMenu() {
-        return this.accountMenu.click();
-    }
+  async clickOnAccountMenu() {
+    await this.accountMenu.click();
+  }
 
-    clickOnAdminMenu() {
-        return this.adminMenu.click();
-    }
+  async clickOnAdminMenu() {
+    await this.adminMenu.click();
+  }
 
-    clickOnSignIn() {
-        return this.signIn.click();
-    }
+  async clickOnSignIn() {
+    await this.signIn.click();
+  }
 
-    clickOnRegister() {
-        return this.signIn.click();
-    }
+  async clickOnRegister() {
+    await this.signIn.click();
+  }
 
-    clickOnSignOut() {
-        return this.signOut.click();
-    }
+  async clickOnSignOut() {
+    await this.signOut.click();
+  }
 
-    clickOnPasswordMenu() {
-        return this.passwordMenu.click();
-    }
+  async clickOnPasswordMenu() {
+    await this.passwordMenu.click();
+  }
 
-    clickOnSettingsMenu() {
-        return this.settingsMenu.click();
-    }
+  async clickOnSettingsMenu() {
+    await this.settingsMenu.click();
+  }
 
-    clickOnEntity(entityName: string) {
-        return element(by.css('[routerLink="' + entityName + '"]')).click();
-    }
+  async clickOnEntity(entityName: string) {
+    await element(by.css('[routerLink="' + entityName + '"]')).click();
+  }
 
-    clickOnAdmin(entityName: string) {
-        return element(by.css('[routerLink="' + entityName + '"]')).click();
-    }
+  async clickOnAdmin(entityName: string) {
+    await element(by.css('[routerLink="admin/' + entityName + '"]')).click();
+  }
 
-    getSignInPage() {
-        this.clickOnAccountMenu();
-        this.clickOnSignIn();
-        return new SignInPage();
-    }
+  async getSignInPage() {
+    await this.clickOnAccountMenu();
+    await this.clickOnSignIn();
+    return new SignInPage();
+  }
 
-    goToEntity(entityName: string) {
-        this.clickOnEntityMenu();
-        return this.clickOnEntity(entityName);
-    }
+  async goToEntity(entityName: string) {
+    await this.clickOnEntityMenu();
+    await this.clickOnEntity(entityName);
+  }
 
-    goToSignInPage() {
-        this.clickOnAccountMenu();
-        this.clickOnSignIn();
-    }
+  async goToSignInPage() {
+    await this.clickOnAccountMenu();
+    await this.clickOnSignIn();
+  }
 
-    goToPasswordMenu() {
-        this.clickOnAccountMenu();
-        this.clickOnPasswordMenu();
-    }
+  async goToPasswordMenu() {
+    await this.clickOnAccountMenu();
+    await this.clickOnPasswordMenu();
+  }
 
-    autoSignOut() {
-        this.clickOnAccountMenu();
-        this.clickOnSignOut();
-    }
+  async autoSignOut() {
+    await this.clickOnAccountMenu();
+    await this.clickOnSignOut();
+  }
 }
 
 export class SignInPage {
-    username = element(by.name('username'));
-    password = element(by.name('password'));
-    loginButton = element(by.css('input[type=submit]'));
+  username = element(by.name('username'));
+  password = element(by.name('password'));
+  loginButton = element(by.css('input[type=submit]'));
 
-    setUserName(username) {
-        this.username.sendKeys(username);
+  async setUserName(username) {
+    await this.username.sendKeys(username);
+  }
+
+  async getUserName() {
+    return this.username.getAttribute('value');
+  }
+
+  async clearUserName() {
+    await this.username.clear();
+  }
+
+  async setPassword(password) {
+    await this.password.sendKeys(password);
+  }
+
+  async getPassword() {
+    return this.password.getAttribute('value');
+  }
+
+  async clearPassword() {
+    await this.password.clear();
+  }
+
+  async loginWithOAuth(username: string, password: string) {
+    // Entering non angular site, tell webdriver to switch to synchronous mode.
+    await browser.waitForAngularEnabled(false);
+
+    if (await this.username.isPresent()) {
+      await this.username.sendKeys(username);
+      await this.password.sendKeys(password);
+      await this.loginButton.click();
+      if (!(await this.username.isPresent())) {
+        await browser.waitForAngularEnabled(true);
+      }
+    } else {
+      // redirected back because already logged in
+      browser.waitForAngularEnabled(true);
     }
+  }
 
-    getUserName() {
-        return this.username.getAttribute('value');
-    }
-
-    clearUserName() {
-        this.username.clear();
-    }
-
-    setPassword(password) {
-        this.password.sendKeys(password);
-    }
-
-    getPassword() {
-        return this.password.getAttribute('value');
-    }
-
-    clearPassword() {
-        this.password.clear();
-    }
-
-    loginWithOAuth(username: string, password: string) {
-
-        // Entering non angular site, tell webdriver to switch to synchronous mode.
-        browser.waitForAngularEnabled(false);
-
-        this.username.isPresent().then(() => {
-            this.username.sendKeys(username);
-            this.password.sendKeys(password);
-            this.loginButton.click();
-        }).catch((error) => {
-            browser.waitForAngularEnabled(true);
-        });
-    }
-
-    login() {
-        return this.loginButton.click();
-    }
+  async login() {
+    await this.loginButton.click();
+  }
 }
