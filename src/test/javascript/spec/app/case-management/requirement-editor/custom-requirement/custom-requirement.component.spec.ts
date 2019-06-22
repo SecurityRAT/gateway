@@ -46,9 +46,9 @@ describe('CustomRequirementComponent', () => {
 
   it('create custom Copy and sets EditMode', () => {
     const tempCustReq = new CMRequirement(null, 'CUS-01', null, null, [], [], [], [], null, null, null, null);
-    component.updateCustomRequirement(tempCustReq);
+    component.updateCustomRequirement();
     expect(component.editMode).toBe(true);
-    expect(component.customRequirementEditCopy.name).toEqual(tempCustReq.name);
+    expect(component.customRequirementObj.name).toEqual(tempCustReq.name);
   });
 
   it('should create', () => {
@@ -60,7 +60,7 @@ describe('CustomRequirementComponent', () => {
       new CMRequirement(null, 'CUS-01', 1, null, [], [], [], [], null, null, null, null),
       new CMRequirement(null, 'CUS-02', 1, null, [], [], [], [], null, null, null, null)];
 
-    component.customRequirementEditCopy = new CMRequirement(null, 'CUS-01', 999, null, [], [], [], [], null, null, null, null);
+    component.customRequirementObj = new CMRequirement(null, 'CUS-01', 999, null, [], [], [], [], null, null, null, null);
 
     component.updateCustomRequirement();
     expect(component.customRequirementList[0].categoryId).toBe(999);

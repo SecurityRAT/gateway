@@ -143,9 +143,8 @@ export class CustomRequirementComponent implements OnInit {
       this.createEmptyCustomRequirementObject();
     }
     this.modalService.open(content, {
-      backdrop: false,
       centered: true,
-      keyboard: false,
+      backdrop: 'static',
       size: 'lg'
     });
   }

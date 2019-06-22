@@ -99,14 +99,16 @@
                                 </ng-container>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm"
-                                    (click)="editCustomRequirement(customRequirement);open(content,true)">
-                                    <i class="fa fa-pencil"></i> Edit
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm"
-                                    (click)="removeCustomRequirement(customRequirement)">
-                                    <i class="fa fa-remove"></i> Delete
-                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        (click)="editCustomRequirement(customRequirement);open(content,true)">
+                                        <i class="fa fa-pencil"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        (click)="removeCustomRequirement(customRequirement)">
+                                        <i class="fa fa-remove"></i> Delete
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </ng-container>
@@ -120,8 +122,7 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 *ngIf="!editMode" class="modal-title">Add custom requirement</h4>
-        <h4 *ngIf="editMode" class="modal-title">Edit custom requirement</h4>
+        <h4 class="modal-title">Add or edit custom requirement</h4>
         <button type="button" class="close" aria-label="Close" (click)="c();editMode=false">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -158,9 +159,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <h6>Enhancements</h6>
                 <div *ngFor="let enhancement of enhancementList; let i = index">
-                    <b>{{enhancement.name}}</b>
+                    <h6>{{enhancement.name}}</h6>
                     <textarea *ngIf="!editMode" class="form-control"
                         [(ngModel)]="customRequirementObj.enhancements[i].contents[0].content"
                         [ngModelOptions]="{standalone: true}">
@@ -194,8 +194,7 @@
                     </div>
                 </span>
                 <ng-template #freeTextStatus>
-                    <textarea class="form-control" rows="5" cols="100"
-                        [(ngModel)]="customRequirementObj.status[i].content"
+                    <textarea class="form-control" [(ngModel)]="customRequirementObj.status[i].content"
                         [ngModelOptions]="{standalone: true}"></textarea>
                 </ng-template>
             </div>
