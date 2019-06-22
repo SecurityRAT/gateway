@@ -29,7 +29,7 @@ export class CustomRequirementComponent implements OnInit {
   editMode: boolean;
   statusType: any;
 
- // List of all attributes.
+  // List of all attributes.
   attributeList: CMAttribute[];
 
   // list of all customRequirements
@@ -79,16 +79,20 @@ export class CustomRequirementComponent implements OnInit {
    * This method creates an empty nested Object. It is necessary when a user wants to create a new CustomRequirement
    */
   createEmptyCustomRequirementObject() {
-    this.customRequirementObj = new CMRequirement(null, null, null, null, [], [], [], [], null, null, null, null);
+    this.customRequirementObj = new CMRequirement(null, this.setUpCustomRequirementName(), null, null, [], [], [], [], null, null, null, null);
+    this.customRequirementObj.categoryId = this.categories[0].id;
     this.status.forEach((element: CMExtensionKey) => {
-      this.customRequirementObj.status.push(new CMStatusSubType(element.id, null, null));
+      const defaultStatusContent = new CMStatusSubType(element.id, null, null);
+      if (element.type === this.statusType.enum) {
+        defaultStatusContent.content = element.values[0].content;
+      }
+      this.customRequirementObj.status.push(defaultStatusContent);
     });
     this.enhancementList.forEach((element: CMExtensionKey) => {
       const tempEnhancementSubType: CMEnhancementSubType = new CMEnhancementSubType(element.id, []);
       tempEnhancementSubType.contents.push(new CMExtension(element.id, null, null, null));
       this.customRequirementObj.enhancements.push(tempEnhancementSubType);
     });
-    this.customRequirementObj.name = this.setUpCustomRequirementName();
   }
 
   /**
@@ -133,13 +137,18 @@ export class CustomRequirementComponent implements OnInit {
    * @param content templateName of HTML
    * @param useOldCustReq set to true if need a empty custom requirement
    */
-  open(content: any, useOldCustReq: boolean ) {
+  open(content: any, useOldCustReq: boolean) {
 
     if (!useOldCustReq) {
-    this.createEmptyCustomRequirementObject();
+      this.createEmptyCustomRequirementObject();
     }
-    this.modalService.open(content, {backdrop: false, centered: true, keyboard: false});
-    }
+    this.modalService.open(content, {
+      backdrop: false,
+      centered: true,
+      keyboard: false,
+      size: 'lg'
+    });
+  }
 
   /**
    * Deep-Copy a given CMRequirement into the EditCopy.
@@ -148,22 +157,10 @@ export class CustomRequirementComponent implements OnInit {
    */
   editCustomRequirement(cmRequirementObj: CMRequirement) {
     this.editMode = true;
+    console.log(cmRequirementObj);
     // way to deepcopy nested object
-    this.customRequirementEditCopy =  JSON.parse(JSON.stringify(cmRequirementObj));
-  }
-
-  /**
-   * After editing the customRequirement gets added to the List of customRequirements
-   */
-  editingFinished() {
-    this.customRequirementList.forEach((element: CMRequirement, index) => {
-      if (element.name === this.customRequirementEditCopy.name) {
-        this.customRequirementList[index] = Object.assign({}, this.customRequirementEditCopy);
-        this.searchAndRemoveEmptyCategories();
-        this.filterCategorieIds();
-      }
-    });
-    this.editMode = false;
+    this.customRequirementObj = JSON.parse(JSON.stringify(cmRequirementObj));
+    // this.customRequirementObj = Object.assign({}, cmRequirementObj);
   }
 
   /**
@@ -172,14 +169,6 @@ export class CustomRequirementComponent implements OnInit {
   customize() {
     this.customizes = !this.customizes;
     this.customMode.emit(this.customizes);
-  }
-
-  /**
-   * After filling the form, this function pushes the new customRequirement to the customRequirementList
-   */
-  submitCustomRequirement() {
-    this.customRequirementList.push(this.customRequirementObj);
-    this.filterCategorieIds();
   }
 
   /**
@@ -202,12 +191,12 @@ export class CustomRequirementComponent implements OnInit {
   importantFieldsAreSet(cmRequirementObj: CMRequirement): boolean {
     let correctIndex = 0;
 
-      cmRequirementObj.status.forEach((element, index) => {
-        if (element.keyId === 1 ) {
-          correctIndex = index;
-        }
-      });
-      return (cmRequirementObj.categoryId !== null && cmRequirementObj.status[correctIndex].content !== null);
+    cmRequirementObj.status.forEach((element, index) => {
+      if (element.keyId === 1) {
+        correctIndex = index;
+      }
+    });
+    return (cmRequirementObj.categoryId !== null && cmRequirementObj.status[correctIndex].content !== null);
   }
 
   /**
@@ -257,4 +246,36 @@ export class CustomRequirementComponent implements OnInit {
       }
     }
   }
+
+  saveCustomRequirement() {
+    if (this.editMode) {
+      this.updateCustomRequirement();
+    } else {
+      this.addCustomRequirement();
+    }
+  }
+
+  /**
+   * After filling the form, this function pushes the new customRequirement to the customRequirementList
+   */
+  addCustomRequirement() {
+    this.customRequirementList.push(this.customRequirementObj);
+    this.filterCategorieIds();
+  }
+
+  /**
+   * After editing the customRequirement gets added to the List of customRequirements
+   */
+  updateCustomRequirement() {
+    this.customRequirementList.forEach((element: CMRequirement, index) => {
+      if (element.name === this.customRequirementObj.name) {
+        this.customRequirementList[index] = Object.assign({}, this.customRequirementObj);
+        this.searchAndRemoveEmptyCategories();
+        this.filterCategorieIds();
+      }
+    });
+    this.editMode = false;
+  }
 }
+
+

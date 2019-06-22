@@ -123,7 +123,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             content: null
           };
         } else {
-          /* Prevents requirementSet from being change in the URL */
+          /* Prevents requirementSet from being changed in the URL */
           if (this.artifactSettings.requirementSet.id.toString() !== values.get(REQUIREMENTSET_PARAM)) {
             stayUnChanged = true;
             this._jhiAlert.error('You cannot change the requirement set from the URL. Please define a new artifact.');

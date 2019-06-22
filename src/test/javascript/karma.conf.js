@@ -39,8 +39,8 @@ module.exports = (config) => {
         },
 
         notifyReporter: {
-            reportEachFailure: true, // Default: false, will notify on every failed sepc
-            reportSuccess: true // Default: true, will notify when a suite was successful
+            reportEachFailure: false, // Default: false, will notify on every failed sepc
+            reportSuccess: false // Default: true, will notify when a suite was successful
         },
 
 
