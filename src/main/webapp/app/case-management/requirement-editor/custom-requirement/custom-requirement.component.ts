@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CUSTOMREQUIREMENT_PREFIX, CMAttributeKey } from '../../common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RequirementEditorDataShareService } from '../requirement-editor-data-share.service';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import {
   CMEnhancementSubType,
   CMRequirement,
@@ -18,7 +19,6 @@ import {
   styles: []
 })
 export class CustomRequirementComponent implements OnInit {
-
   @Output() customMode: EventEmitter<boolean> = new EventEmitter<boolean>();
   closeResult: string;
   // list of all enhancementNames
@@ -48,11 +48,9 @@ export class CustomRequirementComponent implements OnInit {
 
   // list of categoryIds which are in our table/list
   categoriesInList: number[];
+  faChevronLeft = faChevronLeft;
 
-  constructor(
-    private modalService: NgbModal,
-    private _requirementEditorDataShare: RequirementEditorDataShareService
-  ) {
+  constructor(private modalService: NgbModal, private _requirementEditorDataShare: RequirementEditorDataShareService) {
     this.attributeList = this._requirementEditorDataShare.getAttributes();
     this.categories = this._requirementEditorDataShare.getCategories();
 
@@ -73,13 +71,26 @@ export class CustomRequirementComponent implements OnInit {
     this.filterCategorieIds();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   /**
    * This method creates an empty nested Object. It is necessary when a user wants to create a new CustomRequirement
    */
   createEmptyCustomRequirementObject() {
-    this.customRequirementObj = new CMRequirement(null, this.setUpCustomRequirementName(), null, null, [], [], [], [], null, null, null, null);
+    this.customRequirementObj = new CMRequirement(
+      null,
+      this.setUpCustomRequirementName(),
+      null,
+      null,
+      [],
+      [],
+      [],
+      [],
+      null,
+      null,
+      null,
+      null
+    );
     this.customRequirementObj.categoryId = this.categories[0].id;
     this.status.forEach((element: CMExtensionKey) => {
       const defaultStatusContent = new CMStatusSubType(element.id, null, null);
@@ -104,7 +115,7 @@ export class CustomRequirementComponent implements OnInit {
     let maxNumber: number;
     let tempNumber: number;
     maxNumber = 0;
-    this.customRequirementList.forEach((element) => {
+    this.customRequirementList.forEach(element => {
       // Cuts the numbers of "CUS-XX" and saves it in tempNumber
       tempNumber = +element.name.slice(CUSTOMREQUIREMENT_PREFIX.length, element.name.length);
       if (maxNumber < tempNumber) {
@@ -125,7 +136,7 @@ export class CustomRequirementComponent implements OnInit {
    * the categoriesInList
    */
   filterCategorieIds() {
-    this.customRequirementList.forEach((element) => {
+    this.customRequirementList.forEach(element => {
       if (!this.categoriesInList.includes(element.categoryId)) {
         this.categoriesInList.push(element.categoryId);
       }
@@ -138,7 +149,6 @@ export class CustomRequirementComponent implements OnInit {
    * @param useOldCustReq set to true if need a empty custom requirement
    */
   open(content: any, useOldCustReq: boolean) {
-
     if (!useOldCustReq) {
       this.createEmptyCustomRequirementObject();
     }
@@ -195,7 +205,7 @@ export class CustomRequirementComponent implements OnInit {
         correctIndex = index;
       }
     });
-    return (cmRequirementObj.categoryId !== null && cmRequirementObj.status[correctIndex].content !== null);
+    return cmRequirementObj.categoryId !== null && cmRequirementObj.status[correctIndex].content !== null;
   }
 
   /**
@@ -203,10 +213,10 @@ export class CustomRequirementComponent implements OnInit {
    * This can be the case, after we removed or edited customRequirements
    */
   searchAndRemoveEmptyCategories() {
-    this.categoriesInList.forEach((cat) => {
+    this.categoriesInList.forEach(cat => {
       let categorieCounter: number;
       categorieCounter = 0;
-      this.customRequirementList.forEach((custReq) => {
+      this.customRequirementList.forEach(custReq => {
         if (cat === custReq.categoryId) {
           categorieCounter++;
         }
@@ -236,7 +246,7 @@ export class CustomRequirementComponent implements OnInit {
         /* Minimum selection is one */
         if (contents.length > 1) {
           status.values.splice(index, 1);
-          status.content = contents.filter((elem) => elem.trim().toLowerCase() !== newValue.content.trim().toLowerCase()).join(',');
+          status.content = contents.filter(elem => elem.trim().toLowerCase() !== newValue.content.trim().toLowerCase()).join(',');
         }
       } else {
         /* selected value was not preselected => selection */
@@ -276,5 +286,3 @@ export class CustomRequirementComponent implements OnInit {
     this.editMode = false;
   }
 }
-
-

@@ -5,9 +5,10 @@ import { GatewayAppModule } from './app.module';
 ProdConfig();
 
 if (module['hot']) {
-    module['hot'].accept();
+  module['hot'].accept();
 }
 
-platformBrowserDynamic().bootstrapModule(GatewayAppModule)
-.then(() => console.log(`Application started`)) // Use the success parameter as the err parameter if necessary
-.catch((err) => console.error(err));
+platformBrowserDynamic()
+  .bootstrapModule(GatewayAppModule, { preserveWhitespaces: true })
+  .then(success => console.log(`Application started`))
+  .catch(err => console.error(err));

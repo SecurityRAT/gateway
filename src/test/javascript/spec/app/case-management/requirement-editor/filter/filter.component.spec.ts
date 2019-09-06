@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { FilterComponent } from '../../../../../../../main/webapp/app/case-management/requirement-editor/filter/filter.component';
-import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
+import { FilterComponent } from 'app/case-management/requirement-editor/filter/filter.component';
+import { CMUtilService } from 'app/case-management/common/services/util.service';
 
 describe('FilterComponent', () => {
   let component: FilterComponent;
@@ -14,8 +14,8 @@ describe('FilterComponent', () => {
       declarations: [FilterComponent],
       providers: [CMUtilService]
     })
-    .overrideTemplate(FilterComponent, '')
-    .compileComponents();
+      .overrideTemplate(FilterComponent, '')
+      .compileComponents();
   }));
 
   beforeEach(() => {

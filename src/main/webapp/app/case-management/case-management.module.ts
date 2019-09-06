@@ -1,16 +1,12 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RequirementEditorModule } from './requirement-editor/requirement-editor.module';
-import { StarterModule } from './starter/starter.module';
 import { CMSharedModule } from './common/shared-module.module';
+import { StarterModule } from './starter/starter.module';
+import { RequirementEditorModule } from './requirement-editor/requirement-editor.module';
 
 @NgModule({
-  imports: [
-    CMSharedModule,
-    RequirementEditorModule,
-    StarterModule
-  ],
+  imports: [CMSharedModule, StarterModule, RequirementEditorModule],
   declarations: [],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CaseManagementModule { }
+export class CaseManagementModule {}

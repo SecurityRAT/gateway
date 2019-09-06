@@ -3,11 +3,7 @@ import { JhiFilterPipe, JhiOrderByPipe } from 'ng-jhipster';
 import { CMAttribute, CMRequirement } from '..';
 @Injectable()
 export class CMUtilService {
-
-  constructor(
-    private jhiFilterPipe: JhiFilterPipe,
-    private jhiOrderByPipe: JhiOrderByPipe
-  ) { }
+  constructor(private jhiFilterPipe: JhiFilterPipe, private jhiOrderByPipe: JhiOrderByPipe) {}
 
   /**
    * Recursively filter an array with the given property object.
@@ -39,12 +35,11 @@ export class CMUtilService {
     if (propertyObj !== undefined) {
       const key = Object.keys(propertyObj)[0];
       array.forEach((elem: any) => {
-
         if (elem.children && elem.children.length > 0) {
           this.updatePropertyInArray(elem.children, propertyObj, specificIds);
         }
 
-        if ((specificIds === undefined) || (specificIds !== undefined && specificIds.length > 0 && specificIds.indexOf(elem.id) !== -1)) {
+        if (specificIds === undefined || (specificIds !== undefined && specificIds.length > 0 && specificIds.indexOf(elem.id) !== -1)) {
           elem[key] = propertyObj[key];
           // elem = Object.assign({}, elem);
         }
@@ -61,7 +56,7 @@ export class CMUtilService {
     const tagCategories: string[] = Object.keys(selectedTags);
     if (tagCategories.length > 0) {
       /* Iterate through the requirements presently shown */
-      array.forEach((req) => {
+      array.forEach(req => {
         if (req.viewOptions.show) {
           let count = 0;
           /* A valid requirement must have atleast one selected Tag from each category. */
@@ -96,7 +91,7 @@ export class CMUtilService {
    */
   filterRequirementsByCategories(array: CMRequirement[], selectedCategoriesIds: number[]): CMRequirement[] {
     if (selectedCategoriesIds !== undefined && selectedCategoriesIds.length > 0) {
-      array.forEach((req) => {
+      array.forEach(req => {
         if (req.viewOptions.show && selectedCategoriesIds.indexOf(req.categoryId) === -1) {
           req.viewOptions.show = false;
         }
@@ -107,7 +102,7 @@ export class CMUtilService {
   }
 
   setShowViewOptionInReqs(array: CMRequirement[], show = true): CMRequirement[] {
-    array.forEach((req) => {
+    array.forEach(req => {
       req.viewOptions.show = show;
     });
 
@@ -123,17 +118,21 @@ export class CMUtilService {
    */
   formatCategoryListForView(categories: CMAttribute[], prefixName: string, separatingSymbol: string): CMAttribute[] {
     const newArray: CMAttribute[] = [];
-    categories.forEach((cat) => {
+    categories.forEach(cat => {
       const catCopy: CMAttribute = Object.assign({}, cat);
       catCopy.name = prefixName + catCopy.name;
       let children: CMAttribute[] = [];
       if (catCopy.children !== undefined && catCopy.children.length > 0) {
-        children = this.formatCategoryListForView(this.sortArrayByPredicate(cat.children, 'showOrder'), `${catCopy.name} ${separatingSymbol} `, separatingSymbol);
+        children = this.formatCategoryListForView(
+          this.sortArrayByPredicate(cat.children, 'showOrder'),
+          `${catCopy.name} ${separatingSymbol} `,
+          separatingSymbol
+        );
         delete catCopy.children;
       }
       newArray.push(catCopy);
       /* retains the order parent before children */
-      children.forEach((subCat) => {
+      children.forEach(subCat => {
         newArray.push(subCat);
       });
     });
@@ -156,7 +155,7 @@ export class CMUtilService {
    * @param strict Determine to throw an exception for non convertible string values to number
    */
   convertStringToNumberArray(value: string, strict = false): number[] {
-    const result: number[] = value.split(',').map((item) => {
+    const result: number[] = value.split(',').map(item => {
       const i = Number(item);
       if (!i) {
         if (strict) {

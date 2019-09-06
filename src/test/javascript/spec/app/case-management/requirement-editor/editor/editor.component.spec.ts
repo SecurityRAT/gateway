@@ -2,25 +2,29 @@ import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core
 import { ActivatedRoute } from '@angular/router';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { EditorComponent } from '../../../../../../../main/webapp/app/case-management/requirement-editor/editor/editor.component';
-import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
-import { CaseManagementBackendService } from '../../../../../../../main/webapp/app/case-management/common/services/case-management-backend.service';
+import { EditorComponent } from 'app/case-management/requirement-editor/editor/editor.component';
+import { CMUtilService } from 'app/case-management/common/services/util.service';
+import { CaseManagementBackendService } from 'app/case-management/common/services/case-management-backend.service';
 import { MockActivatedRoute } from '../../../../helpers/mock-route.service';
-import { CMRequirement, CMStatusSubType, CMExtensionKey, CMExtensionType, CMExtension } from '../../../../../../../main/webapp/app/case-management/common';
+import { CMRequirement, CMStatusSubType, CMExtensionKey, CMExtensionType, CMExtension } from 'app/case-management/common';
 import { HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs/observable/of';
-import { RequirementEditorDataShareService } from './../../../../../../../main/webapp/app/case-management/requirement-editor/requirement-editor-data-share.service';
+import { of } from 'rxjs';
+import { RequirementEditorDataShareService } from 'app/case-management/requirement-editor/requirement-editor-data-share.service';
 
 describe('Component Tests', () => {
-
   describe('Editor Component', () => {
     let component: EditorComponent;
     let fixture: ComponentFixture<EditorComponent>;
     let cmBackendService: CaseManagementBackendService;
     // let cmUtilService: CMUtilService;
     // let mockRouter: any;
-    const nonValidParams = new MockActivatedRoute({ 'requirementSet': 1 });
-    const paramOnGenerate = new MockActivatedRoute({ 'requirementSet': '1', 'attributes': '1, 2, 3', 'attributeKeys': '1', 'name': 'testArtifact' });
+    const nonValidParams = new MockActivatedRoute({ requirementSet: 1 });
+    const paramOnGenerate = new MockActivatedRoute({
+      requirementSet: '1',
+      attributes: '1, 2, 3',
+      attributeKeys: '1',
+      name: 'testArtifact'
+    });
     // beforeEach(() => {
     //   fixture = TestBed.createComponent(EditorComponent);
     //   component = fixture.componentInstance;
@@ -34,7 +38,10 @@ describe('Component Tests', () => {
         TestBed.configureTestingModule({
           imports: [GatewayTestModule],
           declarations: [EditorComponent],
-          providers: [CMUtilService, RequirementEditorDataShareService, CaseManagementBackendService,
+          providers: [
+            CMUtilService,
+            RequirementEditorDataShareService,
+            CaseManagementBackendService,
             { provide: ActivatedRoute, useValue: nonValidParams }
           ]
         })
@@ -61,7 +68,6 @@ describe('Component Tests', () => {
         expect(component.loadExtensions).toHaveBeenCalledTimes(0);
         expect(component.loadFilters).toHaveBeenCalledTimes(0);
       }));
-
     });
 
     describe('#ngOnit with valid parameters', () => {
@@ -69,7 +75,10 @@ describe('Component Tests', () => {
         TestBed.configureTestingModule({
           imports: [GatewayTestModule],
           declarations: [EditorComponent],
-          providers: [CMUtilService, RequirementEditorDataShareService, CaseManagementBackendService,
+          providers: [
+            CMUtilService,
+            RequirementEditorDataShareService,
+            CaseManagementBackendService,
             { provide: ActivatedRoute, useValue: paramOnGenerate }
           ]
         })
@@ -87,9 +96,13 @@ describe('Component Tests', () => {
         //   showOrder: 10,
         //   description: '',
         // };
-        spyOn(cmBackendService, 'query').and.returnValue(of(new HttpResponse({
-          body: []
-        })));
+        spyOn(cmBackendService, 'query').and.returnValue(
+          of(
+            new HttpResponse({
+              body: []
+            })
+          )
+        );
         spyOn(component, 'updateStatusInReqs').and.callThrough();
         component.ngOnInit();
 
@@ -109,7 +122,10 @@ describe('Component Tests', () => {
         ];
 
         const status = [
-          new CMExtensionKey(1, 'statusKey', '', 1, CMExtensionType.ENUM, [new CMExtension(1, 'testValue'), new CMExtension(2, 'testValue2')]),
+          new CMExtensionKey(1, 'statusKey', '', 1, CMExtensionType.ENUM, [
+            new CMExtension(1, 'testValue'),
+            new CMExtension(2, 'testValue2')
+          ]),
           new CMExtensionKey(2, 'freetextStatusType', '', 1, CMExtensionType.FREETEXT, [new CMExtension(3, 'testValue')])
         ];
 

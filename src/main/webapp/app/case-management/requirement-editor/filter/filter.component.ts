@@ -1,13 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CMAttribute, CMRequirement, CMUtilService } from '../../common';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { faQuestionCircle, faWindowMaximize, faWindowMinimize, faTags, faBars } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['filter.component.css']
+  styleUrls: ['filter.component.scss']
 })
 export class FilterComponent implements OnInit {
+  faQuestionCircle = faQuestionCircle;
+  faWindowMaximize = faWindowMaximize;
+  faWindowMinimize = faWindowMinimize;
+  faTags = faTags;
+  faBars = faBars;
 
   @Input() tags: CMAttribute[];
 
@@ -25,9 +31,7 @@ export class FilterComponent implements OnInit {
 
   panelCategory: any;
 
-  constructor(
-    private _cmUtilService: CMUtilService
-  ) {
+  constructor(private _cmUtilService: CMUtilService) {
     this.selectedTags = {};
     this.selectedCategories = [];
     this.panelTags = {
@@ -42,8 +46,7 @@ export class FilterComponent implements OnInit {
     };
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   updateSelectedTags(changedTag: CMAttribute) {
     if (this.selectedTags[changedTag.keyId] === undefined) {

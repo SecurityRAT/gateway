@@ -1,21 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { JhiFilterPipe, JhiOrderByPipe } from 'ng-jhipster';
 
-import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
-import { CMRequirement, CMAttribute } from '../../../../../../../main/webapp/app/case-management/common';
+import { CMUtilService } from 'app/case-management/common/services/util.service';
+import { CMRequirement, CMAttribute } from 'app/case-management/common';
 
 describe('Service Tests', () => {
   describe('CM Util Service', () => {
-
     let service: CMUtilService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [
-          CMUtilService,
-          JhiFilterPipe,
-          JhiOrderByPipe
-        ]
+        providers: [CMUtilService, JhiFilterPipe, JhiOrderByPipe]
       });
 
       service = TestBed.get(CMUtilService);
@@ -78,8 +73,8 @@ describe('Service Tests', () => {
         const filteredArray = service.filterByObj(givenArray, { selected: true });
 
         expect(filteredArray.length).toBe(2);
-        expect(filteredArray.map((item) => item.id).indexOf(1) !== -1).toBeTruthy();
-        expect(filteredArray.map((item) => item.id).indexOf(3) !== -1).toBeTruthy();
+        expect(filteredArray.map(item => item.id).indexOf(1) !== -1).toBeTruthy();
+        expect(filteredArray.map(item => item.id).indexOf(3) !== -1).toBeTruthy();
       });
 
       it('should filter out by id element without nested array', () => {
@@ -157,24 +152,24 @@ describe('Service Tests', () => {
               {
                 id: 4,
                 showOrder: 20,
-                name: 'category 1 child',
+                name: 'category 1 child'
               },
               {
                 id: 5,
                 showOrder: 10,
-                name: 'category 2 child',
-              },
+                name: 'category 2 child'
+              }
             ]
           },
           {
             id: 2,
             showOrder: 30,
-            name: 'category 2',
+            name: 'category 2'
           },
           {
             id: 3,
             showOrder: 20,
-            name: 'category 3',
+            name: 'category 3'
           }
         ];
 
@@ -191,7 +186,7 @@ describe('Service Tests', () => {
           new CMRequirement(1, 'test1', 1, 10, [], [], [], []),
           new CMRequirement(2, 'test2', 2, 20, [], [], [], []),
           new CMRequirement(3, 'test3', 3, 30, [], [], [], []),
-          new CMRequirement(4, 'test4', 4, 40, [], [], [], []),
+          new CMRequirement(4, 'test4', 4, 40, [], [], [], [])
         ];
 
         service.filterRequirementsByCategories(givenArray, [1, 3]);
@@ -213,7 +208,7 @@ describe('Service Tests', () => {
           new CMRequirement(1, 'test1', 1, 10, [1, 2, 3], [], [], []),
           new CMRequirement(2, 'test2', 2, 20, [3, 4, 5, 1], [], [], []),
           new CMRequirement(3, 'test3', 3, 30, [2, 6, 7, 8, 1], [], [], []),
-          new CMRequirement(4, 'test4', 4, 40, [10, 11, 12, 3, 1], [], [], []),
+          new CMRequirement(4, 'test4', 4, 40, [10, 11, 12, 3, 1], [], [], [])
         ];
 
         const selectedtagsObj = {
@@ -229,7 +224,7 @@ describe('Service Tests', () => {
         const selectedtagsObj2 = {
           '1': [2, 4],
           '2': [5, 7, 11],
-          '3': [8, 1],
+          '3': [8, 1]
         };
 
         service.filterRequirementsByFeTags(givenArray, selectedtagsObj2);
@@ -243,7 +238,7 @@ describe('Service Tests', () => {
           new CMRequirement(1, 'test1', 1, 10, [1, 2, 3], [], [], []),
           new CMRequirement(2, 'test2', 2, 20, [3, 4, 5, 1], [], [], []),
           new CMRequirement(3, 'test3', 3, 30, [2, 6, 7, 8, 1], [], [], []),
-          new CMRequirement(4, 'test4', 4, 40, [10, 11, 12, 3, 1], [], [], []),
+          new CMRequirement(4, 'test4', 4, 40, [10, 11, 12, 3, 1], [], [], [])
         ];
 
         const selectedtagsObj = {

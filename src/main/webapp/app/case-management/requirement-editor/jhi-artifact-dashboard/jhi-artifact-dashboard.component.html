@@ -1,54 +1,58 @@
 <div>
     <section>
         <h3>{{artifactInfo.name}}</h3>
-        <a *ngIf="artifactInfo.persistenceInfo" [href]="artifactInfo.persistenceInfo.url" target="_blank">{{artifactInfo.persistenceInfo.alias}}</a>
-        <ngb-accordion activeIds="static-1" (panelChange)="changeIcon()" class="dashboard">
+        <a *ngIf="artifactInfo.persistenceInfo" [href]="artifactInfo.persistenceInfo.url"
+            target="_blank">{{artifactInfo.persistenceInfo.alias}}</a>
+        <ngb-accordion (panelChange)="changeIcon()" class="dashboard">
             <ngb-panel id="static-1">
-                <ng-template ngbPanelTitle>
+                <ng-template ngbPanelHeader>
                     Artifact Information
-                    <span class="float-right">
-                        <i *ngIf="isOpen" class="fa fa-window-minimize" ngbTooltip="Reduce"></i>
-                        <i *ngIf="!isOpen" class="fa fa-window-maximize" ngbTooltip="Expand"></i>
-                    </span>
+                    <button ngbPanelToggle class="float-right btn btn-sm">
+                        <fa-icon [icon]="faWindowMinimize" *ngIf="isOpen" ngbTooltip="Minimize" container="body">
+                        </fa-icon>
+                        <fa-icon [icon]="faWindowMaximize" *ngIf="!isOpen" ngbTooltip="Expand" container="body">
+                        </fa-icon>
+                    </button>
                 </ng-template>
                 <ng-template ngbPanelContent>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <h4 class="col">
-                                Created on:
-                                <strong>{{creationDate | date: 'dd-MM-yyyy'}}</strong>
-                            </h4>
-                            <h4 *ngIf="lastSaved">
-                                last saved:
-                                <strong>{{lastSaved | date: 'dd-MM-yyyy'}}</strong>
-                            </h4>
-                            <button [routerLink]="['/', { outlets: { popup: 'change-selection'} }]" replaceUrl="true" type="button" class="btn btn-secrat float-right">Change selection</button>
-                        </div>
+                    <div class="row">
+                        <h5 class="col">
+                            Created on:
+                            <strong>{{creationDate | date: 'dd-MM-yyyy'}}</strong>
+                        </h5>
+                        <h5 *ngIf="lastSaved">
+                            last saved:
+                            <strong>{{lastSaved | date: 'dd-MM-yyyy'}}</strong>
+                        </h5>
+                        <button [routerLink]="['/', { outlets: { popup: 'change-selection'} }]" replaceUrl="true"
+                            type="button" class="btn btn-secrat float-right">Change selection</button>
+                    </div>
 
-                        <div class="row ">
-                            <h4 class="col ">Requirement set:
-                                <strong>{{requirementSet.name}}</strong>
-                            </h4>
-                        </div>
-                        <div class="row ">
-                            <div class="table-responsive ">
-                                <table class="table ">
-                                    <thead>
-                                        <tr>
-                                            <th style="border-top: none " *ngFor="let key of attributeKeys ">{{key.name}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td *ngFor="let key of attributeKeys ">
-                                                <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: key.id}) " [attribute]="attribute " [checkboxType]="false "
-                                                    count=-1>
-                                                </jhi-attribute-tag>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="row ">
+                        <h5 class="col ">Requirement set:
+                            <strong>{{requirementSet.name}}</strong>
+                        </h5>
+                    </div>
+                    <div class="row ">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="border-top: none " *ngFor="let key of attributeKeys ">
+                                            {{key.name}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td *ngFor="let key of attributeKeys ">
+                                            <jhi-attribute-tag
+                                                *ngFor="let attribute of (attributes | filter: {keyId: key.id}) "
+                                                [attribute]="attribute " [checkboxType]="false " count=-1>
+                                            </jhi-attribute-tag>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </ng-template>

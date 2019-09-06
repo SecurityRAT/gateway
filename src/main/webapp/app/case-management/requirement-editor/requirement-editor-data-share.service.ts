@@ -7,7 +7,7 @@ export class RequirementEditorDataShareService implements OnInit {
   customRequirements: CMRequirement[];
   enhancements: CMExtensionKey[];
   attributes: CMAttribute[];
-  status:  CMExtensionKey[];
+  status: CMExtensionKey[];
   categories: CMAttribute[];
   categoriesInList: number[];
 
@@ -42,10 +42,11 @@ export class RequirementEditorDataShareService implements OnInit {
 
   getCustomRequirements(): CMRequirement[] {
     this.customRequirements = [];
-    this.requirements.forEach((requirement) => {
-        if (requirement.name.includes('CUS')) {
+    this.requirements.forEach(requirement => {
+      if (requirement.name.includes('CUS')) {
         this.customRequirements.push(requirement);
-    }});
+      }
+    });
 
     return this.customRequirements;
   }
@@ -76,11 +77,10 @@ export class RequirementEditorDataShareService implements OnInit {
   }
 
   setCategoriesInList(categoriesInList: number[]) {
-    this.categoriesInList  = categoriesInList;
+    this.categoriesInList = categoriesInList;
   }
 
   getCategoriesInList(): number[] {
     return this.categoriesInList;
   }
-
 }

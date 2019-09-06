@@ -1,0 +1,26 @@
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #005c99;
+}
+
+.card-enhancements ::ng-deep .card-header {
+  padding: 0.25rem 0.25rem;
+}
+
+.card-enhancements ::ng-deep .card {
+  margin-bottom: 0.25em;
+}
+
+.card-enhancements ::ng-deep .card-header > button {
+  color: #533f03;
+}
+
+.btn-outline-secrat:focus {
+  box-shadow: none;
+}
+
+section {
+  margin-bottom: 0.5em;
+}

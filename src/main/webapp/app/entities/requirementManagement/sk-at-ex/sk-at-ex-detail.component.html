@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="skAtEx">
+            <h2><span>Sk At Ex</span> {{skAtEx.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Skeleton</span></dt>
+                <dd>
+                    <div *ngIf="skAtEx.skeleton">
+                        <a [routerLink]="['/skeleton', skAtEx.skeleton?.id, 'view']">{{skAtEx.skeleton?.name}}</a>
+                    </div>
+                </dd>
+                <dt><span>Attribute</span></dt>
+                <dd>
+                    <div *ngIf="skAtEx.attribute">
+                        <a [routerLink]="['/attribute', skAtEx.attribute?.id, 'view']">{{skAtEx.attribute?.name}}</a>
+                    </div>
+                </dd>
+                <dt><span>Extension</span></dt>
+                <dd>
+                    <div *ngIf="skAtEx.extension">
+                        <a [routerLink]="['/extension', skAtEx.extension?.id, 'view']">{{skAtEx.extension?.content}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/sk-at-ex', skAtEx.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

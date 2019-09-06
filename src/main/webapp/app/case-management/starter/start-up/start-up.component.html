@@ -7,13 +7,17 @@
 <div class="container modal-body">
     <jhi-alert></jhi-alert>
     <jhi-alert-error></jhi-alert-error>
-    <ngb-tabset style="background-color:grey" type="tabs" justify="center" [activeId]="initialActiveTab" #t="ngbTabset" (tabChange)="beforeChange($event)">
+    <ngb-tabset style="background-color:grey" type="tabs" justify="center" [activeId]="initialActiveTab" #t="ngbTabset"
+        (tabChange)="beforeChange($event)">
         <ngb-tab [title]="tabs[0].title" [id]="tabs[0].id" [disabled]="tabs[0].disabled">
             <ng-template ngbTabContent class="d-flex justify-content-center">
-                <!-- <ngb-alert type="danger" class="text-center" [dismissible]="false" *ngIf="requirementSets.length === 0">No requirement set were found. Please contact the tool administrator for more information.</ngb-alert> -->
+                <ngb-alert type="warning" class="text-center" [dismissible]="false"
+                    *ngIf="requirementSets.length === 0">No requirement set were found.</ngb-alert>
                 <div class="card-deck">
-                    <div class="card border-secrat jh-card text-center" [ngClass]="selectedRequirementSet && {'border-success text-success': requirementSet.id == selectedRequirementSet.id, 'border-light text-secondary': requirementSet.id != selectedRequirementSet.id}"
-                        *ngFor="let requirementSet of requirementSets" (click)="selectedRequirementSet = requirementSet" style="cursor: pointer">
+                    <div class="border-secrat card jh-card text-center"
+                        [ngClass]="selectedRequirementSet && {'border-success text-success': requirementSet.id == selectedRequirementSet.id, 'border-light text-secondary': requirementSet.id != selectedRequirementSet.id}"
+                        *ngFor="let requirementSet of requirementSets" (click)="selectedRequirementSet = requirementSet"
+                        style="cursor: pointer">
                         <div class="card-body">
                             <h6 class="card-title">{{requirementSet.name}}</h6>
                             <p class="card-text">{{requirementSet.description}}</p>
@@ -22,9 +26,10 @@
                 </div>
                 <section>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-md btn-secrat" [disabled]="!selectedRequirementSet" (click)="t.select(tabs[1].id)">
+                        <button type="button" class="btn btn-md btn-secrat" [disabled]="!selectedRequirementSet"
+                            (click)="t.select(tabs[1].id)">
                             Next
-                            <i class="fa fa-arrow-right"></i>
+                            <fa-icon [icon]="faArrowRight"></fa-icon>
                         </button>
                     </div>
                 </section>
@@ -33,7 +38,9 @@
         <ngb-tab [title]="tabs[1].title" [id]="tabs[1].id" [disabled]="!selectedRequirementSet || tabs[1].disabled">
             <ng-template ngbTabContent>
                 <section>
-                    <ngb-alert type="success" [dismissible]="false" class="border-success text-success text-center" [ngbTooltip]="selectedRequirementSet.description">Requirement set: <strong>{{selectedRequirementSet.name}}</strong></ngb-alert>
+                    <ngb-alert type="success" [dismissible]="false" class="border-success text-success text-center"
+                        [ngbTooltip]="selectedRequirementSet.description">Requirement set:
+                        <strong>{{selectedRequirementSet.name}}</strong></ngb-alert>
                     <form role="form" name="artifactSettings" #settings="ngForm" (ngSubmit)="generate()" novalidate>
                         <div class="form-group">
                             <label class="form-control-label" for="name">
@@ -41,14 +48,16 @@
                                     <strong>Name of the artifact:</strong>
                                 </h4>
                             </label>
-                            <input type="text" class="form-control col-md-9" name="name" id="field_name" [(ngModel)]="artifactSettings.name" #name="ngModel"
-                                pattern="^[\w\s\-\.\:\+\(\)\[\]\,\!\#\$\%\'\*\=\?\^\`\{\|\}\~\;\@\&\\]+$" required/>
+                            <input type="text" class="form-control col-md-9" name="name" id="field_name"
+                                [(ngModel)]="artifactSettings.name" #name="ngModel"
+                                pattern="^[\w\s\-\.\:\+\(\)\[\]\,\!\#\$\%\'\*\=\?\^\`\{\|\}\~\;\@\&\\]+$" required />
                             <div [hidden]="!(name.dirty && name.invalid)">
                                 <small class="form-text text-danger" [hidden]="!name.errors?.required">
                                     This field is required.
                                 </small>
                                 <small class="form-text text-danger" [hidden]="!name.errors?.pattern">
-                                    Only alphanumeric and ( ) , . [ ] ! # $ % & ' * + - = ? ^ _ ` {{ '{' }} | } ~ characters are allowed.
+                                    Only alphanumeric and ( ) , . [ ] ! # $ % & ' * + - = ? ^ _ ` {{ '{' }} | } ~
+                                    characters are allowed.
                                 </small>
                             </div>
                         </div>
@@ -62,13 +71,12 @@
                         <div class="form-group row" *ngFor="let attributeKey of attributeKeys">
                             <label for="" class="form-control-label col-sm-3">
                                 <strong>{{attributeKey.name}}:</strong>
-                                <span>
-                                    <i class="fa fa-question-circle-o" [ngbTooltip]="attributeKey.description"></i>
-                                </span>
+                                <fa-icon [icon]="faQuestionCircle" [ngbTooltip]="attributeKey.description"></fa-icon>
                             </label>
 
-                            <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: attributeKey.id})" [attribute]="attribute" [count]="-1"
-                                [checkboxType]="true" [showChildrenOnSelect]="true">
+                            <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: attributeKey.id})"
+                                [attribute]="attribute" [count]="-1" [checkboxType]="true"
+                                [showChildrenOnSelect]="true">
                             </jhi-attribute-tag>
                         </div>
                         <div class="modal-footer">

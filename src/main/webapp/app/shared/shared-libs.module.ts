@@ -1,33 +1,30 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { MarkdownModule } from 'angular2-markdown';
+import { NgxMdModule } from 'ngx-md';
 import { CookieModule } from 'ngx-cookie';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-    imports: [
-        NgbModule.forRoot(),
-        NgJhipsterModule.forRoot({
-            // set below to true to make alerts look like toast
-            alertAsToast: true,
-        }),
-        InfiniteScrollModule,
-        CookieModule.forRoot(),
-        MarkdownModule.forRoot()
-    ],
-    exports: [
-        FormsModule,
-        HttpClientModule,
-        CommonModule,
-        NgbModule,
-        NgJhipsterModule,
-        InfiniteScrollModule,
-        MarkdownModule,
-
-    ]
+  imports: [NgbModule, InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, ReactiveFormsModule, NgxMdModule.forRoot()],
+  exports: [
+    FormsModule,
+    CommonModule,
+    NgbModule,
+    NgJhipsterModule,
+    InfiniteScrollModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    NgxMdModule
+  ]
 })
-export class GatewaySharedLibsModule { }
+export class GatewaySharedLibsModule {
+  static forRoot() {
+    return {
+      ngModule: GatewaySharedLibsModule
+    };
+  }
+}

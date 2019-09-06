@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomRequirementComponent } from './../../../../../../../main/webapp/app/case-management/requirement-editor/custom-requirement/custom-requirement.component';
+import { CustomRequirementComponent } from 'app/case-management/requirement-editor/custom-requirement/custom-requirement.component';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { CMUtilService } from '../../../../../../../main/webapp/app/case-management/common/services/util.service';
-import { RequirementEditorDataShareService } from './../../../../../../../main/webapp/app/case-management/requirement-editor/requirement-editor-data-share.service';
+import { CMUtilService } from 'app/case-management/common/services/util.service';
+import { RequirementEditorDataShareService } from 'app/case-management/requirement-editor/requirement-editor-data-share.service';
 import {
   // CMEnhancementSubType,
-  CMRequirement,
+  CMRequirement
   // CMExtensionKey,
   //  CMAttribute,
   //  CMExtensionType,
   //  CMExtension,
   //  CMStatusSubType
-} from '../../../../../../../main/webapp/app/case-management/common';
+} from 'app/case-management/common';
 
 describe('CustomRequirementComponent', () => {
   let component: CustomRequirementComponent;
@@ -58,7 +58,8 @@ describe('CustomRequirementComponent', () => {
   it('ends edit Mode and adds edited CmReq to customRequirementList', () => {
     component.customRequirementList = [
       new CMRequirement(null, 'CUS-01', 1, null, [], [], [], [], null, null, null, null),
-      new CMRequirement(null, 'CUS-02', 1, null, [], [], [], [], null, null, null, null)];
+      new CMRequirement(null, 'CUS-02', 1, null, [], [], [], [], null, null, null, null)
+    ];
 
     component.customRequirementObj = new CMRequirement(null, 'CUS-01', 999, null, [], [], [], [], null, null, null, null);
 
@@ -107,9 +108,9 @@ describe('CustomRequirementComponent', () => {
     it('-> number greater >= 9  ', () => {
       component.customRequirementList = [
         new CMRequirement(null, 'CUS-01', null, null, [], [], [], [], null, null, null, null),
-        new CMRequirement(null, 'CUS-9', null, null, [], [], [], [], null, null, null, null)];
+        new CMRequirement(null, 'CUS-9', null, null, [], [], [], [], null, null, null, null)
+      ];
       expect(component.setUpCustomRequirementName()).toEqual('CUS-10');
     });
-
   });
 });

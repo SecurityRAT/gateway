@@ -1,23 +1,21 @@
 <div (mouseenter)="buttonsVisible = true" (mouseleave)="buttonsVisible = false">
     <div class="card" *ngIf="!changesText" (click)="changesText=true;shownTextBeforeSubmit=shownText"
         [ngStyle]="{'outline': buttonsVisible==true  ? '1px solid grey': '','padding':'10px 10px 10px 10px'}">
-        <span style="width:20em;" [innerHtml]="shownText | sanitizeMarkdown" class="card-text"
-            *ngIf="shownText!=='' && shownText !== null">
+        <ngx-md style="width:20em;" class="card-text" *ngIf="shownText!=='' && shownText !== null">
             {{shownText}}
-        </span>
-        <i style='color: lightgrey' *ngIf="shownText==='' || shownText === null">{{textWhenEmpty}}</i>
-        <i *ngIf="buttonsVisible" style="color:black" class="fa fa-pencil"></i>
-        <i *ngIf="!buttonsVisible" style="color:lightgrey" class="fa fa-pencil"></i>
+        </ngx-md>
+        <span style='color: lightgrey' *ngIf="shownText==='' || shownText === null">{{textWhenEmpty}}</span>
+        <fa-icon [icon]="faPencilAlt" [ngStyle]="{'black': buttonsVisible, 'lightgrey':!buttonsVisible}"></fa-icon>
     </div>
     <textarea class="card-text" cols="50" rows="4" *ngIf="changesText" ngbButton [(ngModel)]="shownText"></textarea>
     <div>
         <button class="btn-sm btn-outline-success" *ngIf="changesText"
             (click)="callParent();changesText=false;buttonsVisible=false">
-            <i class="fa fa-check"></i>
+            <fa-icon [icon]="faCheck"></fa-icon>
         </button>
         <button class="btn-sm btn-outline-danger" *ngIf="changesText"
             (click)="changesText=false;buttonsVisible=false;shownText=shownTextBeforeSubmit">
-            <i class="fa fa-times"></i>
+            <fa-icon [icon]="'times'"></fa-icon>
         </button>
     </div>
 </div>

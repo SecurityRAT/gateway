@@ -2,23 +2,26 @@
     <section>
         <h1 class="secrat-title">Welcome to OWASP SecurityRAT</h1>
         <div>
-            <p class="lead">This tool simplifies security requirement management during the SSDLC using automation approaches.</p>
+            <p class="lead">This tool simplifies security requirement management during the SSDLC using automation
+                approaches.</p>
         </div>
     </section>
-    <section *ngSwitchCase="true"><h3 class="text-center">Please select what you want to do:</h3></section>
+    <section *ngSwitchCase="true">
+        <h3 class="text-center">Please select what you want to do:</h3>
+    </section>
     <section class="container" *ngSwitchCase="true">
-        
+
         <!-- Please two max. boxes per row. -->
         <div class="row secrat-starter">
             <div class="col-md-3 offset-md-3 item">
                 <div class="box" routerLink="startup">
-                    <i class="fa fa-plus-circle"></i>
+                    <fa-icon [icon]="faPlusCircle"></fa-icon>
                     <h4>Define a new artifact</h4>
                 </div>
             </div>
             <div class="col-md-3 item">
                 <div class="box">
-                    <i class="fa fa-download"></i>
+                    <fa-icon [icon]="faDownload"></fa-icon>
                     <h4>Import an artifact</h4>
                 </div>
             </div>

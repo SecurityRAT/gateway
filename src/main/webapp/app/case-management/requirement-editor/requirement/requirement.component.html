@@ -1,5 +1,4 @@
 <section class="container-fluid row">
-    <!-- <div class="row"> -->
     <div ngbDropdown class="d-inline-block mr-2">
         <button class="btn btn-outline-success" id="persistDropdown" ngbDropdownToggle>
             Persist
@@ -46,35 +45,39 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
                     <ng-template #enhancementTipContent>
                         <div *ngFor="let enhancement of enhancements">
                             <span style="color:#cc6600;text-align: left">{{enhancement.name}}:</span>
                             {{enhancement.description}}
                         </div>
                     </ng-template>
-                    <th class="text-center">
+                    <th class="text-center" scope="col">
                         <ng-container *ngIf="!toggle.enhancements">
                             <span [ngbTooltip]="enhancementTipContent" container="body">Enhancements</span>
                         </ng-container>
-                        <span class="fa" [attr.aria-expanded]="!toggle.enhancements"
-                            [ngClass]="{'fa-eye': !toggle.enhancements, 'fa-eye-slash': toggle.enhancements}"
+                        <span [attr.aria-expanded]="!toggle.enhancements"
                             (click)="toggle.enhancements = !toggle.enhancements" ngbTooltip="Show/Hide Enhancements"
-                            container="body" style="cursor: pointer"></span>
+                            container="body" style="cursor: pointer">
+                            <fa-icon *ngIf="!toggle.enhancements" [icon]="faEye"></fa-icon>
+                            <fa-icon *ngIf="toggle.enhancements" [icon]="faEyeSlash"></fa-icon>
+                        </span>
                     </th>
-                    <th *ngFor="let stat of status" class="text-center">
+                    <th *ngFor="let stat of status" class="text-center" scope="col">
                         <span ngbTooltip="{{stat.description}}">{{stat.name}}</span>
                     </th>
-                    <th class="text-center">
+                    <th class="text-center" scope="col">
                         <ng-container *ngIf="!toggle.parameters">Parameters</ng-container>
                         <!-- Toggles the Parameter column -->
-                        <span class="fa" [attr.aria-expanded]="!toggle.parameters"
-                            [ngClass]="{'fa-eye': !toggle.parameters, 'fa-eye-slash': toggle.parameters}"
+                        <span [attr.aria-expanded]="!toggle.parameters"
                             (click)="toggle.parameters = !toggle.parameters" ngbTooltip="Show/Hide Parameters"
-                            container="body" style="cursor: pointer"></span>
+                            container="body" style="cursor: pointer">
+                            <fa-icon *ngIf="!toggle.parameters" [icon]="faEye"></fa-icon>
+                            <fa-icon *ngIf="toggle.parameters" [icon]="faEyeSlash"></fa-icon>
+                        </span>
                     </th>
-                    <th>
+                    <th scope="col">
                         <input type="checkbox" [(ngModel)]="viewProperties.selectAllState" (change)="selectAllReqs()">
                     </th>
                 </tr>
@@ -84,12 +87,12 @@
                     <ng-container *ngIf="categoriesInList.indexOf(cat.id) !== -1">
                         <tr>
                             <td colspan="20" class="text-center">
-                                <h5>{{cat.name}}</h5>
+                                <h6>{{cat.name}}</h6>
                             </td>
                         </tr>
                         <ng-container *ngFor="let req of requirements">
                             <tr *ngIf="req.categoryId === cat.id && req.viewOptions.show">
-                                <td>{{req.name}}</td>
+                                <td><strong>{{req.name}}</strong></td>
                                 <td>
                                     {{req.description}}
                                 </td>
@@ -99,13 +102,13 @@
                                         <ng-container *ngFor="let enhancement of enhancements">
                                             <ng-container *ngFor="let reqEnhancement of req.enhancements">
                                                 <ngb-accordion [activeIds]="getActiveEnhancement(enhancements, req)">
-                                                    <ngb-panel [id]="'' + reqEnhancement.keyId + req.id"
+                                                    <ngb-panel [id]="'' + enhancement.id + req.id"
                                                         [title]="enhancement.name"
                                                         *ngIf="enhancement.id === reqEnhancement.keyId">
                                                         <ng-template ngbPanelContent>
-                                                            <span
-                                                                *ngFor="let content of reqEnhancement.contents | orderBy: 'showOrder'"
-                                                                [innerHtml]="content.content | sanitizeMarkdown"></span>
+                                                            <ngx-md *ngFor="let content of reqEnhancement.contents | orderBy: 'showOrder'">
+                                                                {{content.content}}
+                                                            </ngx-md>
                                                         </ng-template>
                                                     </ngb-panel>
                                                 </ngb-accordion>

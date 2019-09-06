@@ -1,25 +1,15 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
- // import { Router } from '@angular/router';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+// import { Router } from '@angular/router';
 // import { JhiEventManager } from 'ng-jhipster';
-import {
-  CMRequirement,
-  CMExtensionKey,
-  CMAttribute,
-  CMExtensionType,
-  CMExtension,
-  CMStatusSubType,
-  CMUtilService
-} from '../../common';
+import { CMRequirement, CMExtensionKey, CMAttribute, CMExtensionType, CMExtension, CMStatusSubType, CMUtilService } from '../../common';
 
 @Component({
   selector: 'jhi-requirement',
   templateUrl: './requirement.component.html',
-  styleUrls: [
-    './requirement.component.css'
-  ]
+  styleUrls: ['./requirement.component.scss']
 })
 export class RequirementComponent implements OnInit, OnDestroy {
-
   @Input() requirements: CMRequirement[];
 
   @Input() status: CMExtensionKey[];
@@ -35,6 +25,8 @@ export class RequirementComponent implements OnInit, OnDestroy {
   @Output() customMode: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   customizes = false;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
   statusType: any;
 
   toggle: any;
@@ -43,9 +35,9 @@ export class RequirementComponent implements OnInit, OnDestroy {
 
   constructor(
     // private jhiEventManager: JhiEventManager,
-    private _cmUtilService: CMUtilService,
-     // private router: Router
-  ) {
+    private _cmUtilService: CMUtilService
+  ) // private router: Router
+  {
     this.statusType = {
       enum: CMExtensionType.ENUM,
       freeText: CMExtensionType.FREETEXT
@@ -59,8 +51,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   selectAllReqs() {
     for (let i = 0; i < this.requirements.length; i++) {
@@ -71,8 +62,8 @@ export class RequirementComponent implements OnInit, OnDestroy {
 
   getParameters(parameters: number[]): string[] {
     const result: string[] = [];
-    parameters.forEach((id) => {
-      this._cmUtilService.filterByObj(this.parameters, { id }).forEach((attr) => {
+    parameters.forEach(id => {
+      this._cmUtilService.filterByObj(this.parameters, { id }).forEach(attr => {
         result.push(attr.name);
       });
     });
@@ -91,7 +82,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
   }
 
   getSelectedRequirements(): CMRequirement[] {
-    return this.requirements.filter((req) => req.selected);
+    return this.requirements.filter(req => req.selected);
   }
 
   selectStatus(status: CMStatusSubType, newValue: CMExtension, multiselect = false) {
@@ -109,7 +100,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
         /* Minimum selection is one */
         if (contents.length > 1) {
           status.values.splice(index, 1);
-          status.content = contents.filter((elem) => elem.trim().toLowerCase() !== newValue.content.trim().toLowerCase()).join(',');
+          status.content = contents.filter(elem => elem.trim().toLowerCase() !== newValue.content.trim().toLowerCase()).join(',');
         }
       } else {
         /* selected value was not preselected => selection */
@@ -124,6 +115,5 @@ export class RequirementComponent implements OnInit, OnDestroy {
     this.customMode.emit(this.customizes);
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 }

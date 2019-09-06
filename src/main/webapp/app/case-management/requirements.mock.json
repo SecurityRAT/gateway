@@ -1,284 +1,283 @@
-[{
-        "id": 1,
-        "name": "LC-01",
-        "description": "Description lc-01",
-        "showOrder": 10,
-        "feTags": [1, 2, 3],
-        "parameters": [3],
-        "categoryId": 4,
-        "enhancements": [{
-                "keyId": 1,
-                "contents": [{
-                        "id": 1,
-                        "content": "In case your Security Mentor is known, refer to the information security department",
-                        "showOrder": 0
-                    },
-                    {
-                        "id": 2,
-                        "content": "Test weird case where background color is not properly removed. <script>alert(1);</script>",
-                        "showOrder": 1
-                    }
-                ]
-            },
-            {
-                "keyId": 2,
-                "contents": [{
-                    "id": 3,
-                    "content": "Security Mentor is supposed to coordinate all security tasks. Testing updates available.",
-                    "showOrder": 0
-                }]
-            }
-        ],
-        "status": [{
-            "keyId": 4,
-            "values": [
-                1
-            ]
-        }]
-    },
-    {
-        "id": 2,
-        "name": "LC-02",
-        "description": "Plan relevant security trainings for the project team.",
-        "showOrder": 20,
-        "feTags": [4, 5, 6, 1],
-        "parameters": [1, 2],
-        "categoryId": 3,
-        "enhancements": [{
-                "keyId": 1,
-                "contents": [{
-                    "id": 1,
-                    "content": "Security Mentor can use the reporting function of the Training Tool in order to verify whether the team members have attended the relevant security trainings.",
-                    "showOrder": 0
-                }]
-            },
-            {
-                "keyId": 2,
-                "contents": [{
-                    "id": 3,
-                    "content": "Ensure that project members have an appropriate security know - how helping to protect our systems against attacks.",
-                    "showOrder": 0
-                }]
-            }
-        ],
-        "status": [{
-            "keyId": 1,
-            "values": [
-                2
-            ]
-        }]
-    },
-    {
-        "id": 3,
-        "name": "SA-01",
-        "description": "3rd party code is identified, checked for security vulnerabilities and its update process is defined.",
-        "showOrder": 10,
-        "feTags": [7, 8, 2, 5],
-        "parameters": [5],
-        "categoryId": 6,
-        "enhancements": [{
-                "keyId": 1,
-                "contents": [{
-                    "id": 1,
-                    "content": "Implementation of automated\n\n ```html\r\n<span></span>\n<script>alert(1);<script>```\ntooling can support this task:\n- [https://www.owasp.org/index.php/OWASP_Dependency_Check](javascript:alert('Injected!'%29)) (mapping of dependencies to CVEs)\n- https://nodesecurity.io/tools (evaluation of vulnerable packages for npm)\n- http://retirejs.github.io/retire.js/ (JavaScript libraries with known vulnerabilites)",
-                        "showOrder": 0
-                }]
-            }
-        ],
-        "status": []
-    },
-    {
-        "id": 4,
-        "name": "SA-02",
-        "description": "No fundamentally different roles are present in the same application.",
-        "showOrder": 20,
-        "feTags": [10, 11, 12, 7],
-        "parameters": [8, 9, 2],
-        "categoryId": 6,
-        "enhancements": [{
-                "keyId": 1,
-                "contents": [{
-                    "id": 1,
-                    "content": "dependency-check-maven shall be configured in the following way:\n```xml\n<plugin>\n  <groupId>org.owasp</groupId>\n  <artifactId>dependency-check-maven</artifactId>\n  <version>1.4.3</version>\n  <executions>\n    <execution>\n      <goals>\n        <goal>check</goal>\n      </goals>\n    </execution>\n  </executions>\n</plugin>\n\n```\nMore information available at https://jeremylong.github.io/DependencyCheck/dependency-check-maven/index.html",
-                    "showOrder": 0
-                }]
-            }
-        ],
-        "status": []
-    },
-    {
-        "id": 5,
-        "name": "AU-01",
-        "description": "Operate all authentication controls on a trusted system",
-        "showOrder": 20,
-        "feTags": [11, 12, 13, 14, 15],
-        "parameters": [],
-        "categoryId": 1,
-        "enhancements": [
-            {
-                "keyId": 1,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "Do not perform any authentication decisions on the client side (browser, mobile app, ...)",
-                        "showOrder": 0
-                    }
-                ]
-            }
-        ],
-        "status": [
-            {
-                "keyId": 1,
-                "values": [
-                    2
-                ]
-            },
-            {
-                "keyId": 3,
-                "values": [
-                    7
-                ]
-            }
+[
+  {
+    "id": 1,
+    "name": "LC-01",
+    "description": "Description lc-01",
+    "showOrder": 10,
+    "feTags": [1, 2, 3],
+    "parameters": [3],
+    "categoryId": 4,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "In case your Security Mentor is known, refer to the information security department",
+            "showOrder": 0
+          },
+          {
+            "id": 2,
+            "content": "Test weird case where background color is not properly removed. <script>alert(1);</script>",
+            "showOrder": 1
+          }
         ]
-    },
-    {
-        "id": 6,
-        "name": "AU-02",
-        "description": "Users must re-authenticate prior to performing security critical operations.",
-        "showOrder": 20,
-        "feTags": [1, 2, 3],
-        "parameters": [2, 1, 4],
-        "categoryId": 1,
-        "enhancements": [
-            {
-                "keyId": 1,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "To the security critical actions usually belongs:\n\n- changing of password\n- changing of other personal data (e.g. e-mail address, contact data...)\n\n- usage of particular enhanced rights if these are defined\n\nReauthentication can happen e.g. by input of password, second factor or both.",
-                        "showOrder": 0
-                    }
-                ]
-            },
-            {
-                "keyId": 2,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "Some motivation",
-                        "showOrder": 0
-                    }
-                ]
-            }
-        ],
-        "status": [
-            
-            {
-                "keyId": 3,
-                "values": [
-                    7, 8
-                ]
-            }
+      },
+      {
+        "keyId": 2,
+        "contents": [
+          {
+            "id": 3,
+            "content": "Security Mentor is supposed to coordinate all security tasks. Testing updates available.",
+            "showOrder": 0
+          }
         ]
-    },
-    {
-        "id": 7,
-        "name": "AU-03",
-        "description": "Users must re-authenticate prior to performing security critical operations. Yeah whatever.",
-        "showOrder": 30,
-        "feTags": [
-        ],
-        "parameters": [
-        ],
-        "categoryId": 1,
-        "enhancements": [
-        ],
-        "status": [
+      }
+    ],
+    "status": [
+      {
+        "keyId": 4,
+        "values": [1]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "LC-02",
+    "description": "Plan relevant security trainings for the project team.",
+    "showOrder": 20,
+    "feTags": [4, 5, 6, 1],
+    "parameters": [1, 2],
+    "categoryId": 3,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "Security Mentor can use the reporting function of the Training Tool in order to verify whether the team members have attended the relevant security trainings.",
+            "showOrder": 0
+          }
         ]
-    },{
-        "id": 8,
-        "name": "CUS-01",
-        "description": "This is a CUSTOM_REQUIREMENT",
-        "showOrder": 10,
-        "feTags": [
-        ],
-        "parameters": [
-        ],
-        "categoryId": 4,
-        "enhancements": [
-            {
-                "keyId": 1,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "CUS-CONTENT",
-                        "showOrder": 0
-                    }
-                ]
-            },
-            {
-                "keyId": 2,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "Some motivation",
-                        "showOrder": 0
-                    }
-                ]
-            }
-        ],
-        "status": [
-            {
-                "keyId": 1,
-                "values": [
-                    2
-                ]
-            }
+      },
+      {
+        "keyId": 2,
+        "contents": [
+          {
+            "id": 3,
+            "content": "Ensure that project members have an appropriate security know - how helping to protect our systems against attacks.",
+            "showOrder": 0
+          }
         ]
-    }, 
-    {
-        "id": 9,
-        "name": "CUS-02",
-        "description": "This is a another CUSTOM_REQUIREMENT",
-        "showOrder": 0,
-        "feTags": [
-        ],
-        "parameters": [2, 1, 4],
-        "categoryId": 1,
-        "enhancements": [
-            {
-                "keyId": 1,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "CUS-CONTENT",
-                        "showOrder": 0
-                    }
-                ]
-            },
-            {
-                "keyId": 2,
-                "contents": [
-                    {
-                        "id": 1,
-                        "content": "Another motivation",
-                        "showOrder": 0
-                    }
-                ]
-            }
-        ],
-        "status": [
-            {
-                "keyId": 1,
-                "values": [
-                    3
-                ]
-            },
-            {
-                "keyId": 3,
-                "values": [],
-                "content": "CUS-02 CONTENT COMMENT"
-            }
+      }
+    ],
+    "status": [
+      {
+        "keyId": 1,
+        "values": [2]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "SA-01",
+    "description": "3rd party code is identified, checked for security vulnerabilities and its update process is defined.",
+    "showOrder": 10,
+    "feTags": [7, 8, 2, 5],
+    "parameters": [5],
+    "categoryId": 6,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "Implementation of automated\n```html\n<span></span>\n<script>alert(1);<script>\n\n```\ntooling can support this task:\n- [https://www.owasp.org/index.php/OWASP_Dependency_Check](javascript:alert('Injected!'%29)) (mapping of dependencies to CVEs)\n- https://nodesecurity.io/tools (evaluation of vulnerable packages for npm)\n- http://retirejs.github.io/retire.js/ (JavaScript libraries with known vulnerabilites)",
+            "showOrder": 0
+          }
         ]
-    }
+      }
+    ],
+    "status": []
+  },
+  {
+    "id": 4,
+    "name": "SA-02",
+    "description": "No fundamentally different roles are present in the same application.",
+    "showOrder": 20,
+    "feTags": [10, 11, 12, 7],
+    "parameters": [8, 9, 2],
+    "categoryId": 6,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "dependency-check-maven shall be configured in the following way:\n```xml\n<plugin>\n  <groupId>org.owasp</groupId>\n  <artifactId>dependency-check-maven</artifactId>\n  <version>1.4.3</version>\n  <executions>\n    <execution>\n      <goals>\n        <goal>check</goal>\n      </goals>\n    </execution>\n  </executions>\n</plugin>\n\n```\nMore information available at https://jeremylong.github.io/DependencyCheck/dependency-check-maven/index.html",
+            "showOrder": 0
+          }
+        ]
+      }
+    ],
+    "status": []
+  },
+  {
+    "id": 5,
+    "name": "AU-01",
+    "description": "Operate all authentication controls on a trusted system",
+    "showOrder": 20,
+    "feTags": [11, 12, 13, 14, 15],
+    "parameters": [],
+    "categoryId": 1,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "Do not perform any authentication decisions on the client side (browser, mobile app, ...)",
+            "showOrder": 0
+          }
+        ]
+      }
+    ],
+    "status": [
+      {
+        "keyId": 1,
+        "values": [2]
+      },
+      {
+        "keyId": 3,
+        "values": [7]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "AU-02",
+    "description": "Users must re-authenticate prior to performing security critical operations.",
+    "showOrder": 20,
+    "feTags": [1, 2, 3],
+    "parameters": [2, 1, 4],
+    "categoryId": 1,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "To the security critical actions usually belongs:\n\n- changing of password\n- changing of other personal data (e.g. e-mail address, contact data...)\n\n- usage of particular enhanced rights if these are defined\n\nReauthentication can happen e.g. by input of password, second factor or both.",
+            "showOrder": 0
+          }
+        ]
+      },
+      {
+        "keyId": 2,
+        "contents": [
+          {
+            "id": 1,
+            "content": "Some motivation",
+            "showOrder": 0
+          }
+        ]
+      }
+    ],
+    "status": [
+      {
+        "keyId": 3,
+        "values": [7, 8]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "AU-03",
+    "description": "Users must re-authenticate prior to performing security critical operations. Yeah whatever.",
+    "showOrder": 30,
+    "feTags": [],
+    "parameters": [],
+    "categoryId": 1,
+    "enhancements": [],
+    "status": []
+  },
+  {
+    "id": 8,
+    "name": "CUS-01",
+    "description": "This is a CUSTOM_REQUIREMENT",
+    "showOrder": 10,
+    "feTags": [],
+    "parameters": [],
+    "categoryId": 4,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "CUS-CONTENT",
+            "showOrder": 0
+          }
+        ]
+      },
+      {
+        "keyId": 2,
+        "contents": [
+          {
+            "id": 1,
+            "content": "Some motivation",
+            "showOrder": 0
+          }
+        ]
+      }
+    ],
+    "status": [
+      {
+        "keyId": 1,
+        "values": [2]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "CUS-02",
+    "description": "This is a another CUSTOM_REQUIREMENT",
+    "showOrder": 0,
+    "feTags": [],
+    "parameters": [2, 1, 4],
+    "categoryId": 1,
+    "enhancements": [
+      {
+        "keyId": 1,
+        "contents": [
+          {
+            "id": 1,
+            "content": "CUS-CONTENT",
+            "showOrder": 0
+          }
+        ]
+      },
+      {
+        "keyId": 2,
+        "contents": [
+          {
+            "id": 1,
+            "content": "Another motivation",
+            "showOrder": 0
+          }
+        ]
+      }
+    ],
+    "status": [
+      {
+        "keyId": 1,
+        "values": [3]
+      },
+      {
+        "keyId": 3,
+        "values": [],
+        "content": "CUS-02 CONTENT COMMENT"
+      }
+    ]
+  }
 ]

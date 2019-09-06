@@ -1,21 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  CMAttribute,
-  ArtifactInfo,
-  CMAttributeKey,
-  CMRequirementSet
-} from '../../common';
+import { faWindowMaximize, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
+import { CMAttribute, ArtifactInfo, CMAttributeKey, CMRequirementSet } from '../../common';
 
 @Component({
   selector: 'jhi-artifact-dashboard',
   templateUrl: './jhi-artifact-dashboard.component.html',
-  styleUrls: [
-    './jhi-artifact-dashboard.component.css'
-  ]
+  styleUrls: ['./jhi-artifact-dashboard.component.scss']
 })
-
 export class JhiArtifactDashboardComponent implements OnInit {
   isOpen: boolean;
+  faWindowMinimize = faWindowMinimize;
+  faWindowMaximize = faWindowMaximize;
 
   @Input() artifactInfo: ArtifactInfo;
   @Input() creationDate: Date;
@@ -24,8 +19,7 @@ export class JhiArtifactDashboardComponent implements OnInit {
   @Input() attributes: CMAttribute[];
   @Input() attributeKeys: CMAttributeKey[];
 
-  constructor(
-  ) {
+  constructor() {
     this.attributeKeys = [];
 
     this.attributes = [];
@@ -36,10 +30,10 @@ export class JhiArtifactDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isOpen = true;
+    this.isOpen = false;
   }
 
- /* open(content) {
+  /* open(content) {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -56,5 +50,4 @@ export class JhiArtifactDashboardComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }*/
-
 }

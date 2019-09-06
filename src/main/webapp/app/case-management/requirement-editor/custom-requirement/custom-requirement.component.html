@@ -1,32 +1,32 @@
 <p>
     <button type="button" class="btn btn-info" (click)='customize()'>
-        <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to requirements
+        <fa-icon [icon]="faChevronLeft"></fa-icon> Back to requirements
     </button>
     <button type="button" class="btn btn-secrat float-right" (click)="open(content,false)">
-        <i class="fa fa-plus"></i> Add custom requirement
+        <fa-icon [icon]="'plus'"></fa-icon> Add custom requirement
     </button>
 </p>
 <div class="table-responsive">
     <table class="table" id='cmrequirementTable'>
         <thead class="thead-light">
             <tr>
-                <th>Name</th>
-                <th>Description</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
                 <ng-template #enhancementTipContent>
                     <div *ngFor="let enhancement of enhancementList">
                         <span style="color:#cc6600;text-align: left">{{enhancement.name}}:</span>
                         {{enhancement.description}}
                     </div>
                 </ng-template>
-                <th class="text-center">
+                <th scope="col" class="text-center">
                     <ng-container>
                         <span [ngbTooltip]="enhancementTipContent" container="body">Enhancements</span>
                     </ng-container>
                 </th>
-                <th *ngFor="let stat of status" class="text-center">
+                <th scope="col" *ngFor="let stat of status" class="text-center">
                     <span ngbTooltip="{{stat.description}}">{{stat.name}}</span>
                 </th>
-                <th>
+                <th scope="col">
                 </th>
             </tr>
         </thead>
@@ -102,11 +102,11 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary btn-sm"
                                         (click)="editCustomRequirement(customRequirement);open(content,true)">
-                                        <i class="fa fa-pencil"></i> Edit
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon> Edit
                                     </button>
                                     <button type="button" class="btn btn-danger btn-sm"
                                         (click)="removeCustomRequirement(customRequirement)">
-                                        <i class="fa fa-remove"></i> Delete
+                                        <fa-icon [icon]="'times'"></fa-icon> Delete
                                     </button>
                                 </div>
                             </td>
