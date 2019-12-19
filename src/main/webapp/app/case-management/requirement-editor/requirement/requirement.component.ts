@@ -36,8 +36,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
   constructor(
     // private jhiEventManager: JhiEventManager,
     private _cmUtilService: CMUtilService
-  ) // private router: Router
-  {
+  ) {
     this.statusType = {
       enum: CMExtensionType.ENUM,
       freeText: CMExtensionType.FREETEXT

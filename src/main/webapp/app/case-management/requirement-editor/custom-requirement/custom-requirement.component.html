@@ -35,7 +35,7 @@
                 <ng-container *ngIf="categoriesInList.indexOf(cat.id) !== -1">
                     <tr>
                         <td colspan="20" class="text-center">
-                            <h5>{{cat.name}}</h5>
+                            <h6>{{cat.name}}</h6>
                         </td>
                     </tr>
                     <ng-container *ngFor="let customRequirement of customRequirementList">
@@ -54,8 +54,8 @@
                                             <div *ngFor="let enhancementList of enhancementList">
                                                 <ngb-panel id="enhancementPanel"
                                                     *ngIf="enhancementList.id === enhancement.keyId && content.content !== null && content.content !== ''">
-                                                    <ng-template ngbPanelTitle>
-                                                        <strong>{{enhancementList.name}}</strong>
+                                                    <ng-template ngbPanelHeader>
+                                                        <span style="color: #533f03;">{{enhancementList.name}}</span>
                                                     </ng-template>
                                                     <ng-template ngbPanelContent>
                                                         <jhi-click-changer textWhenEmpty=""

@@ -16,7 +16,7 @@ import {
 @Component({
   selector: 'jhi-custom-requirement',
   templateUrl: 'custom-requirement.component.html',
-  styles: []
+  styleUrls: ['../requirement/requirement.component.scss']
 })
 export class CustomRequirementComponent implements OnInit {
   @Output() customMode: EventEmitter<boolean> = new EventEmitter<boolean>();

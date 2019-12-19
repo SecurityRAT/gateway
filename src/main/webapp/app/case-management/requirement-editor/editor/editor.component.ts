@@ -87,8 +87,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _jhiAlert: JhiAlertService,
     private _requirementEditorDataShare: RequirementEditorDataShareService
-  ) // private jhiEventManager: JhiEventManager
-  {
+  ) {
     this.artifactSettings = {};
     this.categoryObject = {
       formattedCategories: [],

@@ -1,58 +1,59 @@
 os:
-- linux
+  - linux
 services:
-- docker
+  - docker
 language: node_js
 node_js:
-- 8.9.4
+  - 8.9.4
 jdk:
-- oraclejdk8
+  - openjdk8
 sudo: false
 cache:
   directories:
-  - node
-  - node_modules
-  - "$HOME/.m2"
-  - "$HOME/.yarn-cache"
-  - "$HOME/.sonar/cache"
+    - node
+    - node_modules
+    - '$HOME/.m2'
+    - '$HOME/.yarn-cache'
+    - '$HOME/.sonar/cache'
 addons:
   sonarcloud:
     organization: securityrat
     token:
       secure: NNA+XR4Efir8J3fyhg9rVy50+GLJyDrfZ/QqUXyA7iQqTOzANUL1CywM4DuTlmOaa16lBGoBq662MsR/98+7/AfY2M92CKg1wZkCElVhFxkD7PDt4ya7CEAjlyh3GYfdrLOXJX4F6Z8KiQ7zd6o1AVhcpQIqqsE6le3OKEiyPolpdVGvEWsEO2C9oe4B29KkcTkIdvD/v/QCsokJG4ZX0oqI7D27m0/BArXcKm4M+LU+10hC1WgHvontcf+M2zYQ49ByFaj7UH+mqgMO8Ma3iGTyRqm3lZST1egwPWF0NvG8Nh2ItKs+7OHQ7xHBDkp15ZCVQe/CWTeFbSt7tbyDwodkVnwnnDf3K9goiU6Wg3VUZEENuAowYl1VcdSe6kgdJ1u21bSArkDHceqFzjxlmWy0yOJEpJBmp3w7sLkjNfVTJ8kNOunto4loXPTOvItnNGuNfzhvlOdlZYiPdhktNGM2YsZciyaGVe8k/ZZVhIxnAq8MaNbJnUPemi16w0qBzdkXqQ0yJwrRFUqu/98jARSURSJkJtkP607QlAecB8qyf7Dfk806tUY6J07skp/vxCyBvth9a3B5xeMnXB8cntpaT2YTDm6GSLBiiUhWR8rHG0NNb0T9dzZKIQy9bERsbOkkGOYZOUSikNCgjNu1/qhe3g3mNHPc0/xrVuj5Ecs=
     branches:
-    - master
-    - dev
+      - master
+      - dev
 env:
   global:
-  - REPOS_SCRIPTS=$TRAVIS_BUILD_DIR/travis/scripts
-  - NODE_VERSION=8.9.4
-  - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
-  - SPRING_JPA_SHOW_SQL=false
-  - DOCKER_REPO=securityrat/gateway
-  - secure: D/g4deuvLpX2zZ1q2rNqcXZ/ZFMovZLJBLXIO8hios/esEandWtiaEY2+vvdZsa8kaJHo9X5/8JrLlcUHZU1V0n8cQpBqed7MXJL7O2i8jE/mgKPMcaD66ZIBUc8vnn2yjeHqU6JDAFk3UVoiV4iReKYR98DsWk4wSLSn9NK2iA0GhKfP2+xIQheCNTlpaiBaXAjOTZ7VHC0Eu1aBu9ZZ4bZ73adVEovjV3r+YCHIFbj7WhoClo2eRbD+tOtDL7NCApz8Jz+3LOP5Npbb0ivrlL5RVFcpeWGWCmRhF4s53+PqNIMe74A2H4z2LEzVBIvVIhNl9aBm3ydonZWxdo0uanEsvf9+PB14oTgA2G1wC2qd4FVZqyuLbOuMT4vKnjqdTNWFjSJHBoYb8t3UeL3utBUdS/lH8LtNlpkJ/+XvsmZO0IMe+AmODre56wiJKK3ySJeEqemOs2tRA04xKWAsxdovafA/2zUZpdmjhIMw2jJkeQ0L9TIGZ8iyy6/Xx6tFZFKRr1boOg15D3uq3wXlEAPvzadSlU/Ae+9DlNPTAvLfxy0AtIQJxYlrbhn8qJ0bvhraBzdXd496aQbUl8hWuPpI9Lk5u4qUZVrFoSEF267KDjkrPUKhrJL93glELMfOcXpuD5h/1vj38Dd73K5UIDJ4uZjIXzN82Vu0SKiE+M=
-  - secure: fJ2l07GcIc3rNrTM6S2TMmbZBwcI4qaaI1H5sgsy7+UX8bU5eOUOQqN486TLOn07NhvUNlSoFrd3KGHseMttifNlM2h/GLOe96Nlq06Y3zQsFw8UIytKK9waeEpXXPLQwIG5QOvWeHtLZyDYK5FhVo8ax21oG1i42ROUlidIc7/xeqD1pDxo13a/s8qadY6Gw9PnznZr4SpcsZ0q+EyWGDlXlbim7Bu0CwxYrWfNmYhy8F+doYg7+3xsqMwEOFRf5d6MVc+X0oRXYpTOaVHsjRw7o5gxEhfdQmYwha3Cc/41N/57ybmNSvU4kFMFOIy+/YAkVmE5gXYJXk57pJOBOENVKb7LT4M48TrTj+P4WJrvbzgo9SCZLMaE6COoiNxQAwNJLbzB59SgKY+UP2z4cXFm+l3eWcYzhi2yzVP47w5rd3oe+M2wTXTp1UsYuw1lMqt0vkiwgrQnyluemLKNwhr1eQEO529tdbmcotyRY8/848esJfFduZF31EvCA1LUFGGqPGJ8pQEhRh2ErOpN21L7lU5CcQiCGKUMQ47jjItx4X8LLIpT4Vvj7eZ6du3XQugN7ZbZ3yq9f/zC6hB6yQLFTyRcDKTaZT0A0TWhddOXYEL6Nz/7NH+uu2wo46PKdk4iUs51P5d3hAn4540kXco2IC0leCLCbIrlPWF+nDs=
+    - REPOS_SCRIPTS=$TRAVIS_BUILD_DIR/travis/scripts
+    - NODE_VERSION=8.9.4
+    - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
+    - SPRING_JPA_SHOW_SQL=false
+    - DOCKER_REPO=securityrat/gateway
+    - secure: D/g4deuvLpX2zZ1q2rNqcXZ/ZFMovZLJBLXIO8hios/esEandWtiaEY2+vvdZsa8kaJHo9X5/8JrLlcUHZU1V0n8cQpBqed7MXJL7O2i8jE/mgKPMcaD66ZIBUc8vnn2yjeHqU6JDAFk3UVoiV4iReKYR98DsWk4wSLSn9NK2iA0GhKfP2+xIQheCNTlpaiBaXAjOTZ7VHC0Eu1aBu9ZZ4bZ73adVEovjV3r+YCHIFbj7WhoClo2eRbD+tOtDL7NCApz8Jz+3LOP5Npbb0ivrlL5RVFcpeWGWCmRhF4s53+PqNIMe74A2H4z2LEzVBIvVIhNl9aBm3ydonZWxdo0uanEsvf9+PB14oTgA2G1wC2qd4FVZqyuLbOuMT4vKnjqdTNWFjSJHBoYb8t3UeL3utBUdS/lH8LtNlpkJ/+XvsmZO0IMe+AmODre56wiJKK3ySJeEqemOs2tRA04xKWAsxdovafA/2zUZpdmjhIMw2jJkeQ0L9TIGZ8iyy6/Xx6tFZFKRr1boOg15D3uq3wXlEAPvzadSlU/Ae+9DlNPTAvLfxy0AtIQJxYlrbhn8qJ0bvhraBzdXd496aQbUl8hWuPpI9Lk5u4qUZVrFoSEF267KDjkrPUKhrJL93glELMfOcXpuD5h/1vj38Dd73K5UIDJ4uZjIXzN82Vu0SKiE+M=
+    - secure: fJ2l07GcIc3rNrTM6S2TMmbZBwcI4qaaI1H5sgsy7+UX8bU5eOUOQqN486TLOn07NhvUNlSoFrd3KGHseMttifNlM2h/GLOe96Nlq06Y3zQsFw8UIytKK9waeEpXXPLQwIG5QOvWeHtLZyDYK5FhVo8ax21oG1i42ROUlidIc7/xeqD1pDxo13a/s8qadY6Gw9PnznZr4SpcsZ0q+EyWGDlXlbim7Bu0CwxYrWfNmYhy8F+doYg7+3xsqMwEOFRf5d6MVc+X0oRXYpTOaVHsjRw7o5gxEhfdQmYwha3Cc/41N/57ybmNSvU4kFMFOIy+/YAkVmE5gXYJXk57pJOBOENVKb7LT4M48TrTj+P4WJrvbzgo9SCZLMaE6COoiNxQAwNJLbzB59SgKY+UP2z4cXFm+l3eWcYzhi2yzVP47w5rd3oe+M2wTXTp1UsYuw1lMqt0vkiwgrQnyluemLKNwhr1eQEO529tdbmcotyRY8/848esJfFduZF31EvCA1LUFGGqPGJ8pQEhRh2ErOpN21L7lU5CcQiCGKUMQ47jjItx4X8LLIpT4Vvj7eZ6du3XQugN7ZbZ3yq9f/zC6hB6yQLFTyRcDKTaZT0A0TWhddOXYEL6Nz/7NH+uu2wo46PKdk4iUs51P5d3hAn4540kXco2IC0leCLCbIrlPWF+nDs=
 before_install:
-- jdk_switcher use oraclejdk8
-- java -version
-- sudo /etc/init.d/mysql stop
-- sudo /etc/init.d/postgresql stop
-- curl -o- -L https://yarnpkg.com/install.sh | bash
-- export PATH=$HOME/.yarn/bin:$PATH
+  - jdk_switcher use oraclejdk8
+  - java -version
+  - sudo /etc/init.d/mysql stop
+  - sudo /etc/init.d/postgresql stop
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
 install:
-- yarn install
+  - yarn install
 script:
-- chmod +x mvnw
-- "./mvnw clean"
-- yarn test
-- "./mvnw test sonar:sonar"
+  - chmod +x mvnw
+  - './mvnw clean'
+  - yarn test
+  - './mvnw test sonar:sonar'
 before_deploy:
-- "./mvnw package -Pprod -DskipTests -Ddocker.repository=$DOCKER_REPO"
+  - './mvnw package -Pprod -DskipTests -Ddocker.repository=$DOCKER_REPO'
 deploy:
   provider: script
   script: bash $REPOS_SCRIPTS/docker_push
   on:
     branch: master
+    condition: '-n $TAG_NAME'
 notifications:
   email:
     on_success: change
