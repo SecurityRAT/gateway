@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiDataUtils } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
-import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { ExtensionKeyService } from './extension-key.service';
+import { ExtensionKeyDeleteDialogComponent } from './extension-key-delete-dialog.component';
 
 @Component({
   selector: 'jhi-extension-key',
@@ -16,7 +16,6 @@ import { ExtensionKeyService } from './extension-key.service';
 })
 export class ExtensionKeyComponent implements OnInit, OnDestroy {
   extensionKeys: IExtensionKey[];
-  currentAccount: any;
   eventSubscriber: Subscription;
   itemsPerPage: number;
   links: any;
@@ -27,11 +26,10 @@ export class ExtensionKeyComponent implements OnInit, OnDestroy {
 
   constructor(
     protected extensionKeyService: ExtensionKeyService,
-    protected jhiAlertService: JhiAlertService,
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
-    protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService
+    protected modalService: NgbModal,
+    protected parseLinks: JhiParseLinks
   ) {
     this.extensionKeys = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -50,10 +48,7 @@ export class ExtensionKeyComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<IExtensionKey[]>) => this.paginateExtensionKeys(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<IExtensionKey[]>) => this.paginateExtensionKeys(res.body, res.headers));
   }
 
   reset() {
@@ -69,9 +64,6 @@ export class ExtensionKeyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInExtensionKeys();
   }
 
@@ -92,7 +84,12 @@ export class ExtensionKeyComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInExtensionKeys() {
-    this.eventSubscriber = this.eventManager.subscribe('extensionKeyListModification', response => this.reset());
+    this.eventSubscriber = this.eventManager.subscribe('extensionKeyListModification', () => this.reset());
+  }
+
+  delete(extensionKey: IExtensionKey) {
+    const modalRef = this.modalService.open(ExtensionKeyDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.extensionKey = extensionKey;
   }
 
   sort() {
@@ -109,9 +106,5 @@ export class ExtensionKeyComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.extensionKeys.push(data[i]);
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

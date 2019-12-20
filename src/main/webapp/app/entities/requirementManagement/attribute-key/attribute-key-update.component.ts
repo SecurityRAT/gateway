@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IAttributeKey, AttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
 import { AttributeKeyService } from './attribute-key.service';
 import { IRequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
-import { RequirementSetService } from 'app/entities/requirementManagement/requirement-set';
+import { RequirementSetService } from 'app/entities/requirementManagement/requirement-set/requirement-set.service';
 
 @Component({
   selector: 'jhi-attribute-key-update',
@@ -45,11 +46,10 @@ export class AttributeKeyUpdateComponent implements OnInit {
     });
     this.requirementSetService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IRequirementSet[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IRequirementSet[]>) => response.body)
-      )
-      .subscribe((res: IRequirementSet[]) => (this.requirementsets = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<IRequirementSet[]>) => (this.requirementsets = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   updateForm(attributeKey: IAttributeKey) {
@@ -75,8 +75,8 @@ export class AttributeKeyUpdateComponent implements OnInit {
   setFileData(event, field: string, isImage) {
     return new Promise((resolve, reject) => {
       if (event && event.target && event.target.files && event.target.files[0]) {
-        const file = event.target.files[0];
-        if (isImage && !/^image\//.test(file.type)) {
+        const file: File = event.target.files[0];
+        if (isImage && !file.type.startsWith('image/')) {
           reject(`File was expected to be an image but was found to be ${file.type}`);
         } else {
           const filedContentType: string = field + 'ContentType';
@@ -91,7 +91,8 @@ export class AttributeKeyUpdateComponent implements OnInit {
         reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
       }
     }).then(
-      () => console.log('blob added'), // sucess
+      // eslint-disable-next-line no-console
+      () => console.log('blob added'), // success
       this.onError
     );
   }

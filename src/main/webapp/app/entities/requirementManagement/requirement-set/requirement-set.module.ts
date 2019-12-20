@@ -1,34 +1,21 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GatewaySharedModule } from 'app/shared';
-import {
-  RequirementSetComponent,
-  RequirementSetDetailComponent,
-  RequirementSetUpdateComponent,
-  RequirementSetDeletePopupComponent,
-  RequirementSetDeleteDialogComponent,
-  requirementSetRoute,
-  requirementSetPopupRoute
-} from './';
-
-const ENTITY_STATES = [...requirementSetRoute, ...requirementSetPopupRoute];
+import { GatewaySharedModule } from 'app/shared/shared.module';
+import { RequirementSetComponent } from './requirement-set.component';
+import { RequirementSetDetailComponent } from './requirement-set-detail.component';
+import { RequirementSetUpdateComponent } from './requirement-set-update.component';
+import { RequirementSetDeleteDialogComponent } from './requirement-set-delete-dialog.component';
+import { requirementSetRoute } from './requirement-set.route';
 
 @NgModule({
-  imports: [GatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [GatewaySharedModule, RouterModule.forChild(requirementSetRoute)],
   declarations: [
     RequirementSetComponent,
     RequirementSetDetailComponent,
     RequirementSetUpdateComponent,
-    RequirementSetDeleteDialogComponent,
-    RequirementSetDeletePopupComponent
+    RequirementSetDeleteDialogComponent
   ],
-  entryComponents: [
-    RequirementSetComponent,
-    RequirementSetUpdateComponent,
-    RequirementSetDeleteDialogComponent,
-    RequirementSetDeletePopupComponent
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  entryComponents: [RequirementSetDeleteDialogComponent]
 })
 export class RequirementManagementRequirementSetModule {}

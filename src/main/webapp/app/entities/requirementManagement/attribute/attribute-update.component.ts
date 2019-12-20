@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IAttribute, Attribute } from 'app/shared/model/requirementManagement/attribute.model';
 import { AttributeService } from './attribute.service';
 import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
-import { AttributeKeyService } from 'app/entities/requirementManagement/attribute-key';
+import { AttributeKeyService } from 'app/entities/requirementManagement/attribute-key/attribute-key.service';
 
 @Component({
   selector: 'jhi-attribute-update',
@@ -47,18 +48,13 @@ export class AttributeUpdateComponent implements OnInit {
     });
     this.attributeService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAttribute[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAttribute[]>) => response.body)
-      )
-      .subscribe((res: IAttribute[]) => (this.attributes = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IAttribute[]>) => (this.attributes = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.attributeKeyService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAttributeKey[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAttributeKey[]>) => response.body)
-      )
-      .subscribe((res: IAttributeKey[]) => (this.attributekeys = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<IAttributeKey[]>) => (this.attributekeys = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   updateForm(attribute: IAttribute) {
@@ -84,8 +80,8 @@ export class AttributeUpdateComponent implements OnInit {
   setFileData(event, field: string, isImage) {
     return new Promise((resolve, reject) => {
       if (event && event.target && event.target.files && event.target.files[0]) {
-        const file = event.target.files[0];
-        if (isImage && !/^image\//.test(file.type)) {
+        const file: File = event.target.files[0];
+        if (isImage && !file.type.startsWith('image/')) {
           reject(`File was expected to be an image but was found to be ${file.type}`);
         } else {
           const filedContentType: string = field + 'ContentType';
@@ -100,7 +96,8 @@ export class AttributeUpdateComponent implements OnInit {
         reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
       }
     }).then(
-      () => console.log('blob added'), // sucess
+      // eslint-disable-next-line no-console
+      () => console.log('blob added'), // success
       this.onError
     );
   }

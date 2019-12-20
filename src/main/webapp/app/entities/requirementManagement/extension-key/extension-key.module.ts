@@ -1,34 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GatewaySharedModule } from 'app/shared';
-import {
-  ExtensionKeyComponent,
-  ExtensionKeyDetailComponent,
-  ExtensionKeyUpdateComponent,
-  ExtensionKeyDeletePopupComponent,
-  ExtensionKeyDeleteDialogComponent,
-  extensionKeyRoute,
-  extensionKeyPopupRoute
-} from './';
-
-const ENTITY_STATES = [...extensionKeyRoute, ...extensionKeyPopupRoute];
+import { GatewaySharedModule } from 'app/shared/shared.module';
+import { ExtensionKeyComponent } from './extension-key.component';
+import { ExtensionKeyDetailComponent } from './extension-key-detail.component';
+import { ExtensionKeyUpdateComponent } from './extension-key-update.component';
+import { ExtensionKeyDeleteDialogComponent } from './extension-key-delete-dialog.component';
+import { extensionKeyRoute } from './extension-key.route';
 
 @NgModule({
-  imports: [GatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    ExtensionKeyComponent,
-    ExtensionKeyDetailComponent,
-    ExtensionKeyUpdateComponent,
-    ExtensionKeyDeleteDialogComponent,
-    ExtensionKeyDeletePopupComponent
-  ],
-  entryComponents: [
-    ExtensionKeyComponent,
-    ExtensionKeyUpdateComponent,
-    ExtensionKeyDeleteDialogComponent,
-    ExtensionKeyDeletePopupComponent
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [GatewaySharedModule, RouterModule.forChild(extensionKeyRoute)],
+  declarations: [ExtensionKeyComponent, ExtensionKeyDetailComponent, ExtensionKeyUpdateComponent, ExtensionKeyDeleteDialogComponent],
+  entryComponents: [ExtensionKeyDeleteDialogComponent]
 })
 export class RequirementManagementExtensionKeyModule {}

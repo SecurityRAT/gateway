@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiDataUtils } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IAttribute } from 'app/shared/model/requirementManagement/attribute.model';
-import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AttributeService } from './attribute.service';
+import { AttributeDeleteDialogComponent } from './attribute-delete-dialog.component';
 
 @Component({
   selector: 'jhi-attribute',
@@ -16,7 +16,6 @@ import { AttributeService } from './attribute.service';
 })
 export class AttributeComponent implements OnInit, OnDestroy {
   attributes: IAttribute[];
-  currentAccount: any;
   eventSubscriber: Subscription;
   itemsPerPage: number;
   links: any;
@@ -27,11 +26,10 @@ export class AttributeComponent implements OnInit, OnDestroy {
 
   constructor(
     protected attributeService: AttributeService,
-    protected jhiAlertService: JhiAlertService,
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
-    protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService
+    protected modalService: NgbModal,
+    protected parseLinks: JhiParseLinks
   ) {
     this.attributes = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -50,10 +48,7 @@ export class AttributeComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<IAttribute[]>) => this.paginateAttributes(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<IAttribute[]>) => this.paginateAttributes(res.body, res.headers));
   }
 
   reset() {
@@ -69,9 +64,6 @@ export class AttributeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInAttributes();
   }
 
@@ -92,7 +84,12 @@ export class AttributeComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInAttributes() {
-    this.eventSubscriber = this.eventManager.subscribe('attributeListModification', response => this.reset());
+    this.eventSubscriber = this.eventManager.subscribe('attributeListModification', () => this.reset());
+  }
+
+  delete(attribute: IAttribute) {
+    const modalRef = this.modalService.open(AttributeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.attribute = attribute;
   }
 
   sort() {
@@ -109,9 +106,5 @@ export class AttributeComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.attributes.push(data[i]);
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

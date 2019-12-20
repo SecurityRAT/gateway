@@ -1,11 +1,6 @@
 import { IAttribute } from 'app/shared/model/requirementManagement/attribute.model';
 import { IRequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
-
-export const enum AttributeType {
-  FE_TAG = 'FE_TAG',
-  PARAMETER = 'PARAMETER',
-  CATEGORY = 'CATEGORY'
-}
+import { AttributeType } from 'app/shared/model/enumerations/attribute-type.model';
 
 export interface IAttributeKey {
   id?: number;

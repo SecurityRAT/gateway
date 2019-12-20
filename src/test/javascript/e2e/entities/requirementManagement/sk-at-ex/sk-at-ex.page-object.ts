@@ -1,15 +1,15 @@
-import { browser, ExpectedConditions, element, by, ElementFinder } from 'protractor';
+import { element, by, ElementFinder } from 'protractor';
 
 export class SkAtExComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-sk-at-ex div table .btn-danger'));
   title = element.all(by.css('jhi-sk-at-ex div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton() {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton() {
     await this.deleteButtons.last().click();
   }
 
@@ -34,7 +34,7 @@ export class SkAtExUpdatePage {
     return this.pageTitle.getText();
   }
 
-  async skeletonSelectLastOption(timeout?: number) {
+  async skeletonSelectLastOption() {
     await this.skeletonSelect
       .all(by.tagName('option'))
       .last()
@@ -53,7 +53,7 @@ export class SkAtExUpdatePage {
     return await this.skeletonSelect.element(by.css('option:checked')).getText();
   }
 
-  async attributeSelectLastOption(timeout?: number) {
+  async attributeSelectLastOption() {
     await this.attributeSelect
       .all(by.tagName('option'))
       .last()
@@ -72,7 +72,7 @@ export class SkAtExUpdatePage {
     return await this.attributeSelect.element(by.css('option:checked')).getText();
   }
 
-  async extensionSelectLastOption(timeout?: number) {
+  async extensionSelectLastOption() {
     await this.extensionSelect
       .all(by.tagName('option'))
       .last()
@@ -91,11 +91,11 @@ export class SkAtExUpdatePage {
     return await this.extensionSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save() {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel() {
     await this.cancelButton.click();
   }
 
@@ -112,7 +112,7 @@ export class SkAtExDeleteDialog {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton() {
     await this.confirmButton.click();
   }
 }

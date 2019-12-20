@@ -1,15 +1,15 @@
-import { browser, ExpectedConditions, element, by, ElementFinder } from 'protractor';
+import { element, by, ElementFinder } from 'protractor';
 
 export class AttributeKeyComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-attribute-key div table .btn-danger'));
   title = element.all(by.css('jhi-attribute-key div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton() {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton() {
     await this.deleteButtons.last().click();
   }
 
@@ -61,7 +61,7 @@ export class AttributeKeyUpdatePage {
     return await this.typeSelect.element(by.css('option:checked')).getText();
   }
 
-  async typeSelectLastOption(timeout?: number) {
+  async typeSelectLastOption() {
     await this.typeSelect
       .all(by.tagName('option'))
       .last()
@@ -76,11 +76,11 @@ export class AttributeKeyUpdatePage {
     return await this.showOrderInput.getAttribute('value');
   }
 
-  getActiveInput(timeout?: number) {
+  getActiveInput() {
     return this.activeInput;
   }
 
-  async requirementSetSelectLastOption(timeout?: number) {
+  async requirementSetSelectLastOption() {
     await this.requirementSetSelect
       .all(by.tagName('option'))
       .last()
@@ -99,11 +99,11 @@ export class AttributeKeyUpdatePage {
     return await this.requirementSetSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save() {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel() {
     await this.cancelButton.click();
   }
 
@@ -120,7 +120,7 @@ export class AttributeKeyDeleteDialog {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton() {
     await this.confirmButton.click();
   }
 }

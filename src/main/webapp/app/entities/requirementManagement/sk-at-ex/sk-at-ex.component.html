@@ -4,24 +4,25 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-sk-at-ex" [routerLink]="['/sk-at-ex/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span >
-            Create new Sk At Ex
+            Create a new Sk At Ex
             </span>
         </button>
     </h2>
+    <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="skAtExes?.length === 0">
         <span>No skAtExes found</span>
     </div>
     <div class="table-responsive" *ngIf="skAtExes?.length > 0">
-        <table class="table table-striped">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="skeleton.name"><span>Skeleton</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="attribute.name"><span>Attribute</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="extension.content"><span>Extension</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th></th>
+            <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="skeleton.name"><span>Skeleton</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="attribute.name"><span>Attribute</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="extension.content"><span>Extension</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
             </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
@@ -29,17 +30,17 @@
                 <td><a [routerLink]="['/sk-at-ex', skAtEx.id, 'view' ]">{{skAtEx.id}}</a></td>
                 <td>
                     <div *ngIf="skAtEx.skeleton">
-                        <a [routerLink]="['../skeleton', skAtEx.skeleton?.id, 'view' ]" >{{skAtEx.skeleton?.name}}</a>
+                        <a [routerLink]="['/skeleton', skAtEx.skeleton?.id, 'view' ]" >{{skAtEx.skeleton?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="skAtEx.attribute">
-                        <a [routerLink]="['../attribute', skAtEx.attribute?.id, 'view' ]" >{{skAtEx.attribute?.name}}</a>
+                        <a [routerLink]="['/attribute', skAtEx.attribute?.id, 'view' ]" >{{skAtEx.attribute?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="skAtEx.extension">
-                        <a [routerLink]="['../extension', skAtEx.extension?.id, 'view' ]" >{{skAtEx.extension?.content}}</a>
+                        <a [routerLink]="['/extension', skAtEx.extension?.id, 'view' ]" >{{skAtEx.extension?.content}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -56,10 +57,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/', 'sk-at-ex', { outlets: { popup: skAtEx.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(skAtEx)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
