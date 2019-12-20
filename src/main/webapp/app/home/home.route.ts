@@ -1,15 +1,14 @@
 import { Route } from '@angular/router';
 
-import { HomeComponent } from './';
-// import { UserRouteAccessService } from '../shared';
+import { HomeComponent } from './home.component';
 
 export const HOME_ROUTE: Route = {
-    path: '',
-    component: HomeComponent,
-    data: {
-        // authorities: ['ROLE_USER'],
-        pageTitle: 'OWASP SecurityRAT'
-    }
-    // ,
-    // canActivate: [UserRouteAccessService]
+  path: '',
+  component: HomeComponent,
+  data: {
+    // authorities: ['ROLE_USER'],
+    pageTitle: 'OWASP SecurityRAT'
+  }
+  // ,
+  // canActivate: [UserRouteAccessService]
 };

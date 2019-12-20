@@ -1,23 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GatewaySharedModule } from 'app/shared';
-import {
-  SkAtExComponent,
-  SkAtExDetailComponent,
-  SkAtExUpdateComponent,
-  SkAtExDeletePopupComponent,
-  SkAtExDeleteDialogComponent,
-  skAtExRoute,
-  skAtExPopupRoute
-} from './';
-
-const ENTITY_STATES = [...skAtExRoute, ...skAtExPopupRoute];
+import { GatewaySharedModule } from 'app/shared/shared.module';
+import { SkAtExComponent } from './sk-at-ex.component';
+import { SkAtExDetailComponent } from './sk-at-ex-detail.component';
+import { SkAtExUpdateComponent } from './sk-at-ex-update.component';
+import { SkAtExDeleteDialogComponent } from './sk-at-ex-delete-dialog.component';
+import { skAtExRoute } from './sk-at-ex.route';
 
 @NgModule({
-  imports: [GatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [SkAtExComponent, SkAtExDetailComponent, SkAtExUpdateComponent, SkAtExDeleteDialogComponent, SkAtExDeletePopupComponent],
-  entryComponents: [SkAtExComponent, SkAtExUpdateComponent, SkAtExDeleteDialogComponent, SkAtExDeletePopupComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [GatewaySharedModule, RouterModule.forChild(skAtExRoute)],
+  declarations: [SkAtExComponent, SkAtExDetailComponent, SkAtExUpdateComponent, SkAtExDeleteDialogComponent],
+  entryComponents: [SkAtExDeleteDialogComponent]
 })
 export class RequirementManagementSkAtExModule {}

@@ -1,11 +1,10 @@
-/* tslint:disable max-line-length */
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { ExtensionKeyService } from 'app/entities/requirementManagement/extension-key/extension-key.service';
-import { IExtensionKey, ExtensionKey, ExtensionSection, ExtensionType } from 'app/shared/model/requirementManagement/extension-key.model';
+import { IExtensionKey, ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
+import { ExtensionSection } from 'app/shared/model/enumerations/extension-section.model';
+import { ExtensionType } from 'app/shared/model/enumerations/extension-type.model';
 
 describe('Service Tests', () => {
   describe('ExtensionKey Service', () => {
@@ -27,7 +26,7 @@ describe('Service Tests', () => {
     });
 
     describe('Service methods', () => {
-      it('should find an element', async () => {
+      it('should find an element', () => {
         const returnedFromService = Object.assign({}, elemDefault);
         service
           .find(123)
@@ -39,7 +38,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject({ body: elemDefault });
       });
 
-      it('should create a ExtensionKey', async () => {
+      it('should create a ExtensionKey', () => {
         const returnedFromService = Object.assign(
           {
             id: 0
@@ -56,7 +55,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject({ body: expected });
       });
 
-      it('should update a ExtensionKey', async () => {
+      it('should update a ExtensionKey', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
@@ -79,7 +78,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject({ body: expected });
       });
 
-      it('should return a list of ExtensionKey', async () => {
+      it('should return a list of ExtensionKey', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
@@ -105,8 +104,8 @@ describe('Service Tests', () => {
         expect(expectedResult).toContainEqual(expected);
       });
 
-      it('should delete a ExtensionKey', async () => {
-        const rxPromise = service.delete(123).subscribe(resp => (expectedResult = resp.ok));
+      it('should delete a ExtensionKey', () => {
+        service.delete(123).subscribe(resp => (expectedResult = resp.ok));
 
         const req = httpMock.expectOne({ method: 'DELETE' });
         req.flush({ status: 200 });

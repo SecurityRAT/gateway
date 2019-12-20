@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { UserRouteAccessService } from 'app/core';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Skeleton } from 'app/shared/model/requirementManagement/skeleton.model';
 import { SkeletonService } from './skeleton.service';
 import { SkeletonComponent } from './skeleton.component';
 import { SkeletonDetailComponent } from './skeleton-detail.component';
 import { SkeletonUpdateComponent } from './skeleton-update.component';
-import { SkeletonDeletePopupComponent } from './skeleton-delete-dialog.component';
 import { ISkeleton } from 'app/shared/model/requirementManagement/skeleton.model';
 
 @Injectable({ providedIn: 'root' })
 export class SkeletonResolve implements Resolve<ISkeleton> {
   constructor(private service: SkeletonService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ISkeleton> {
-    const id = route.params['id'] ? route.params['id'] : null;
+  resolve(route: ActivatedRouteSnapshot): Observable<ISkeleton> {
+    const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<Skeleton>) => response.ok),
-        map((skeleton: HttpResponse<Skeleton>) => skeleton.body)
-      );
+      return this.service.find(id).pipe(map((skeleton: HttpResponse<Skeleton>) => skeleton.body));
     }
     return of(new Skeleton());
   }
@@ -73,21 +69,5 @@ export const skeletonRoute: Routes = [
       pageTitle: 'Skeletons'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const skeletonPopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: SkeletonDeletePopupComponent,
-    resolve: {
-      skeleton: SkeletonResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Skeletons'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];

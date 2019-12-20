@@ -1,6 +1,5 @@
 package org.securityrat.gateway.service.mapper;
 
-
 import org.securityrat.gateway.GatewayApp;
 import org.securityrat.gateway.config.TestSecurityConfiguration;
 import org.securityrat.gateway.domain.User;

@@ -1,29 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GatewaySharedModule } from 'app/shared';
-import {
-  SkeletonComponent,
-  SkeletonDetailComponent,
-  SkeletonUpdateComponent,
-  SkeletonDeletePopupComponent,
-  SkeletonDeleteDialogComponent,
-  skeletonRoute,
-  skeletonPopupRoute
-} from './';
-
-const ENTITY_STATES = [...skeletonRoute, ...skeletonPopupRoute];
+import { GatewaySharedModule } from 'app/shared/shared.module';
+import { SkeletonComponent } from './skeleton.component';
+import { SkeletonDetailComponent } from './skeleton-detail.component';
+import { SkeletonUpdateComponent } from './skeleton-update.component';
+import { SkeletonDeleteDialogComponent } from './skeleton-delete-dialog.component';
+import { skeletonRoute } from './skeleton.route';
 
 @NgModule({
-  imports: [GatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    SkeletonComponent,
-    SkeletonDetailComponent,
-    SkeletonUpdateComponent,
-    SkeletonDeleteDialogComponent,
-    SkeletonDeletePopupComponent
-  ],
-  entryComponents: [SkeletonComponent, SkeletonUpdateComponent, SkeletonDeleteDialogComponent, SkeletonDeletePopupComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [GatewaySharedModule, RouterModule.forChild(skeletonRoute)],
+  declarations: [SkeletonComponent, SkeletonDetailComponent, SkeletonUpdateComponent, SkeletonDeleteDialogComponent],
+  entryComponents: [SkeletonDeleteDialogComponent]
 })
 export class RequirementManagementSkeletonModule {}

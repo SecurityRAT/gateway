@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { IExtension, Extension } from 'app/shared/model/requirementManagement/extension.model';
 import { ExtensionService } from './extension.service';
 import { IExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
-import { ExtensionKeyService } from 'app/entities/requirementManagement/extension-key';
+import { ExtensionKeyService } from 'app/entities/requirementManagement/extension-key/extension-key.service';
 
 @Component({
   selector: 'jhi-extension-update',
@@ -44,11 +45,10 @@ export class ExtensionUpdateComponent implements OnInit {
     });
     this.extensionKeyService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IExtensionKey[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IExtensionKey[]>) => response.body)
-      )
-      .subscribe((res: IExtensionKey[]) => (this.extensionkeys = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<IExtensionKey[]>) => (this.extensionkeys = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   updateForm(extension: IExtension) {
@@ -73,8 +73,8 @@ export class ExtensionUpdateComponent implements OnInit {
   setFileData(event, field: string, isImage) {
     return new Promise((resolve, reject) => {
       if (event && event.target && event.target.files && event.target.files[0]) {
-        const file = event.target.files[0];
-        if (isImage && !/^image\//.test(file.type)) {
+        const file: File = event.target.files[0];
+        if (isImage && !file.type.startsWith('image/')) {
           reject(`File was expected to be an image but was found to be ${file.type}`);
         } else {
           const filedContentType: string = field + 'ContentType';
@@ -89,7 +89,8 @@ export class ExtensionUpdateComponent implements OnInit {
         reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
       }
     }).then(
-      () => console.log('blob added'), // sucess
+      // eslint-disable-next-line no-console
+      () => console.log('blob added'), // success
       this.onError
     );
   }

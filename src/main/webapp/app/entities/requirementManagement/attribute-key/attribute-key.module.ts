@@ -1,34 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GatewaySharedModule } from 'app/shared';
-import {
-  AttributeKeyComponent,
-  AttributeKeyDetailComponent,
-  AttributeKeyUpdateComponent,
-  AttributeKeyDeletePopupComponent,
-  AttributeKeyDeleteDialogComponent,
-  attributeKeyRoute,
-  attributeKeyPopupRoute
-} from './';
-
-const ENTITY_STATES = [...attributeKeyRoute, ...attributeKeyPopupRoute];
+import { GatewaySharedModule } from 'app/shared/shared.module';
+import { AttributeKeyComponent } from './attribute-key.component';
+import { AttributeKeyDetailComponent } from './attribute-key-detail.component';
+import { AttributeKeyUpdateComponent } from './attribute-key-update.component';
+import { AttributeKeyDeleteDialogComponent } from './attribute-key-delete-dialog.component';
+import { attributeKeyRoute } from './attribute-key.route';
 
 @NgModule({
-  imports: [GatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    AttributeKeyComponent,
-    AttributeKeyDetailComponent,
-    AttributeKeyUpdateComponent,
-    AttributeKeyDeleteDialogComponent,
-    AttributeKeyDeletePopupComponent
-  ],
-  entryComponents: [
-    AttributeKeyComponent,
-    AttributeKeyUpdateComponent,
-    AttributeKeyDeleteDialogComponent,
-    AttributeKeyDeletePopupComponent
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [GatewaySharedModule, RouterModule.forChild(attributeKeyRoute)],
+  declarations: [AttributeKeyComponent, AttributeKeyDetailComponent, AttributeKeyUpdateComponent, AttributeKeyDeleteDialogComponent],
+  entryComponents: [AttributeKeyDeleteDialogComponent]
 })
 export class RequirementManagementAttributeKeyModule {}

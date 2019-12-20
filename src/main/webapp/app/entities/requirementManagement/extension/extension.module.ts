@@ -1,29 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { GatewaySharedModule } from 'app/shared';
-import {
-  ExtensionComponent,
-  ExtensionDetailComponent,
-  ExtensionUpdateComponent,
-  ExtensionDeletePopupComponent,
-  ExtensionDeleteDialogComponent,
-  extensionRoute,
-  extensionPopupRoute
-} from './';
-
-const ENTITY_STATES = [...extensionRoute, ...extensionPopupRoute];
+import { GatewaySharedModule } from 'app/shared/shared.module';
+import { ExtensionComponent } from './extension.component';
+import { ExtensionDetailComponent } from './extension-detail.component';
+import { ExtensionUpdateComponent } from './extension-update.component';
+import { ExtensionDeleteDialogComponent } from './extension-delete-dialog.component';
+import { extensionRoute } from './extension.route';
 
 @NgModule({
-  imports: [GatewaySharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    ExtensionComponent,
-    ExtensionDetailComponent,
-    ExtensionUpdateComponent,
-    ExtensionDeleteDialogComponent,
-    ExtensionDeletePopupComponent
-  ],
-  entryComponents: [ExtensionComponent, ExtensionUpdateComponent, ExtensionDeleteDialogComponent, ExtensionDeletePopupComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [GatewaySharedModule, RouterModule.forChild(extensionRoute)],
+  declarations: [ExtensionComponent, ExtensionDetailComponent, ExtensionUpdateComponent, ExtensionDeleteDialogComponent],
+  entryComponents: [ExtensionDeleteDialogComponent]
 })
 export class RequirementManagementExtensionModule {}

@@ -21,10 +21,4 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NgxMdModule
   ]
 })
-export class GatewaySharedLibsModule {
-  static forRoot() {
-    return {
-      ngModule: GatewaySharedLibsModule
-    };
-  }
-}
+export class GatewaySharedLibsModule {}

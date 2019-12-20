@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiDataUtils } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ISkeleton } from 'app/shared/model/requirementManagement/skeleton.model';
-import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { SkeletonService } from './skeleton.service';
+import { SkeletonDeleteDialogComponent } from './skeleton-delete-dialog.component';
 
 @Component({
   selector: 'jhi-skeleton',
@@ -16,7 +16,6 @@ import { SkeletonService } from './skeleton.service';
 })
 export class SkeletonComponent implements OnInit, OnDestroy {
   skeletons: ISkeleton[];
-  currentAccount: any;
   eventSubscriber: Subscription;
   itemsPerPage: number;
   links: any;
@@ -27,11 +26,10 @@ export class SkeletonComponent implements OnInit, OnDestroy {
 
   constructor(
     protected skeletonService: SkeletonService,
-    protected jhiAlertService: JhiAlertService,
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
-    protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService
+    protected modalService: NgbModal,
+    protected parseLinks: JhiParseLinks
   ) {
     this.skeletons = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -50,10 +48,7 @@ export class SkeletonComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<ISkeleton[]>) => this.paginateSkeletons(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<ISkeleton[]>) => this.paginateSkeletons(res.body, res.headers));
   }
 
   reset() {
@@ -69,9 +64,6 @@ export class SkeletonComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInSkeletons();
   }
 
@@ -92,7 +84,12 @@ export class SkeletonComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInSkeletons() {
-    this.eventSubscriber = this.eventManager.subscribe('skeletonListModification', response => this.reset());
+    this.eventSubscriber = this.eventManager.subscribe('skeletonListModification', () => this.reset());
+  }
+
+  delete(skeleton: ISkeleton) {
+    const modalRef = this.modalService.open(SkeletonDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.skeleton = skeleton;
   }
 
   sort() {
@@ -109,9 +106,5 @@ export class SkeletonComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.skeletons.push(data[i]);
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

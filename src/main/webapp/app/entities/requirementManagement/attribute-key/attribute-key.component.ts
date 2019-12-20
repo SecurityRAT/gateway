@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiDataUtils } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
-import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AttributeKeyService } from './attribute-key.service';
+import { AttributeKeyDeleteDialogComponent } from './attribute-key-delete-dialog.component';
 
 @Component({
   selector: 'jhi-attribute-key',
@@ -16,7 +16,6 @@ import { AttributeKeyService } from './attribute-key.service';
 })
 export class AttributeKeyComponent implements OnInit, OnDestroy {
   attributeKeys: IAttributeKey[];
-  currentAccount: any;
   eventSubscriber: Subscription;
   itemsPerPage: number;
   links: any;
@@ -27,11 +26,10 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
 
   constructor(
     protected attributeKeyService: AttributeKeyService,
-    protected jhiAlertService: JhiAlertService,
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
-    protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService
+    protected modalService: NgbModal,
+    protected parseLinks: JhiParseLinks
   ) {
     this.attributeKeys = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -50,10 +48,7 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<IAttributeKey[]>) => this.paginateAttributeKeys(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<IAttributeKey[]>) => this.paginateAttributeKeys(res.body, res.headers));
   }
 
   reset() {
@@ -69,9 +64,6 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInAttributeKeys();
   }
 
@@ -92,7 +84,12 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInAttributeKeys() {
-    this.eventSubscriber = this.eventManager.subscribe('attributeKeyListModification', response => this.reset());
+    this.eventSubscriber = this.eventManager.subscribe('attributeKeyListModification', () => this.reset());
+  }
+
+  delete(attributeKey: IAttributeKey) {
+    const modalRef = this.modalService.open(AttributeKeyDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.attributeKey = attributeKey;
   }
 
   sort() {
@@ -109,9 +106,5 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.attributeKeys.push(data[i]);
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

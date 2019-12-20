@@ -25,8 +25,7 @@ export class HasAnyAuthorityDirective {
     this.authorities = typeof value === 'string' ? [value] : value;
     this.updateView();
     // Get notified each time authentication state changes.
-    /* tslint:disable-next-line:no-unused-variable */
-    this.accountService.getAuthenticationState().subscribe(identity => this.updateView());
+    this.accountService.getAuthenticationState().subscribe(() => this.updateView());
   }
 
   private updateView(): void {

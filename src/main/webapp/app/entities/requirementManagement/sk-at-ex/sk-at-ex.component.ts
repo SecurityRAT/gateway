@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ISkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
-import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { SkAtExService } from './sk-at-ex.service';
+import { SkAtExDeleteDialogComponent } from './sk-at-ex-delete-dialog.component';
 
 @Component({
   selector: 'jhi-sk-at-ex',
@@ -16,7 +16,6 @@ import { SkAtExService } from './sk-at-ex.service';
 })
 export class SkAtExComponent implements OnInit, OnDestroy {
   skAtExes: ISkAtEx[];
-  currentAccount: any;
   eventSubscriber: Subscription;
   itemsPerPage: number;
   links: any;
@@ -27,10 +26,9 @@ export class SkAtExComponent implements OnInit, OnDestroy {
 
   constructor(
     protected skAtExService: SkAtExService,
-    protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
-    protected parseLinks: JhiParseLinks,
-    protected accountService: AccountService
+    protected modalService: NgbModal,
+    protected parseLinks: JhiParseLinks
   ) {
     this.skAtExes = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -49,10 +47,7 @@ export class SkAtExComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<ISkAtEx[]>) => this.paginateSkAtExes(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<ISkAtEx[]>) => this.paginateSkAtExes(res.body, res.headers));
   }
 
   reset() {
@@ -68,9 +63,6 @@ export class SkAtExComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInSkAtExes();
   }
 
@@ -83,7 +75,12 @@ export class SkAtExComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInSkAtExes() {
-    this.eventSubscriber = this.eventManager.subscribe('skAtExListModification', response => this.reset());
+    this.eventSubscriber = this.eventManager.subscribe('skAtExListModification', () => this.reset());
+  }
+
+  delete(skAtEx: ISkAtEx) {
+    const modalRef = this.modalService.open(SkAtExDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.skAtEx = skAtEx;
   }
 
   sort() {
@@ -100,9 +97,5 @@ export class SkAtExComponent implements OnInit, OnDestroy {
     for (let i = 0; i < data.length; i++) {
       this.skAtExes.push(data[i]);
     }
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

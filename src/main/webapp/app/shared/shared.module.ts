@@ -1,16 +1,12 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { GatewaySharedCommonModule, HasAnyAuthorityDirective } from './';
+import { NgModule } from '@angular/core';
+import { GatewaySharedLibsModule } from './shared-libs.module';
+import { JhiAlertComponent } from './alert/alert.component';
+import { JhiAlertErrorComponent } from './alert/alert-error.component';
+import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 
 @NgModule({
-  imports: [GatewaySharedCommonModule],
-  declarations: [HasAnyAuthorityDirective],
-  exports: [GatewaySharedCommonModule, HasAnyAuthorityDirective],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [GatewaySharedLibsModule],
+  declarations: [JhiAlertComponent, JhiAlertErrorComponent, HasAnyAuthorityDirective],
+  exports: [GatewaySharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent, HasAnyAuthorityDirective]
 })
-export class GatewaySharedModule {
-  static forRoot() {
-    return {
-      ngModule: GatewaySharedModule
-    };
-  }
-}
+export class GatewaySharedModule {}

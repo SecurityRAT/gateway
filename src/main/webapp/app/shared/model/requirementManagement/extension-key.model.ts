@@ -1,15 +1,7 @@
 import { IExtension } from 'app/shared/model/requirementManagement/extension.model';
 import { IRequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
-
-export const enum ExtensionSection {
-  STATUS = 'STATUS',
-  ENHANCEMENT = 'ENHANCEMENT'
-}
-
-export const enum ExtensionType {
-  ENUM = 'ENUM',
-  FREETEXT = 'FREETEXT'
-}
+import { ExtensionSection } from 'app/shared/model/enumerations/extension-section.model';
+import { ExtensionType } from 'app/shared/model/enumerations/extension-type.model';
 
 export interface IExtensionKey {
   id?: number;

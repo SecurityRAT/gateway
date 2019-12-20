@@ -2,6 +2,7 @@ package org.securityrat.gateway.web.rest;
 
 import org.securityrat.gateway.GatewayApp;
 import org.securityrat.gateway.config.TestSecurityConfiguration;
+import io.github.jhipster.config.JHipsterProperties;
 import org.securityrat.gateway.config.audit.AuditEventConverter;
 import org.securityrat.gateway.domain.PersistentAuditEvent;
 import org.securityrat.gateway.repository.PersistenceAuditEventRepository;
@@ -47,6 +48,9 @@ public class AuditResourceIT {
     private AuditEventConverter auditEventConverter;
 
     @Autowired
+    private JHipsterProperties jhipsterProperties;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -64,7 +68,7 @@ public class AuditResourceIT {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         AuditEventService auditEventService =
-            new AuditEventService(auditEventRepository, auditEventConverter);
+            new AuditEventService(auditEventRepository, auditEventConverter, jhipsterProperties);
         AuditResource auditResource = new AuditResource(auditEventService);
         this.restAuditMockMvc = MockMvcBuilders.standaloneSetup(auditResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)

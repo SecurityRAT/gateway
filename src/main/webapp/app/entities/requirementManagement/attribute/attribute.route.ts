@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { UserRouteAccessService } from 'app/core';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Attribute } from 'app/shared/model/requirementManagement/attribute.model';
 import { AttributeService } from './attribute.service';
 import { AttributeComponent } from './attribute.component';
 import { AttributeDetailComponent } from './attribute-detail.component';
 import { AttributeUpdateComponent } from './attribute-update.component';
-import { AttributeDeletePopupComponent } from './attribute-delete-dialog.component';
 import { IAttribute } from 'app/shared/model/requirementManagement/attribute.model';
 
 @Injectable({ providedIn: 'root' })
 export class AttributeResolve implements Resolve<IAttribute> {
   constructor(private service: AttributeService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAttribute> {
-    const id = route.params['id'] ? route.params['id'] : null;
+  resolve(route: ActivatedRouteSnapshot): Observable<IAttribute> {
+    const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<Attribute>) => response.ok),
-        map((attribute: HttpResponse<Attribute>) => attribute.body)
-      );
+      return this.service.find(id).pipe(map((attribute: HttpResponse<Attribute>) => attribute.body));
     }
     return of(new Attribute());
   }
@@ -73,21 +69,5 @@ export const attributeRoute: Routes = [
       pageTitle: 'Attributes'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const attributePopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: AttributeDeletePopupComponent,
-    resolve: {
-      attribute: AttributeResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Attributes'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];

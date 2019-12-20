@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ISkAtEx, SkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
 import { SkAtExService } from './sk-at-ex.service';
 import { ISkeleton } from 'app/shared/model/requirementManagement/skeleton.model';
-import { SkeletonService } from 'app/entities/requirementManagement/skeleton';
+import { SkeletonService } from 'app/entities/requirementManagement/skeleton/skeleton.service';
 import { IAttribute } from 'app/shared/model/requirementManagement/attribute.model';
-import { AttributeService } from 'app/entities/requirementManagement/attribute';
+import { AttributeService } from 'app/entities/requirementManagement/attribute/attribute.service';
 import { IExtension } from 'app/shared/model/requirementManagement/extension.model';
-import { ExtensionService } from 'app/entities/requirementManagement/extension';
+import { ExtensionService } from 'app/entities/requirementManagement/extension/extension.service';
 
 @Component({
   selector: 'jhi-sk-at-ex-update',
@@ -51,25 +52,13 @@ export class SkAtExUpdateComponent implements OnInit {
     });
     this.skeletonService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ISkeleton[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ISkeleton[]>) => response.body)
-      )
-      .subscribe((res: ISkeleton[]) => (this.skeletons = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<ISkeleton[]>) => (this.skeletons = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.attributeService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IAttribute[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IAttribute[]>) => response.body)
-      )
-      .subscribe((res: IAttribute[]) => (this.attributes = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IAttribute[]>) => (this.attributes = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.extensionService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IExtension[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IExtension[]>) => response.body)
-      )
-      .subscribe((res: IExtension[]) => (this.extensions = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IExtension[]>) => (this.extensions = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(skAtEx: ISkAtEx) {
