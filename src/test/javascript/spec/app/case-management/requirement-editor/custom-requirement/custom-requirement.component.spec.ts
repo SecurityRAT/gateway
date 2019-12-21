@@ -3,19 +3,34 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CustomRequirementComponent } from 'app/case-management/requirement-editor/custom-requirement/custom-requirement.component';
 
 import { GatewayTestModule } from '../../../../test.module';
-import { CMUtilService } from 'app/case-management/common/services/util.service';
 import { RequirementEditorDataShareService } from 'app/case-management/requirement-editor/requirement-editor-data-share.service';
-import { CMRequirement, CMAttribute } from 'app/case-management/common';
+import { CMRequirement, CMAttribute, CMExtensionKey, CMExtensionType, CMExtension } from 'app/case-management/common';
 describe('Component Tests', () => {
   describe('CustomRequirementComponent', () => {
     let component: CustomRequirementComponent;
     let fixture: ComponentFixture<CustomRequirementComponent>;
     let reqEditorDataShareService: RequirementEditorDataShareService;
     beforeEach(async(() => {
+      reqEditorDataShareService = new RequirementEditorDataShareService();
+      const attributes = [
+        new CMAttribute(1, 'Medium', 10, 1, 'Medium criticality', []),
+        new CMAttribute(1, 'Low', 20, 1, 'Low criticality', [])
+      ];
+      const categories = [new CMAttribute(1, 'Authentication', 30, 0, 'Authentication description', [])];
+      const statusValues = [new CMExtension(1, 'task', 10, 'task desc'), new CMExtension(2, 'implicit', 20, 'implicit')];
+      const status = [new CMExtensionKey(1, 'Strategy', 'some desc', 10, CMExtensionType.ENUM, statusValues)];
+      const enhancements = [
+        new CMExtensionKey(1, 'More Information', 'some description', 20),
+        new CMExtensionKey(2, 'Motivation', 'some description', 20)
+      ];
+      reqEditorDataShareService.setAttributes(attributes);
+      reqEditorDataShareService.setCategories(categories);
+      reqEditorDataShareService.setEnhancements(enhancements);
+      reqEditorDataShareService.setStatus(status);
       TestBed.configureTestingModule({
         declarations: [CustomRequirementComponent],
         imports: [GatewayTestModule],
-        providers: [CMUtilService, RequirementEditorDataShareService]
+        providers: [{ provide: RequirementEditorDataShareService, useValue: reqEditorDataShareService }]
       })
         .overrideTemplate(CustomRequirementComponent, '')
         .compileComponents();
@@ -24,7 +39,6 @@ describe('Component Tests', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(CustomRequirementComponent);
       component = fixture.componentInstance;
-      reqEditorDataShareService = fixture.debugElement.injector.get(RequirementEditorDataShareService);
       fixture.detectChanges();
     });
 
@@ -41,13 +55,9 @@ describe('Component Tests', () => {
 
     it('create custom Copy and sets EditMode', () => {
       const tempCustReq = new CMRequirement(null, 'CUS-01', null, null, [], [], [], [], null, null, null, null);
-      component.updateCustomRequirement();
+      component.editCustomRequirement(tempCustReq);
       expect(component.editMode).toBe(true);
       expect(component.customRequirementObj.name).toEqual(tempCustReq.name);
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('ends edit Mode and adds edited CmReq to customRequirementList', () => {

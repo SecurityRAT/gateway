@@ -201,12 +201,12 @@
         </div>
         <div class="modal-footer">
             <button type="button" (click)="c()" class="btn btn-secondary">
-                <span class="fa fa-ban"></span>&nbsp;
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;
                 <span>Cancel</span>
             </button>
             <button [disabled]="!importantFieldsAreSet(customRequirementObj)" type="button" class="btn btn-primary"
                 (click)="saveCustomRequirement();c()">
-                <span class="fa fa-save"></span>&nbsp;
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;
                 <span>Save</span>
             </button>
         </div>
