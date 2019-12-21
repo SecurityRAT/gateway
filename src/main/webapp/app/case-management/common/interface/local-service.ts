@@ -1,3 +1,4 @@
+import { YamlObject } from '..';
 import { Observable } from 'rxjs';
 
 /**
@@ -12,7 +13,7 @@ export interface LocalExportImportInterface {
 
   /**
    * Export requirements locally
-   * @param fileObj file to be exported
+   * @param yamlContent yaml content to be exported
    */
-  exportRequirements(fileObj: any): Observable<any>;
+  exportRequirements(yamlContent: YamlObject): Observable<any>;
 }

@@ -7,20 +7,27 @@ import { HttpResponse } from '@angular/common/http';
  */
 export interface RemoteExportImportInterface {
   /**
-   * Import the requirements from a remote service for the given URL.
-   * @param url The appropriate URL of the service given by user.
+   * Retrieve available requirementSet versions
+   * @param url The URL of the service.
    * @returns An http observable with a list of files. The could be more than one version of the requirement set.
    */
-  importRequirements(url: string): Observable<HttpResponse<YamlFile[]>>;
+  getYamlFileVersions(url: string): Observable<HttpResponse<YamlFile[]>>;
+
+  /**
+   * Imports requirements from the given YAML file information
+   * @param yamlFile the Yaml file information to download the content
+   * @returns An observable with the content of the yaml file version
+   */
+  importRequirements(yamlFile: YamlFile): Observable<any>;
 
   /**
    * Exports the requirements to a remote service.
    * @param url The appriopriate URL of the service.
-   * @param fileObj The yaml object to be exported
+   * @param fileContent The yaml object to be exported
    * @param fields The necessary fields with their corresponding values required for the export
    * @returns An http observable with a object. Most probably in the form {url: '', alias: ''}
    */
-  exportRequirements(url: string, fileObj: YamlObject, fields: any[]): Observable<HttpResponse<any>>;
+  exportRequirements(url: string, fileContent: YamlObject, fields: any[]): Observable<HttpResponse<any>>;
 
   /**
    * Retrieves the mandatory field given an appropriate URL.
