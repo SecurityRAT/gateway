@@ -39,7 +39,7 @@ export class CMUtilService {
           this.updatePropertyInArray(elem.children, propertyObj, specificIds);
         }
 
-        if (specificIds === undefined || (specificIds !== undefined && specificIds.length > 0 && specificIds.indexOf(elem.id) !== -1)) {
+        if (specificIds === undefined || (specificIds !== undefined && specificIds.length > 0 && specificIds.includes(elem.id))) {
           elem[key] = propertyObj[key];
           // elem = Object.assign({}, elem);
         }
@@ -65,7 +65,7 @@ export class CMUtilService {
             for (let j = 0; j < req.feTags.length; j++) {
               const reqTagId = req.feTags[j];
               /* tag is present in the selectTags of a category, then increment the count */
-              if (selectedTags[tagCategory].length === 0 || selectedTags[tagCategory].indexOf(reqTagId) !== -1) {
+              if (selectedTags[tagCategory].length === 0 || selectedTags[tagCategory].includes(reqTagId)) {
                 count++;
                 break;
               }
@@ -92,7 +92,7 @@ export class CMUtilService {
   filterRequirementsByCategories(array: CMRequirement[], selectedCategoriesIds: number[]): CMRequirement[] {
     if (selectedCategoriesIds !== undefined && selectedCategoriesIds.length > 0) {
       array.forEach(req => {
-        if (req.viewOptions.show && selectedCategoriesIds.indexOf(req.categoryId) === -1) {
+        if (req.viewOptions.show && !selectedCategoriesIds.includes(req.categoryId)) {
           req.viewOptions.show = false;
         }
       });

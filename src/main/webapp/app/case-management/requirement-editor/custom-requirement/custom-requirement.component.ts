@@ -166,7 +166,6 @@ export class CustomRequirementComponent implements OnInit {
    */
   editCustomRequirement(cmRequirementObj: CMRequirement) {
     this.editMode = true;
-    console.log(cmRequirementObj);
     // way to deepcopy nested object
     this.customRequirementObj = JSON.parse(JSON.stringify(cmRequirementObj));
     // this.customRequirementObj = Object.assign({}, cmRequirementObj);

@@ -11,8 +11,6 @@ export class RequirementEditorDataShareService implements OnInit {
   categories: CMAttribute[];
   categoriesInList: number[];
 
-  ngOnInit() {}
-
   constructor() {
     this.requirements = [];
     this.customRequirements = [];
@@ -22,6 +20,8 @@ export class RequirementEditorDataShareService implements OnInit {
     this.categories = [];
     this.categoriesInList = [];
   }
+
+  ngOnInit() {}
 
   setAttributes(attributes: CMAttribute[]) {
     this.attributes = attributes;

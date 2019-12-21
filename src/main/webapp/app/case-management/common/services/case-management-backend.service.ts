@@ -1,5 +1,6 @@
+/* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from '../../../app.constants';
@@ -150,7 +151,7 @@ export class CaseManagementBackendService {
 
   getMockTagKeys(): Observable<HttpResponse<CMAttributeKey[]>> {
     const mockTagKeys: CMAttributeKey[] = [];
-    (<any>tagKeys).forEach(element => {
+    (tagKeys as any).forEach(element => {
       mockTagKeys.push(new CMAttributeKey(element.id, element.name, element.showOrder, element.description));
     });
     return of(
@@ -164,7 +165,7 @@ export class CaseManagementBackendService {
 
   getMockTags(): Observable<HttpResponse<CMAttribute[]>> {
     const mockTags: CMAttribute[] = [];
-    (<any>tags).forEach(element => {
+    (tags as any).forEach(element => {
       mockTags.push(new CMAttribute(element.id, element.name, element.showOrder, element.keyId, element.description, element.children));
     });
     return of(
@@ -177,7 +178,7 @@ export class CaseManagementBackendService {
   }
   getMockAttributeKeys(): CMAttributeKey[] {
     const mockAttributeKeys: CMAttributeKey[] = [];
-    (<any>attributeKeys).forEach(element => {
+    (attributeKeys as any).forEach(element => {
       mockAttributeKeys.push(new CMAttributeKey(element.id, element.name, element.showOrder, element.description));
     });
     return mockAttributeKeys;
@@ -185,7 +186,7 @@ export class CaseManagementBackendService {
 
   getMockCategories(): Observable<HttpResponse<CMAttribute[]>> {
     const mockCategories: CMAttribute[] = [];
-    (<any>categories).forEach(element => {
+    (categories as any).forEach(element => {
       mockCategories.push(
         new CMAttribute(element.id, element.name, element.showOrder, element.keyId, element.description, element.children)
       );
@@ -201,7 +202,7 @@ export class CaseManagementBackendService {
 
   getMockAttributes(): CMAttribute[] {
     const mockAttributes: CMAttribute[] = [];
-    (<any>attributes).forEach(element => {
+    (attributes as any).forEach(element => {
       mockAttributes.push(
         new CMAttribute(element.id, element.name, element.showOrder, element.keyId, element.description, element.children)
       );
@@ -211,7 +212,7 @@ export class CaseManagementBackendService {
 
   getMockRequirements(): CMRequirement[] {
     const mockRequirements: CMRequirement[] = [];
-    (<any>requirements).forEach(element => {
+    (requirements as any).forEach(element => {
       mockRequirements.push(
         new CMRequirement(
           element.id,
@@ -231,7 +232,7 @@ export class CaseManagementBackendService {
 
   getMockEnhancements(): CMExtensionKey[] {
     const mockEnhancements: CMExtensionKey[] = [];
-    (<any>enhancements).forEach(element => {
+    (enhancements as any).forEach(element => {
       mockEnhancements.push(new CMExtensionKey(element.id, element.name, element.description, element.showOrder));
     });
     return mockEnhancements;
@@ -239,7 +240,7 @@ export class CaseManagementBackendService {
 
   getMockStatus(): CMExtensionKey[] {
     const mockStatus: CMExtensionKey[] = [];
-    (<any>status).forEach(element => {
+    (status as any).forEach(element => {
       mockStatus.push(new CMExtensionKey(element.id, element.name, element.description, element.showOrder, element.type, element.values));
     });
     return mockStatus;

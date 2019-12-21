@@ -77,9 +77,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   tagObject: TagObject;
   customMode = false;
 
-  changeMode(cm: boolean) {
-    this.customMode = cm;
-  }
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _cmUtilService: CMUtilService,
@@ -103,6 +100,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.tags = [];
     this.requirements = [];
     this.totalRequests = 8; // this will help to the progressbar.
+  }
+
+  changeMode(cm: boolean) {
+    this.customMode = cm;
   }
 
   ngOnInit() {
@@ -322,7 +323,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (this.requirements && this.status) {
       this.requirements.forEach(req => {
         /* Extract the category ids present in the requirement list. This facilitates parcing in the view. */
-        if (this.categoryObject.categoryIdsInList.indexOf(req.categoryId) === -1) {
+        if (!this.categoryObject.categoryIdsInList.includes(req.categoryId)) {
           this.categoryObject.categoryIdsInList.push(req.categoryId);
         }
         // Sets the display value of the status for the requirement
@@ -401,7 +402,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       if (i !== -1) {
         newValues.splice(i, 1);
         /* Change the following check for the appriopriate custom requirement abbr. */
-      } else if (i === -1 && oldReq.name.indexOf('CUS-') === -1) {
+      } else if (i === -1 && !oldReq.name.includes('CUS-')) {
         toBeRemoved.push(index);
       }
     });

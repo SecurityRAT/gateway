@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { JhiEventManager, JhiAlert, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { ALERTCSSOFFSET, ALERTCSSTOP } from '../';
 
@@ -73,7 +73,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
           break;
         }
         case 404:
-          this.addErrorAlert('The resource you requested was not found. Please provide a valid one.', 'error.url.not.found');
+          this.addErrorAlert('The resource you requested was not found. Please provide a valid one.');
           break;
         case 500:
           this.addErrorAlert('The server encountered an unexpected condition which prevented it from fulfilling the request.');
@@ -102,7 +102,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     }
   }
   /* tslint:disable-next-line:no-unused-variable */
-  addErrorAlert(message, key?, data?) {
+  addErrorAlert(message) {
     this.alerts.push(
       this.alertService.addAlert(
         {

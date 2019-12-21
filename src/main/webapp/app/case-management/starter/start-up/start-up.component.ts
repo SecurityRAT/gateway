@@ -221,7 +221,7 @@ export class ChangeSelectionComponent implements OnInit {
   }
 
   open(component: Component): Promise<NgbModalRef> {
-    /* tslint:disable-next-line:no-unused-variable*/
+    // eslint-disable-next-line
     return new Promise<NgbModalRef>((resolve, reject) => {
       const isOpen = this.ngbModalRef !== null;
       if (isOpen) {
@@ -233,11 +233,11 @@ export class ChangeSelectionComponent implements OnInit {
         const parameters = this._router.parseUrl(this._router.url).root.children[PRIMARY_OUTLET].segments[0].parameters;
         /* Exception can be thrown due not non parseble string -> number */
         const requirementSetId = this._cmUtilService.convertStringToNumberArray(parameters[REQUIREMENTSET_PARAM], true)[0];
-        if (MOCK_DATA) {
-          this.ngbModalRef = this._modalService.open(component, {
-            size: 'lg'
-          });
+        this.ngbModalRef = this._modalService.open(component, {
+          size: 'lg'
+        });
 
+        if (MOCK_DATA) {
           /* Mock load */
           this.ngbModalRef.componentInstance.selectedRequirementSet = new CMRequirementSet(requirementSetId, 'Test requirement set', 10);
 
@@ -250,9 +250,6 @@ export class ChangeSelectionComponent implements OnInit {
           this._cmBackendService
             .query(CMRequirementSet, REQUIREMENTSET_URI, { ids: [requirementSetId] })
             .subscribe((res: HttpResponse<CMRequirementSet[]>) => {
-              this.ngbModalRef = this._modalService.open(component, {
-                size: 'lg'
-              });
               /* Backend load */
               this.ngbModalRef.componentInstance.selectedRequirementSet = res.body[0];
 
@@ -266,10 +263,11 @@ export class ChangeSelectionComponent implements OnInit {
             });
         }
         this.ngbModalRef.result.then(
+          // eslint-disable-next-line
           result => {
             this.ngbModalRef = null;
-            /* tslint:disable-next-line:no-unused-variable*/
           },
+          // eslint-disable-next-line
           reason => {
             this._router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
             this.ngbModalRef = null;

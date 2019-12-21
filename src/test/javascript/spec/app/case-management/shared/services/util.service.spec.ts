@@ -73,8 +73,8 @@ describe('Service Tests', () => {
         const filteredArray = service.filterByObj(givenArray, { selected: true });
 
         expect(filteredArray.length).toBe(2);
-        expect(filteredArray.map(item => item.id).indexOf(1) !== -1).toBeTruthy();
-        expect(filteredArray.map(item => item.id).indexOf(3) !== -1).toBeTruthy();
+        expect(filteredArray.map(item => item.id).includes(1)).toBeTruthy();
+        expect(filteredArray.map(item => item.id).includes(3)).toBeTruthy();
       });
 
       it('should filter out by id element without nested array', () => {
@@ -136,7 +136,7 @@ describe('Service Tests', () => {
         try {
           service.convertStringToNumberArray(testValue);
         } catch (e) {
-          const error = <DOMException>e;
+          const error = e as DOMException;
           expect(error.name).toEqual(DOMException.INVALID_CHARACTER_ERR.toString());
           expect(error.message).toContain('Error converting string');
         }
