@@ -21,9 +21,9 @@ export class RequirementEditorDataShareService implements OnInit {
     this.categoriesInList = [];
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  setAttributes(attributes: CMAttribute[]) {
+  setAttributes(attributes: CMAttribute[]): void {
     this.attributes = attributes;
   }
 
@@ -31,7 +31,7 @@ export class RequirementEditorDataShareService implements OnInit {
     return this.attributes;
   }
 
-  setRequirements(requirements: CMRequirement[]) {
+  setRequirements(requirements: CMRequirement[]): void {
     this.requirements = [];
     this.requirements = requirements;
   }
@@ -51,7 +51,7 @@ export class RequirementEditorDataShareService implements OnInit {
     return this.customRequirements;
   }
 
-  setEnhancements(enhancements: CMExtensionKey[]) {
+  setEnhancements(enhancements: CMExtensionKey[]): void {
     this.enhancements = [];
     this.enhancements = enhancements;
   }
@@ -60,7 +60,7 @@ export class RequirementEditorDataShareService implements OnInit {
     return this.enhancements;
   }
 
-  setStatus(status: CMExtensionKey[]) {
+  setStatus(status: CMExtensionKey[]): void {
     this.status = status;
   }
 
@@ -68,7 +68,7 @@ export class RequirementEditorDataShareService implements OnInit {
     return this.status;
   }
 
-  setCategories(categories: CMAttribute[]) {
+  setCategories(categories: CMAttribute[]): void {
     this.categories = categories;
   }
 
@@ -76,7 +76,7 @@ export class RequirementEditorDataShareService implements OnInit {
     return this.categories;
   }
 
-  setCategoriesInList(categoriesInList: number[]) {
+  setCategoriesInList(categoriesInList: number[]): void {
     this.categoriesInList = categoriesInList;
   }
 

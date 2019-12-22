@@ -8,17 +8,17 @@ import { ISkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
   templateUrl: './sk-at-ex-detail.component.html'
 })
 export class SkAtExDetailComponent implements OnInit {
-  skAtEx: ISkAtEx;
+  skAtEx: ISkAtEx | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ skAtEx }) => {
       this.skAtEx = skAtEx;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

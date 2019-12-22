@@ -5,19 +5,19 @@ export class SkeletonComponentsPage {
   deleteButtons = element.all(by.css('jhi-skeleton div table .btn-danger'));
   title = element.all(by.css('jhi-skeleton div h2#page-heading span')).first();
 
-  async clickOnCreateButton() {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton() {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getText();
   }
 }
@@ -32,46 +32,46 @@ export class SkeletonUpdatePage {
   activeInput = element(by.id('field_active'));
   requirementSetSelect = element(by.id('field_requirementSet'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
 
-  async setNameInput(name) {
+  async setNameInput(name: string): Promise<void> {
     await this.nameInput.sendKeys(name);
   }
 
-  async getNameInput() {
+  async getNameInput(): Promise<string> {
     return await this.nameInput.getAttribute('value');
   }
 
-  async setDescriptionInput(description) {
+  async setDescriptionInput(description: string): Promise<void> {
     await this.descriptionInput.sendKeys(description);
   }
 
-  async getDescriptionInput() {
+  async getDescriptionInput(): Promise<string> {
     return await this.descriptionInput.getAttribute('value');
   }
 
-  async setShowOrderInput(showOrder) {
+  async setShowOrderInput(showOrder: string): Promise<void> {
     await this.showOrderInput.sendKeys(showOrder);
   }
 
-  async getShowOrderInput() {
+  async getShowOrderInput(): Promise<string> {
     return await this.showOrderInput.getAttribute('value');
   }
 
-  getActiveInput() {
+  getActiveInput(): ElementFinder {
     return this.activeInput;
   }
 
-  async requirementSetSelectLastOption() {
+  async requirementSetSelectLastOption(): Promise<void> {
     await this.requirementSetSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async requirementSetSelectOption(option) {
+  async requirementSetSelectOption(option: string): Promise<void> {
     await this.requirementSetSelect.sendKeys(option);
   }
 
@@ -79,15 +79,15 @@ export class SkeletonUpdatePage {
     return this.requirementSetSelect;
   }
 
-  async getRequirementSetSelectedOption() {
+  async getRequirementSetSelectedOption(): Promise<string> {
     return await this.requirementSetSelect.element(by.css('option:checked')).getText();
   }
 
-  async save() {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel() {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -100,11 +100,11 @@ export class SkeletonDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-skeleton-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-skeleton'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton() {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

@@ -71,12 +71,12 @@ export class CustomRequirementComponent implements OnInit {
     this.filterCategorieIds();
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   /**
    * This method creates an empty nested Object. It is necessary when a user wants to create a new CustomRequirement
    */
-  createEmptyCustomRequirementObject() {
+  createEmptyCustomRequirementObject(): void {
     this.customRequirementObj = new CMRequirement(
       null,
       this.setUpCustomRequirementName(),
@@ -135,7 +135,7 @@ export class CustomRequirementComponent implements OnInit {
    * Finds out the categories of all CustomRequirements and pushes them into
    * the categoriesInList
    */
-  filterCategorieIds() {
+  filterCategorieIds(): void {
     this.customRequirementList.forEach(element => {
       if (!this.categoriesInList.includes(element.categoryId)) {
         this.categoriesInList.push(element.categoryId);
@@ -148,7 +148,7 @@ export class CustomRequirementComponent implements OnInit {
    * @param content templateName of HTML
    * @param useOldCustReq set to true if need a empty custom requirement
    */
-  open(content: any, useOldCustReq: boolean) {
+  open(content: any, useOldCustReq: boolean): void {
     if (!useOldCustReq) {
       this.createEmptyCustomRequirementObject();
     }
@@ -164,7 +164,7 @@ export class CustomRequirementComponent implements OnInit {
    * This makes sure that we work with a copy while editing
    * @param cmRequirementObj Object which should be deep-copied
    */
-  editCustomRequirement(cmRequirementObj: CMRequirement) {
+  editCustomRequirement(cmRequirementObj: CMRequirement): void {
     this.editMode = true;
     // way to deepcopy nested object
     this.customRequirementObj = JSON.parse(JSON.stringify(cmRequirementObj));
@@ -174,7 +174,7 @@ export class CustomRequirementComponent implements OnInit {
   /**
    * Changes the "customizes"-variable. It is needed to open/close this component inside the editor-component
    */
-  customize() {
+  customize(): void {
     this.customizes = !this.customizes;
     this.customMode.emit(this.customizes);
   }
@@ -183,7 +183,7 @@ export class CustomRequirementComponent implements OnInit {
    * Searches the name of a given customRequirement-Object and delets this in the customRequirementList.
    * @param cmRequirementObj customRequirment-Object which name is used to find and delete it in the customRequirementList
    */
-  removeCustomRequirement(cmRequirementObj: CMRequirement) {
+  removeCustomRequirement(cmRequirementObj: CMRequirement): void {
     this.customRequirementList.forEach((element, index) => {
       if (cmRequirementObj.name === element.name) {
         this.customRequirementList.splice(index, 1);
@@ -211,7 +211,7 @@ export class CustomRequirementComponent implements OnInit {
    * Finds all categories without CustomRequirements and removes them from the categoriesInList.
    * This can be the case, after we removed or edited customRequirements
    */
-  searchAndRemoveEmptyCategories() {
+  searchAndRemoveEmptyCategories(): void {
     this.categoriesInList.forEach(cat => {
       let categorieCounter: number;
       categorieCounter = 0;
@@ -230,7 +230,7 @@ export class CustomRequirementComponent implements OnInit {
     });
   }
 
-  selectStatus(status: CMStatusSubType, newValue: CMExtension, multiselect = false) {
+  selectStatus(status: CMStatusSubType, newValue: CMExtension, multiselect = false): void {
     /* Multiselection of status value is not possible */
     if (!multiselect) {
       // remove old value
@@ -255,7 +255,7 @@ export class CustomRequirementComponent implements OnInit {
     }
   }
 
-  saveCustomRequirement() {
+  saveCustomRequirement(): void {
     if (this.editMode) {
       this.updateCustomRequirement();
     } else {
@@ -266,7 +266,7 @@ export class CustomRequirementComponent implements OnInit {
   /**
    * After filling the form, this function pushes the new customRequirement to the customRequirementList
    */
-  addCustomRequirement() {
+  addCustomRequirement(): void {
     this.customRequirementList.push(this.customRequirementObj);
     this.filterCategorieIds();
   }
@@ -274,7 +274,7 @@ export class CustomRequirementComponent implements OnInit {
   /**
    * After editing the customRequirement gets added to the List of customRequirements
    */
-  updateCustomRequirement() {
+  updateCustomRequirement(): void {
     this.customRequirementList.forEach((element: CMRequirement, index) => {
       if (element.name === this.customRequirementObj.name) {
         this.customRequirementList[index] = Object.assign({}, this.customRequirementObj);

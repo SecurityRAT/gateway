@@ -16,7 +16,7 @@ export class AttributeTagComponent implements OnInit {
 
   @Output() attributeSelectionChanged = new EventEmitter<CMAttribute>();
 
-  ngOnInit() {
+  ngOnInit(): void {
     // This is needed to evaluate the indentations in the view.
     this.count++;
   }

@@ -25,11 +25,11 @@ export class JhiArtifactDashboardComponent implements OnInit {
     this.attributes = [];
   }
 
-  changeIcon() {
+  changeIcon(): void {
     this.isOpen = !this.isOpen;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isOpen = false;
   }
 

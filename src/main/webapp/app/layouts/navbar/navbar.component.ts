@@ -12,9 +12,9 @@ import { ProfileService } from 'app/layouts/profiles/profile.service';
   styleUrls: ['navbar.scss']
 })
 export class NavbarComponent implements OnInit {
-  inProduction: boolean;
-  isNavbarCollapsed: boolean;
-  swaggerEnabled: boolean;
+  inProduction?: boolean;
+  isNavbarCollapsed = true;
+  swaggerEnabled?: boolean;
   version: string;
 
   constructor(
@@ -24,39 +24,38 @@ export class NavbarComponent implements OnInit {
     private router: Router
   ) {
     this.version = VERSION ? (VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION) : '';
-    this.isNavbarCollapsed = true;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.swaggerEnabled = profileInfo.swaggerEnabled;
     });
   }
 
-  collapseNavbar() {
+  collapseNavbar(): void {
     this.isNavbarCollapsed = true;
   }
 
-  isAuthenticated() {
+  isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();
   }
 
-  login() {
+  login(): void {
     this.loginService.login();
   }
 
-  logout() {
+  logout(): void {
     this.collapseNavbar();
     this.loginService.logout();
     this.router.navigate(['']);
   }
 
-  toggleNavbar() {
+  toggleNavbar(): void {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 
-  getImageUrl() {
-    return this.isAuthenticated() ? this.accountService.getImageUrl() : null;
+  getImageUrl(): string {
+    return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
   }
 }

@@ -102,11 +102,11 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.totalRequests = 8; // this will help to the progressbar.
   }
 
-  changeMode(cm: boolean) {
+  changeMode(cm: boolean): void {
     this.customMode = cm;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // extracts artifact settings from matrix params
     this.routeSub = this._activatedRoute.paramMap.subscribe(values => {
       this.totalRequests = 8;
@@ -170,7 +170,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadFilters() {
+  loadFilters(): void {
     if (MOCK_DATA) {
       /* Mock load FE_TAGS */
       this._backendService.getMockTagKeys().subscribe((res: HttpResponse<CMAttributeKey[]>) => {
@@ -207,7 +207,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this._requirementEditorDataShare.setCategories(this.categoryObject.formattedCategories);
   }
 
-  loadExtensions() {
+  loadExtensions(): void {
     if (MOCK_DATA) {
       /* Mock load ENHANCEMENT and STATUS */
       this._backendService.findEnhancements(this.artifactSettings.requirementSet.id).subscribe((res: HttpResponse<CMExtensionKey[]>) => {
@@ -235,7 +235,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this._requirementEditorDataShare.setEnhancements(this.enhancements);
   }
 
-  loadParameters() {
+  loadParameters(): void {
     // implement error handlers
     if (MOCK_DATA) {
       this._backendService
@@ -277,7 +277,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this._requirementEditorDataShare.setAttributes(this.artifactSettings.parameterAttributes.content);
   }
 
-  private loadRequirements(oldRequirements?: CMRequirement[]) {
+  private loadRequirements(oldRequirements?: CMRequirement[]): void {
     if (MOCK_DATA) {
       /* Mock load REQUIREMENTS */
       this._backendService
@@ -309,7 +309,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     this._requirementEditorDataShare.setRequirements(this.requirements);
   }
 
-  private onSuccess<T>(res: T[], target: T[]) {
+  private onSuccess<T>(res: T[], target: T[]): void {
     const sortedResponse = this._cmUtilService.sortArrayByPredicate(res, 'showOrder');
     for (let i = 0; i < sortedResponse.length; i++) {
       target.push(sortedResponse[i]);
@@ -319,7 +319,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   /**
    * Sets the default or pre-selected values of the status of the requirements.
    */
-  updateStatusInReqs() {
+  updateStatusInReqs(): void {
     if (this.requirements && this.status) {
       this.requirements.forEach(req => {
         /* Extract the category ids present in the requirement list. This facilitates parcing in the view. */
@@ -378,7 +378,7 @@ export class EditorComponent implements OnInit, OnDestroy {
    * @param referenceValueIds The list of value ids who's content are to be returned.
    */
   getStatusContentFromIds(statusValues: CMExtension[], referenceValueIds: number[]): string[] {
-    const returnValue = [];
+    const returnValue: string[] = [];
     referenceValueIds.forEach(id => {
       // first sor
       for (let i = 0; i < statusValues.length; i++) {
@@ -434,7 +434,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
   // TODO Change the page title accordingly using the ActivatedRoute service.
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.routeSub.unsubscribe();
   }
 }

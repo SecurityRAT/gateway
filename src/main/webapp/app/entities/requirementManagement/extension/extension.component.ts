@@ -16,13 +16,12 @@ import { ExtensionDeleteDialogComponent } from './extension-delete-dialog.compon
 })
 export class ExtensionComponent implements OnInit, OnDestroy {
   extensions: IExtension[];
-  eventSubscriber: Subscription;
+  eventSubscriber?: Subscription;
   itemsPerPage: number;
   links: any;
-  page: any;
-  predicate: any;
-  reverse: any;
-  totalItems: number;
+  page: number;
+  predicate: string;
+  ascending: boolean;
 
   constructor(
     protected extensionService: ExtensionService,
@@ -38,10 +37,10 @@ export class ExtensionComponent implements OnInit, OnDestroy {
       last: 0
     };
     this.predicate = 'id';
-    this.reverse = true;
+    this.ascending = true;
   }
 
-  loadAll() {
+  loadAll(): void {
     this.extensionService
       .query({
         page: this.page,
@@ -51,60 +50,65 @@ export class ExtensionComponent implements OnInit, OnDestroy {
       .subscribe((res: HttpResponse<IExtension[]>) => this.paginateExtensions(res.body, res.headers));
   }
 
-  reset() {
+  reset(): void {
     this.page = 0;
     this.extensions = [];
     this.loadAll();
   }
 
-  loadPage(page) {
+  loadPage(page: number): void {
     this.page = page;
     this.loadAll();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInExtensions();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IExtension) {
-    return item.id;
+  trackId(index: number, item: IExtension): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  byteSize(field) {
-    return this.dataUtils.byteSize(field);
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType, field) {
-    return this.dataUtils.openFile(contentType, field);
+  openFile(contentType: string, base64String: string): void {
+    return this.dataUtils.openFile(contentType, base64String);
   }
 
-  registerChangeInExtensions() {
+  registerChangeInExtensions(): void {
     this.eventSubscriber = this.eventManager.subscribe('extensionListModification', () => this.reset());
   }
 
-  delete(extension: IExtension) {
+  delete(extension: IExtension): void {
     const modalRef = this.modalService.open(ExtensionDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.extension = extension;
   }
 
-  sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+  sort(): string[] {
+    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
     return result;
   }
 
-  protected paginateExtensions(data: IExtension[], headers: HttpHeaders) {
-    this.links = this.parseLinks.parse(headers.get('link'));
-    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    for (let i = 0; i < data.length; i++) {
-      this.extensions.push(data[i]);
+  protected paginateExtensions(data: IExtension[] | null, headers: HttpHeaders): void {
+    const headersLink = headers.get('link');
+    this.links = this.parseLinks.parse(headersLink ? headersLink : '');
+    if (data) {
+      for (let i = 0; i < data.length; i++) {
+        this.extensions.push(data[i]);
+      }
     }
   }
 }

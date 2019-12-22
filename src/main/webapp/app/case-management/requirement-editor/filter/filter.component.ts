@@ -46,9 +46,9 @@ export class FilterComponent implements OnInit {
     };
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  updateSelectedTags(changedTag: CMAttribute) {
+  updateSelectedTags(changedTag: CMAttribute): void {
     if (this.selectedTags[changedTag.keyId] === undefined) {
       this.selectedTags[changedTag.keyId] = new Array<number>();
     }
@@ -56,12 +56,12 @@ export class FilterComponent implements OnInit {
     this.applyFilters();
   }
 
-  updateSelectCategoriesAndFilter(changedCat: CMAttribute) {
+  updateSelectCategoriesAndFilter(changedCat: CMAttribute): void {
     this._updateSelectedElementsInArray(this.selectedCategories, changedCat);
     this.applyFilters();
   }
 
-  applyFilters() {
+  applyFilters(): void {
     const keys: string[] = Object.keys(this.selectedTags);
     let empty = true;
     for (let i = 0; i < keys.length; i++) {
@@ -80,7 +80,7 @@ export class FilterComponent implements OnInit {
     }
   }
 
-  beforePanelChange(event: NgbPanelChangeEvent) {
+  beforePanelChange(event: NgbPanelChangeEvent): void {
     switch (event.panelId) {
       case this.panelTags.id:
         this.panelTags.active = event.nextState;
@@ -96,7 +96,7 @@ export class FilterComponent implements OnInit {
     }
   }
 
-  private _updateSelectedElementsInArray(array: number[], elem: CMAttribute) {
+  private _updateSelectedElementsInArray(array: number[], elem: CMAttribute): void {
     let index = -1;
     if (array.length > 0) {
       for (let i = 0; i < array.length; i++) {

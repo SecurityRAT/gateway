@@ -1,7 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { HttpErrorResponse } from '@angular/common/http';
+import { JhiEventManager, JhiAlertService, JhiEventWithContent } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { ALERTCSSOFFSET, ALERTCSSTOP } from '../';
+
+import { AlertError } from './alert-error.model';
 
 @Component({
   selector: 'jhi-alert-error',
@@ -21,20 +24,20 @@ import { ALERTCSSOFFSET, ALERTCSSTOP } from '../';
     </div>
   `
 })
-export class JhiAlertErrorComponent implements OnDestroy {
-  alerts: any[];
-  cleanHttpErrorListener: Subscription;
-  defaultTop: number;
-  offset: number;
+export class AlertErrorComponent implements OnDestroy {
+  alerts: any[] = [];
+  defaultTop: number = ALERTCSSOFFSET;
+  offset: number = ALERTCSSTOP;
+  errorListener: Subscription;
+  httpErrorListener: Subscription;
 
-  /* tslint:disable */
   constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager) {
-    this.alerts = [];
-    this.offset = ALERTCSSOFFSET;
-    this.defaultTop = ALERTCSSTOP;
+    this.errorListener = eventManager.subscribe('gatewayApp.error', (response: JhiEventWithContent<AlertError>) => {
+      const errorResponse = response.content;
+      this.addErrorAlert(errorResponse.message);
+    });
 
-    this.cleanHttpErrorListener = eventManager.subscribe('gatewayApp.httpError', response => {
-      let i;
+    this.httpErrorListener = eventManager.subscribe('gatewayApp.httpError', (response: JhiEventWithContent<HttpErrorResponse>) => {
       const httpErrorResponse = response.content;
       switch (httpErrorResponse.status) {
         // connection refused, server not reachable
@@ -54,8 +57,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
             this.addErrorAlert(errorHeader);
           } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.fieldErrors) {
             const fieldErrors = httpErrorResponse.error.fieldErrors;
-            for (i = 0; i < fieldErrors.length; i++) {
-              const fieldError = fieldErrors[i];
+            for (const fieldError of fieldErrors) {
               if (['Min', 'Max', 'DecimalMin', 'DecimalMax'].includes(fieldError.message)) {
                 fieldError.message = 'Size';
               }
@@ -72,6 +74,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
           }
           break;
         }
+
         case 404:
           this.addErrorAlert('The resource you requested was not found. Please provide a valid one.');
           break;
@@ -88,21 +91,24 @@ export class JhiAlertErrorComponent implements OnDestroy {
     });
   }
 
-  setClasses(alert) {
-    return {
-      'jhi-toast': alert.toast,
-      [alert.position]: true
-    };
+  setClasses(alert: any): { [key: string]: boolean } {
+    const classes = { 'jhi-toast': Boolean(alert.toast) };
+    if (alert.position) {
+      return { ...classes, [alert.position]: true };
+    }
+    return classes;
   }
 
-  ngOnDestroy() {
-    if (this.cleanHttpErrorListener !== undefined && this.cleanHttpErrorListener !== null) {
-      this.eventManager.destroy(this.cleanHttpErrorListener);
-      this.alerts = [];
+  ngOnDestroy(): void {
+    if (this.errorListener) {
+      this.eventManager.destroy(this.errorListener);
+    }
+    if (this.httpErrorListener) {
+      this.eventManager.destroy(this.httpErrorListener);
     }
   }
   /* tslint:disable-next-line:no-unused-variable */
-  addErrorAlert(message) {
+  addErrorAlert(message: string): void {
     this.alerts.push(
       this.alertService.addAlert(
         {

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { ExtensionKeyService } from './extension-key.service';
   templateUrl: './extension-key-delete-dialog.component.html'
 })
 export class ExtensionKeyDeleteDialogComponent {
-  extensionKey: IExtensionKey;
+  extensionKey?: IExtensionKey;
 
   constructor(
     protected extensionKeyService: ExtensionKeyService,
@@ -18,17 +17,14 @@ export class ExtensionKeyDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.extensionKeyService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'extensionKeyListModification',
-        content: 'Deleted an extensionKey'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('extensionKeyListModification');
+      this.activeModal.close();
     });
   }
 }

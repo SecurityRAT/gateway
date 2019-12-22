@@ -21,7 +21,7 @@ import { ALERTCSSTOP, ALERTCSSOFFSET } from '../';
   `
 })
 export class JhiAlertComponent implements OnInit, OnDestroy {
-  alerts: any[];
+  alerts: any[] = [];
   offset: number;
   defaultTop: number;
   constructor(private alertService: JhiAlertService) {
@@ -29,7 +29,7 @@ export class JhiAlertComponent implements OnInit, OnDestroy {
     this.defaultTop = ALERTCSSTOP;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.alerts = this.alertService.get();
     for (let i = 0; i < this.alerts.length; i++) {
       const alert = this.alerts[i];
@@ -39,14 +39,15 @@ export class JhiAlertComponent implements OnInit, OnDestroy {
     }
   }
 
-  setClasses(alert) {
-    return {
-      'jhi-toast': alert.toast,
-      [alert.position]: true
-    };
+  setClasses(alert: any): { [key: string]: boolean } {
+    const classes = { 'jhi-toast': Boolean(alert.toast) };
+    if (alert.position) {
+      return { ...classes, [alert.position]: true };
+    }
+    return classes;
   }
 
-  ngOnDestroy() {
-    this.alerts = [];
+  ngOnDestroy(): void {
+    this.alertService.clear();
   }
 }

@@ -14,6 +14,7 @@ import {
   REQUIREMENTSETS_URI,
   ENHANCEMENTS_URI
 } from 'app/case-management/common';
+import { HttpResponse } from '@angular/common/http';
 
 describe('Service Tests', () => {
   describe('CaseManagementBackendService Test', () => {
@@ -53,9 +54,11 @@ describe('Service Tests', () => {
 
     describe('checks returns of methods in this service', () => {
       it('should return CMAttributeKey[]', () => {
-        service.query(CMAttributeKey, ATTRIBUTEKEYS_URI, { requirementSet: 123, type: CMAttributeType.PARAMETER }).subscribe(received => {
-          expect(received.body[0].id).toEqual(123);
-        });
+        service
+          .query(CMAttributeKey, ATTRIBUTEKEYS_URI, { requirementSet: 123, type: CMAttributeType.PARAMETER })
+          .subscribe((res: HttpResponse<CMAttributeKey[]>) => {
+            expect(res.body[0].id).toEqual(123);
+          });
         const req = httpMock.expectOne({ method: 'GET' });
         req.flush([{ id: 123, name: 'test', description: 'testDescription', type: 'FE_TAG', showOrder: 10 }]);
       });

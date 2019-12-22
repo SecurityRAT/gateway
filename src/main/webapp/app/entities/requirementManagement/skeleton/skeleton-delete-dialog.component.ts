@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { SkeletonService } from './skeleton.service';
   templateUrl: './skeleton-delete-dialog.component.html'
 })
 export class SkeletonDeleteDialogComponent {
-  skeleton: ISkeleton;
+  skeleton?: ISkeleton;
 
   constructor(protected skeletonService: SkeletonService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.skeletonService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'skeletonListModification',
-        content: 'Deleted an skeleton'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('skeletonListModification');
+      this.activeModal.close();
     });
   }
 }

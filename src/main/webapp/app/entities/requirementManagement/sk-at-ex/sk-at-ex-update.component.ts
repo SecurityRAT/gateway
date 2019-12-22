@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { JhiAlertService } from 'ng-jhipster';
+import { map } from 'rxjs/operators';
+
 import { ISkAtEx, SkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
 import { SkAtExService } from './sk-at-ex.service';
 import { ISkeleton } from 'app/shared/model/requirementManagement/skeleton.model';
@@ -15,18 +15,20 @@ import { AttributeService } from 'app/entities/requirementManagement/attribute/a
 import { IExtension } from 'app/shared/model/requirementManagement/extension.model';
 import { ExtensionService } from 'app/entities/requirementManagement/extension/extension.service';
 
+type SelectableEntity = ISkeleton | IAttribute | IExtension;
+
 @Component({
   selector: 'jhi-sk-at-ex-update',
   templateUrl: './sk-at-ex-update.component.html'
 })
 export class SkAtExUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  skeletons: ISkeleton[];
+  skeletons: ISkeleton[] = [];
 
-  attributes: IAttribute[];
+  attributes: IAttribute[] = [];
 
-  extensions: IExtension[];
+  extensions: IExtension[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -36,7 +38,6 @@ export class SkAtExUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected skAtExService: SkAtExService,
     protected skeletonService: SkeletonService,
     protected attributeService: AttributeService,
@@ -45,23 +46,40 @@ export class SkAtExUpdateComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ skAtEx }) => {
       this.updateForm(skAtEx);
+
+      this.skeletonService
+        .query()
+        .pipe(
+          map((res: HttpResponse<ISkeleton[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: ISkeleton[]) => (this.skeletons = resBody));
+
+      this.attributeService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAttribute[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAttribute[]) => (this.attributes = resBody));
+
+      this.extensionService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IExtension[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IExtension[]) => (this.extensions = resBody));
     });
-    this.skeletonService
-      .query()
-      .subscribe((res: HttpResponse<ISkeleton[]>) => (this.skeletons = res.body), (res: HttpErrorResponse) => this.onError(res.message));
-    this.attributeService
-      .query()
-      .subscribe((res: HttpResponse<IAttribute[]>) => (this.attributes = res.body), (res: HttpErrorResponse) => this.onError(res.message));
-    this.extensionService
-      .query()
-      .subscribe((res: HttpResponse<IExtension[]>) => (this.extensions = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
-  updateForm(skAtEx: ISkAtEx) {
+  updateForm(skAtEx: ISkAtEx): void {
     this.editForm.patchValue({
       id: skAtEx.id,
       skeleton: skAtEx.skeleton,
@@ -70,11 +88,11 @@ export class SkAtExUpdateComponent implements OnInit {
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const skAtEx = this.createFromForm();
     if (skAtEx.id !== undefined) {
@@ -87,38 +105,30 @@ export class SkAtExUpdateComponent implements OnInit {
   private createFromForm(): ISkAtEx {
     return {
       ...new SkAtEx(),
-      id: this.editForm.get(['id']).value,
-      skeleton: this.editForm.get(['skeleton']).value,
-      attribute: this.editForm.get(['attribute']).value,
-      extension: this.editForm.get(['extension']).value
+      id: this.editForm.get(['id'])!.value,
+      skeleton: this.editForm.get(['skeleton'])!.value,
+      attribute: this.editForm.get(['attribute'])!.value,
+      extension: this.editForm.get(['extension'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<ISkAtEx>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<ISkAtEx>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackSkeletonById(index: number, item: ISkeleton) {
-    return item.id;
-  }
-
-  trackAttributeById(index: number, item: IAttribute) {
-    return item.id;
-  }
-
-  trackExtensionById(index: number, item: IExtension) {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

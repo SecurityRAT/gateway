@@ -1,82 +1,108 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NavigationCancel, Router } from '@angular/router';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { Subject } from 'rxjs';
 
-import { AccountService } from 'app/core/auth/account.service';
-import { StateStorageService } from 'app/core/auth/state-storage.service';
-import { JhiMainComponent } from 'app/layouts/main/main.component';
-import { MockStateStorageService } from '../../../helpers/mock-state-storage.service';
+import { MainComponent } from 'app/layouts/main/main.component';
 import { GatewayTestModule } from '../../../test.module';
+import { MockRouter } from '../../../helpers/mock-route.service';
 
 describe('Component Tests', () => {
   describe('MainComponent', () => {
-    let comp: JhiMainComponent;
-    let fixture: ComponentFixture<JhiMainComponent>;
-    let accountService: any;
-    let storageService: any;
-    let router: any;
+    let comp: MainComponent;
+    let fixture: ComponentFixture<MainComponent>;
+    let router: MockRouter;
+    const routerEventsSubject = new Subject<RouterEvent>();
+    let titleService: Title;
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [GatewayTestModule],
-        declarations: [JhiMainComponent],
-        providers: [
-          {
-            provide: StateStorageService,
-            useClass: MockStateStorageService
-          }
-        ]
+        declarations: [MainComponent],
+        providers: [Title]
       })
-        .overrideTemplate(JhiMainComponent, '')
+        .overrideTemplate(MainComponent, '')
         .compileComponents();
     }));
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(JhiMainComponent);
+      fixture = TestBed.createComponent(MainComponent);
       comp = fixture.componentInstance;
-      accountService = fixture.debugElement.injector.get(AccountService);
-      storageService = fixture.debugElement.injector.get(StateStorageService);
-      router = fixture.debugElement.injector.get(Router);
+      router = TestBed.get(Router);
+      router.setEvents(routerEventsSubject.asObservable());
+      titleService = TestBed.get(Title);
     });
 
-    it('should navigate to the previous stored url post successful authentication', () => {
-      accountService.setIdentityResponse({ firstName: 'John' });
-      storageService.setResponse('admin/users?page=0');
-      router.setRouterEvent(new NavigationCancel(0, 'http://localhost:9000', 'cancel'));
+    describe('page title', () => {
+      let routerState: any;
+      const defaultPageTitle = 'OWASP SecurityRAT';
+      const parentRoutePageTitle = defaultPageTitle;
+      const childRoutePageTitle = 'childTitle';
+      const navigationEnd = new NavigationEnd(1, '', '');
 
-      // WHEN/
-      comp.ngOnInit();
+      beforeEach(() => {
+        routerState = { snapshot: { root: {} } };
+        router.setRouterState(routerState);
+        spyOn(titleService, 'setTitle');
+        comp.ngOnInit();
+      });
 
-      // THEN
-      expect(storageService.getUrlSpy).toHaveBeenCalledTimes(1);
-      expect(storageService.storeUrlSpy).toHaveBeenCalledWith(null);
-      expect(router.navigateByUrlSpy).toHaveBeenCalledWith('admin/users?page=0');
-    });
+      describe('navigation end', () => {
+        it('should set page title to default title if pageTitle is missing on routes', () => {
+          // WHEN
+          routerEventsSubject.next(navigationEnd);
 
-    it('should not navigate to the previous stored url when authentication fails', () => {
-      accountService.setIdentityResponse();
-      router.setRouterEvent(new NavigationCancel(0, 'http://localhost:9000', 'cancel'));
+          // THEN
+          expect(titleService.setTitle).toHaveBeenCalledWith(defaultPageTitle);
+        });
 
-      // WHEN/
-      comp.ngOnInit();
+        it('should set page title to root route pageTitle if there is no child routes', () => {
+          // GIVEN
+          routerState.snapshot.root.data = { pageTitle: parentRoutePageTitle };
 
-      // THEN
-      expect(storageService.getUrlSpy).not.toHaveBeenCalled();
-      expect(storageService.storeUrlSpy).not.toHaveBeenCalled();
-      expect(router.navigateByUrlSpy).not.toHaveBeenCalled();
-    });
+          // WHEN
+          routerEventsSubject.next(navigationEnd);
 
-    it('should not navigate to the previous stored url when no such url exists post successful authentication', () => {
-      accountService.setIdentityResponse({ firstName: 'John' });
-      storageService.setResponse(undefined);
-      router.setRouterEvent(new NavigationCancel(0, 'http://localhost:9000', 'cancel'));
+          // THEN
+          expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle);
+        });
 
-      // WHEN/
-      comp.ngOnInit();
+        it('should set page title to child route pageTitle if child routes exist and pageTitle is set for child route', () => {
+          // GIVEN
+          routerState.snapshot.root.data = { pageTitle: parentRoutePageTitle };
+          routerState.snapshot.root.firstChild = { data: { pageTitle: childRoutePageTitle } };
 
-      // THEN
-      expect(storageService.getUrlSpy).toHaveBeenCalledTimes(1);
-      expect(storageService.storeUrlSpy).not.toHaveBeenCalled();
-      expect(router.navigateByUrlSpy).not.toHaveBeenCalled();
+          // WHEN
+          routerEventsSubject.next(navigationEnd);
+
+          // THEN
+          expect(titleService.setTitle).toHaveBeenCalledWith(childRoutePageTitle);
+        });
+
+        it('should set page title to parent route pageTitle if child routes exists but pageTitle is not set for child route data', () => {
+          // GIVEN
+          routerState.snapshot.root.data = { pageTitle: parentRoutePageTitle };
+          routerState.snapshot.root.firstChild = { data: {} };
+
+          // WHEN
+          routerEventsSubject.next(navigationEnd);
+
+          // THEN
+          expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle);
+        });
+
+        it('should set page title to parent route pageTitle if child routes exists but data is not set for child route', () => {
+          // GIVEN
+          routerState.snapshot.root.data = { pageTitle: parentRoutePageTitle };
+          routerState.snapshot.root.firstChild = {};
+
+          // WHEN
+          routerEventsSubject.next(navigationEnd);
+
+          // THEN
+          expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle);
+        });
+      });
     });
   });
 });

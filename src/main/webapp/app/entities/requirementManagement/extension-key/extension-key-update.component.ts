@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { map } from 'rxjs/operators';
+import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
+
 import { IExtensionKey, ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
 import { ExtensionKeyService } from './extension-key.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IRequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
 import { RequirementSetService } from 'app/entities/requirementManagement/requirement-set/requirement-set.service';
 
@@ -16,9 +18,9 @@ import { RequirementSetService } from 'app/entities/requirementManagement/requir
   templateUrl: './extension-key-update.component.html'
 })
 export class ExtensionKeyUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  requirementsets: IRequirementSet[];
+  requirementsets: IRequirementSet[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -33,27 +35,29 @@ export class ExtensionKeyUpdateComponent implements OnInit {
 
   constructor(
     protected dataUtils: JhiDataUtils,
-    protected jhiAlertService: JhiAlertService,
+    protected eventManager: JhiEventManager,
     protected extensionKeyService: ExtensionKeyService,
     protected requirementSetService: RequirementSetService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ extensionKey }) => {
       this.updateForm(extensionKey);
+
+      this.requirementSetService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IRequirementSet[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IRequirementSet[]) => (this.requirementsets = resBody));
     });
-    this.requirementSetService
-      .query()
-      .subscribe(
-        (res: HttpResponse<IRequirementSet[]>) => (this.requirementsets = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
   }
 
-  updateForm(extensionKey: IExtensionKey) {
+  updateForm(extensionKey: IExtensionKey): void {
     this.editForm.patchValue({
       id: extensionKey.id,
       name: extensionKey.name,
@@ -66,44 +70,27 @@ export class ExtensionKeyUpdateComponent implements OnInit {
     });
   }
 
-  byteSize(field) {
-    return this.dataUtils.byteSize(field);
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType, field) {
-    return this.dataUtils.openFile(contentType, field);
+  openFile(contentType: string, base64String: string): void {
+    this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event, field: string, isImage) {
-    return new Promise((resolve, reject) => {
-      if (event && event.target && event.target.files && event.target.files[0]) {
-        const file: File = event.target.files[0];
-        if (isImage && !file.type.startsWith('image/')) {
-          reject(`File was expected to be an image but was found to be ${file.type}`);
-        } else {
-          const filedContentType: string = field + 'ContentType';
-          this.dataUtils.toBase64(file, base64Data => {
-            this.editForm.patchValue({
-              [field]: base64Data,
-              [filedContentType]: file.type
-            });
-          });
-        }
-      } else {
-        reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
-      }
-    }).then(
-      // eslint-disable-next-line no-console
-      () => console.log('blob added'), // success
-      this.onError
-    );
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.eventManager.broadcast(
+        new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
+      );
+    });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const extensionKey = this.createFromForm();
     if (extensionKey.id !== undefined) {
@@ -116,34 +103,34 @@ export class ExtensionKeyUpdateComponent implements OnInit {
   private createFromForm(): IExtensionKey {
     return {
       ...new ExtensionKey(),
-      id: this.editForm.get(['id']).value,
-      name: this.editForm.get(['name']).value,
-      description: this.editForm.get(['description']).value,
-      section: this.editForm.get(['section']).value,
-      type: this.editForm.get(['type']).value,
-      showOrder: this.editForm.get(['showOrder']).value,
-      active: this.editForm.get(['active']).value,
-      requirementSet: this.editForm.get(['requirementSet']).value
+      id: this.editForm.get(['id'])!.value,
+      name: this.editForm.get(['name'])!.value,
+      description: this.editForm.get(['description'])!.value,
+      section: this.editForm.get(['section'])!.value,
+      type: this.editForm.get(['type'])!.value,
+      showOrder: this.editForm.get(['showOrder'])!.value,
+      active: this.editForm.get(['active'])!.value,
+      requirementSet: this.editForm.get(['requirementSet'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IExtensionKey>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IExtensionKey>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackRequirementSetById(index: number, item: IRequirementSet) {
+  trackById(index: number, item: IRequirementSet): any {
     return item.id;
   }
 }

@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { RequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
+import { IRequirementSet, RequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
 import { RequirementSetService } from './requirement-set.service';
 import { RequirementSetComponent } from './requirement-set.component';
 import { RequirementSetDetailComponent } from './requirement-set-detail.component';
 import { RequirementSetUpdateComponent } from './requirement-set-update.component';
-import { IRequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
 
 @Injectable({ providedIn: 'root' })
 export class RequirementSetResolve implements Resolve<IRequirementSet> {
-  constructor(private service: RequirementSetService) {}
+  constructor(private service: RequirementSetService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IRequirementSet> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IRequirementSet> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((requirementSet: HttpResponse<RequirementSet>) => requirementSet.body));
+      return this.service.find(id).pipe(
+        flatMap((requirementSet: HttpResponse<RequirementSet>) => {
+          if (requirementSet.body) {
+            return of(requirementSet.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new RequirementSet());
   }

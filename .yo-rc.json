@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "org.securityrat.gateway"
     },
-    "jhipsterVersion": "6.5.1",
+    "jhipsterVersion": "6.6.0",
     "baseName": "gateway",
     "packageName": "org.securityrat.gateway",
     "packageFolder": "org/securityrat/gateway",
@@ -33,6 +33,7 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "embeddableLaunchScript": false,
-    "blueprints": []
+    "blueprints": [],
+    "creationTimestamp": 1577043985578
   }
 }

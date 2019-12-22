@@ -1,8 +1,8 @@
 package org.securityrat.gateway;
 
 import org.securityrat.gateway.config.ApplicationProperties;
-import org.securityrat.gateway.config.DefaultProfileUtil;
 
+import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.apache.commons.lang3.StringUtils;

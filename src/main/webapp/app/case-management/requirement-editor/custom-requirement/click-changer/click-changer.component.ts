@@ -25,7 +25,7 @@ export class ClickChangerComponent {
 
   // tells the parent-component that user confirmed the text and sends this String
   // to the parent
-  callParent() {
+  callParent(): void {
     this.clickChangerSubmit.emit(this.shownText);
   }
 }

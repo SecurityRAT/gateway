@@ -50,9 +50,9 @@ export class RequirementComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  selectAllReqs() {
+  selectAllReqs(): void {
     for (let i = 0; i < this.requirements.length; i++) {
       const element = this.requirements[i];
       element.selected = this.viewProperties.selectAllState;
@@ -84,7 +84,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
     return this.requirements.filter(req => req.selected);
   }
 
-  selectStatus(status: CMStatusSubType, newValue: CMExtension, multiselect = false) {
+  selectStatus(status: CMStatusSubType, newValue: CMExtension, multiselect = false): void {
     /* Multiselection of status value is not possible */
     if (!multiselect) {
       // remove old value
@@ -109,10 +109,10 @@ export class RequirementComponent implements OnInit, OnDestroy {
     }
   }
 
-  customize() {
+  customize(): void {
     this.customizes = !this.customizes;
     this.customMode.emit(this.customizes);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy(): void {}
 }

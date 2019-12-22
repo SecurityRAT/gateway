@@ -31,7 +31,7 @@ export class CMUtilService {
     return filteredArray;
   }
 
-  updatePropertyInArray<T>(array: T[], propertyObj, specificIds?: number[]) {
+  updatePropertyInArray<T>(array: T[], propertyObj, specificIds?: number[]): void {
     if (propertyObj !== undefined) {
       const key = Object.keys(propertyObj)[0];
       array.forEach((elem: any) => {

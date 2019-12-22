@@ -5,19 +5,19 @@ export class SkAtExComponentsPage {
   deleteButtons = element.all(by.css('jhi-sk-at-ex div table .btn-danger'));
   title = element.all(by.css('jhi-sk-at-ex div h2#page-heading span')).first();
 
-  async clickOnCreateButton() {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton() {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getText();
   }
 }
@@ -30,18 +30,18 @@ export class SkAtExUpdatePage {
   attributeSelect = element(by.id('field_attribute'));
   extensionSelect = element(by.id('field_extension'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
 
-  async skeletonSelectLastOption() {
+  async skeletonSelectLastOption(): Promise<void> {
     await this.skeletonSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async skeletonSelectOption(option) {
+  async skeletonSelectOption(option: string): Promise<void> {
     await this.skeletonSelect.sendKeys(option);
   }
 
@@ -49,18 +49,18 @@ export class SkAtExUpdatePage {
     return this.skeletonSelect;
   }
 
-  async getSkeletonSelectedOption() {
+  async getSkeletonSelectedOption(): Promise<string> {
     return await this.skeletonSelect.element(by.css('option:checked')).getText();
   }
 
-  async attributeSelectLastOption() {
+  async attributeSelectLastOption(): Promise<void> {
     await this.attributeSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async attributeSelectOption(option) {
+  async attributeSelectOption(option: string): Promise<void> {
     await this.attributeSelect.sendKeys(option);
   }
 
@@ -68,18 +68,18 @@ export class SkAtExUpdatePage {
     return this.attributeSelect;
   }
 
-  async getAttributeSelectedOption() {
+  async getAttributeSelectedOption(): Promise<string> {
     return await this.attributeSelect.element(by.css('option:checked')).getText();
   }
 
-  async extensionSelectLastOption() {
+  async extensionSelectLastOption(): Promise<void> {
     await this.extensionSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async extensionSelectOption(option) {
+  async extensionSelectOption(option: string): Promise<void> {
     await this.extensionSelect.sendKeys(option);
   }
 
@@ -87,15 +87,15 @@ export class SkAtExUpdatePage {
     return this.extensionSelect;
   }
 
-  async getExtensionSelectedOption() {
+  async getExtensionSelectedOption(): Promise<string> {
     return await this.extensionSelect.element(by.css('option:checked')).getText();
   }
 
-  async save() {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel() {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -108,11 +108,11 @@ export class SkAtExDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-skAtEx-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-skAtEx'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton() {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

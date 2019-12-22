@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { SkAtExService } from './sk-at-ex.service';
   templateUrl: './sk-at-ex-delete-dialog.component.html'
 })
 export class SkAtExDeleteDialogComponent {
-  skAtEx: ISkAtEx;
+  skAtEx?: ISkAtEx;
 
   constructor(protected skAtExService: SkAtExService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.skAtExService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'skAtExListModification',
-        content: 'Deleted an skAtEx'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('skAtExListModification');
+      this.activeModal.close();
     });
   }
 }

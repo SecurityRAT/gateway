@@ -5,19 +5,19 @@ export class AttributeKeyComponentsPage {
   deleteButtons = element.all(by.css('jhi-attribute-key div table .btn-danger'));
   title = element.all(by.css('jhi-attribute-key div h2#page-heading span')).first();
 
-  async clickOnCreateButton() {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton() {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getText();
   }
 }
@@ -33,61 +33,61 @@ export class AttributeKeyUpdatePage {
   activeInput = element(by.id('field_active'));
   requirementSetSelect = element(by.id('field_requirementSet'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
 
-  async setNameInput(name) {
+  async setNameInput(name: string): Promise<void> {
     await this.nameInput.sendKeys(name);
   }
 
-  async getNameInput() {
+  async getNameInput(): Promise<string> {
     return await this.nameInput.getAttribute('value');
   }
 
-  async setDescriptionInput(description) {
+  async setDescriptionInput(description: string): Promise<void> {
     await this.descriptionInput.sendKeys(description);
   }
 
-  async getDescriptionInput() {
+  async getDescriptionInput(): Promise<string> {
     return await this.descriptionInput.getAttribute('value');
   }
 
-  async setTypeSelect(type) {
+  async setTypeSelect(type: string): Promise<void> {
     await this.typeSelect.sendKeys(type);
   }
 
-  async getTypeSelect() {
+  async getTypeSelect(): Promise<string> {
     return await this.typeSelect.element(by.css('option:checked')).getText();
   }
 
-  async typeSelectLastOption() {
+  async typeSelectLastOption(): Promise<void> {
     await this.typeSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async setShowOrderInput(showOrder) {
+  async setShowOrderInput(showOrder: string): Promise<void> {
     await this.showOrderInput.sendKeys(showOrder);
   }
 
-  async getShowOrderInput() {
+  async getShowOrderInput(): Promise<string> {
     return await this.showOrderInput.getAttribute('value');
   }
 
-  getActiveInput() {
+  getActiveInput(): ElementFinder {
     return this.activeInput;
   }
 
-  async requirementSetSelectLastOption() {
+  async requirementSetSelectLastOption(): Promise<void> {
     await this.requirementSetSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async requirementSetSelectOption(option) {
+  async requirementSetSelectOption(option: string): Promise<void> {
     await this.requirementSetSelect.sendKeys(option);
   }
 
@@ -95,15 +95,15 @@ export class AttributeKeyUpdatePage {
     return this.requirementSetSelect;
   }
 
-  async getRequirementSetSelectedOption() {
+  async getRequirementSetSelectedOption(): Promise<string> {
     return await this.requirementSetSelect.element(by.css('option:checked')).getText();
   }
 
-  async save() {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel() {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -116,11 +116,11 @@ export class AttributeKeyDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-attributeKey-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-attributeKey'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton() {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

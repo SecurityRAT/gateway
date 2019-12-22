@@ -66,7 +66,7 @@ export class StartUpComponent implements OnInit {
     ];
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.changeSelectionProperties.active) {
       this.tabs[0].disabled = true;
       this.setInitialActiveTab(1);
@@ -93,7 +93,7 @@ export class StartUpComponent implements OnInit {
   //     this.artifactSettingsEvent = this.jhiEventManager.subscribe('artifactSettingModification', () => { });
   // }
 
-  loadAll() {
+  loadAll(): void {
     if (MOCK_DATA) {
       /* Mock load ATTRIBUTE and ATTRIBUTE KEYS */
       this.caseManagementBackendService
@@ -131,7 +131,7 @@ export class StartUpComponent implements OnInit {
    * Bounds to the ngTab 'tabchange' event.
    * @param $event event object
    */
-  beforeChange($event: NgbTabChangeEvent) {
+  beforeChange($event: NgbTabChangeEvent): void {
     switch ($event.nextId) {
       case this.tabs[1].id:
         // resets the attributes when the selected requirement set changes
@@ -145,7 +145,7 @@ export class StartUpComponent implements OnInit {
     }
   }
 
-  generate() {
+  generate(): void {
     const selectedAttributes: CMAttribute[] = this.util.filterByObj(this.attributes, { selected: true });
 
     this.router.navigate([
@@ -164,19 +164,19 @@ export class StartUpComponent implements OnInit {
     this.close();
   }
 
-  clear() {
+  clear(): void {
     if (this.activeModal) {
       this.activeModal.dismiss('cancel');
     }
   }
 
-  close() {
+  close(): void {
     if (this.activeModal) {
       this.activeModal.close('close');
     }
   }
 
-  private reset() {
+  private reset(): void {
     this.attributeKeys = [];
     this.attributes = [];
     this.loadAll();
@@ -185,18 +185,18 @@ export class StartUpComponent implements OnInit {
   /**
    * Sets the initial Active tab.
    */
-  private setInitialActiveTab(tabIndex: number) {
+  private setInitialActiveTab(tabIndex: number): void {
     this.initialActiveTab = this.tabs[tabIndex].id;
   }
 
-  private onSuccess<T>(res: T[], target: T[]) {
+  private onSuccess<T>(res: T[], target: T[]): void {
     const sortedResponse = this.util.sortArrayByPredicate(res, 'showOrder');
     for (let i = 0; i < sortedResponse.length; i++) {
       target.push(sortedResponse[i]);
     }
   }
 
-  private onError(error: any) {
+  private onError(error: any): void {
     this.jhiAlertService.error(error.message, null, null);
   }
 }
@@ -216,7 +216,7 @@ export class ChangeSelectionComponent implements OnInit {
     this.ngbModalRef = null;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.open(StartUpComponent as Component);
   }
 

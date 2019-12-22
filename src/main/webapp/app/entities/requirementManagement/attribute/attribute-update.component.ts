@@ -1,26 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { map } from 'rxjs/operators';
+import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
+
 import { IAttribute, Attribute } from 'app/shared/model/requirementManagement/attribute.model';
 import { AttributeService } from './attribute.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
 import { AttributeKeyService } from 'app/entities/requirementManagement/attribute-key/attribute-key.service';
+
+type SelectableEntity = IAttribute | IAttributeKey;
 
 @Component({
   selector: 'jhi-attribute-update',
   templateUrl: './attribute-update.component.html'
 })
 export class AttributeUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  attributes: IAttribute[];
+  attributes: IAttribute[] = [];
 
-  attributekeys: IAttributeKey[];
+  attributekeys: IAttributeKey[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,30 +38,38 @@ export class AttributeUpdateComponent implements OnInit {
 
   constructor(
     protected dataUtils: JhiDataUtils,
-    protected jhiAlertService: JhiAlertService,
+    protected eventManager: JhiEventManager,
     protected attributeService: AttributeService,
     protected attributeKeyService: AttributeKeyService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ attribute }) => {
       this.updateForm(attribute);
+
+      this.attributeService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAttribute[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAttribute[]) => (this.attributes = resBody));
+
+      this.attributeKeyService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAttributeKey[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAttributeKey[]) => (this.attributekeys = resBody));
     });
-    this.attributeService
-      .query()
-      .subscribe((res: HttpResponse<IAttribute[]>) => (this.attributes = res.body), (res: HttpErrorResponse) => this.onError(res.message));
-    this.attributeKeyService
-      .query()
-      .subscribe(
-        (res: HttpResponse<IAttributeKey[]>) => (this.attributekeys = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
   }
 
-  updateForm(attribute: IAttribute) {
+  updateForm(attribute: IAttribute): void {
     this.editForm.patchValue({
       id: attribute.id,
       name: attribute.name,
@@ -69,44 +81,27 @@ export class AttributeUpdateComponent implements OnInit {
     });
   }
 
-  byteSize(field) {
-    return this.dataUtils.byteSize(field);
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType, field) {
-    return this.dataUtils.openFile(contentType, field);
+  openFile(contentType: string, base64String: string): void {
+    this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event, field: string, isImage) {
-    return new Promise((resolve, reject) => {
-      if (event && event.target && event.target.files && event.target.files[0]) {
-        const file: File = event.target.files[0];
-        if (isImage && !file.type.startsWith('image/')) {
-          reject(`File was expected to be an image but was found to be ${file.type}`);
-        } else {
-          const filedContentType: string = field + 'ContentType';
-          this.dataUtils.toBase64(file, base64Data => {
-            this.editForm.patchValue({
-              [field]: base64Data,
-              [filedContentType]: file.type
-            });
-          });
-        }
-      } else {
-        reject(`Base64 data was not set as file could not be extracted from passed parameter: ${event}`);
-      }
-    }).then(
-      // eslint-disable-next-line no-console
-      () => console.log('blob added'), // success
-      this.onError
-    );
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.eventManager.broadcast(
+        new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
+      );
+    });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const attribute = this.createFromForm();
     if (attribute.id !== undefined) {
@@ -119,37 +114,33 @@ export class AttributeUpdateComponent implements OnInit {
   private createFromForm(): IAttribute {
     return {
       ...new Attribute(),
-      id: this.editForm.get(['id']).value,
-      name: this.editForm.get(['name']).value,
-      description: this.editForm.get(['description']).value,
-      showOrder: this.editForm.get(['showOrder']).value,
-      active: this.editForm.get(['active']).value,
-      parent: this.editForm.get(['parent']).value,
-      attributeKey: this.editForm.get(['attributeKey']).value
+      id: this.editForm.get(['id'])!.value,
+      name: this.editForm.get(['name'])!.value,
+      description: this.editForm.get(['description'])!.value,
+      showOrder: this.editForm.get(['showOrder'])!.value,
+      active: this.editForm.get(['active'])!.value,
+      parent: this.editForm.get(['parent'])!.value,
+      attributeKey: this.editForm.get(['attributeKey'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IAttribute>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IAttribute>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackAttributeById(index: number, item: IAttribute) {
-    return item.id;
-  }
-
-  trackAttributeKeyById(index: number, item: IAttributeKey) {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

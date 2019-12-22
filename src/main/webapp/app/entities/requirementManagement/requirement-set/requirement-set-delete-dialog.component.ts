@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { RequirementSetService } from './requirement-set.service';
   templateUrl: './requirement-set-delete-dialog.component.html'
 })
 export class RequirementSetDeleteDialogComponent {
-  requirementSet: IRequirementSet;
+  requirementSet?: IRequirementSet;
 
   constructor(
     protected requirementSetService: RequirementSetService,
@@ -18,17 +17,14 @@ export class RequirementSetDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.requirementSetService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'requirementSetListModification',
-        content: 'Deleted an requirementSet'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('requirementSetListModification');
+      this.activeModal.close();
     });
   }
 }
