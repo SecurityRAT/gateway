@@ -23,9 +23,9 @@ import {
   REQUIREMENTS_URI,
   ATTRIBUTE_URI,
   REQUIREMENTSET_URI,
-  ATTRIBUTEKEY_URI,
-  ArtifactInfo
+  ATTRIBUTEKEY_URI
 } from '../../common/';
+import { ArtifactInfo } from '../../common/models/yaml.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import { JhiAlertService } from 'ng-jhipster';

@@ -1,12 +1,26 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CMSharedModule } from './common/shared-module.module';
-import { StarterModule } from './starter/starter.module';
-import { RequirementEditorModule } from './requirement-editor/requirement-editor.module';
 
 @NgModule({
-  imports: [CMSharedModule, StarterModule, RequirementEditorModule],
+  imports: [
+    CMSharedModule,
+    RouterModule.forChild([
+      {
+        path: 'persistence',
+        loadChildren: () => import('./persistence/persistence.module').then(m => m.PersistenceModule)
+      },
+      {
+        path: '',
+        loadChildren: () => import('./starter/starter.module').then(m => m.StarterModule)
+      },
+      {
+        path: '',
+        loadChildren: () => import('./requirement-editor/requirement-editor.module').then(m => m.RequirementEditorModule)
+      }
+    ])
+  ],
   declarations: [],
-  providers: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: []
 })
 export class CaseManagementModule {}

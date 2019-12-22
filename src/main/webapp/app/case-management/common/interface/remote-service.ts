@@ -1,5 +1,6 @@
-import { Field, YamlObject, YamlFile } from '..';
-import { Observable } from 'rxjs';
+import { YamlObject, YamlFile } from '../models/yaml.model';
+import { Field } from '../models/field.model';
+import { Observable, from } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
 /**

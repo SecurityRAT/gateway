@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { faWindowMaximize, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
-import { CMAttribute, ArtifactInfo, CMAttributeKey, CMRequirementSet } from '../../common';
+import { CMAttribute, CMAttributeKey, CMRequirementSet } from '../../common';
+import { ArtifactInfo } from '../../common/models/yaml.model';
 
 @Component({
   selector: 'jhi-artifact-dashboard',
-  templateUrl: './jhi-artifact-dashboard.component.html',
-  styleUrls: ['./jhi-artifact-dashboard.component.scss']
+  templateUrl: './artifact-dashboard.component.html',
+  styleUrls: ['./artifact-dashboard.component.scss']
 })
 export class JhiArtifactDashboardComponent implements OnInit {
   isOpen: boolean;

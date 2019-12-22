@@ -10,7 +10,7 @@ export class ArtifactRequirementsDates {
 }
 export class YamlObject {
   constructor(
-    public securityRATVersion: string,
+    public securityRATVersion: string | undefined,
     public artifactInfo: ArtifactInfo,
     public dates: ArtifactRequirementsDates,
     public requirements: CMRequirement
