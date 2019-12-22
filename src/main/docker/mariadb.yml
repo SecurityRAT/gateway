@@ -1,7 +1,7 @@
 version: '2'
 services:
   gateway-mariadb:
-    image: mariadb:10.4.8
+    image: mariadb:10.4.10
     # volumes:
     #     - ~/volumes/jhipster/gateway/mysql/:/var/lib/mysql/
     environment:

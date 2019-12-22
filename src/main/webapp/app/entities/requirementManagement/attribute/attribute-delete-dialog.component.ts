@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { AttributeService } from './attribute.service';
   templateUrl: './attribute-delete-dialog.component.html'
 })
 export class AttributeDeleteDialogComponent {
-  attribute: IAttribute;
+  attribute?: IAttribute;
 
   constructor(protected attributeService: AttributeService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.attributeService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'attributeListModification',
-        content: 'Deleted an attribute'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('attributeListModification');
+      this.activeModal.close();
     });
   }
 }

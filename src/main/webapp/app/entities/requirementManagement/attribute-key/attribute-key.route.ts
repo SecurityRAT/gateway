@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
+import { IAttributeKey, AttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
 import { AttributeKeyService } from './attribute-key.service';
 import { AttributeKeyComponent } from './attribute-key.component';
 import { AttributeKeyDetailComponent } from './attribute-key-detail.component';
 import { AttributeKeyUpdateComponent } from './attribute-key-update.component';
-import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
 
 @Injectable({ providedIn: 'root' })
 export class AttributeKeyResolve implements Resolve<IAttributeKey> {
-  constructor(private service: AttributeKeyService) {}
+  constructor(private service: AttributeKeyService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IAttributeKey> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IAttributeKey> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((attributeKey: HttpResponse<AttributeKey>) => attributeKey.body));
+      return this.service.find(id).pipe(
+        flatMap((attributeKey: HttpResponse<AttributeKey>) => {
+          if (attributeKey.body) {
+            return of(attributeKey.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new AttributeKey());
   }

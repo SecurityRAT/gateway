@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { AttributeKeyService } from './attribute-key.service';
   templateUrl: './attribute-key-delete-dialog.component.html'
 })
 export class AttributeKeyDeleteDialogComponent {
-  attributeKey: IAttributeKey;
+  attributeKey?: IAttributeKey;
 
   constructor(
     protected attributeKeyService: AttributeKeyService,
@@ -18,17 +17,14 @@ export class AttributeKeyDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.attributeKeyService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'attributeKeyListModification',
-        content: 'Deleted an attributeKey'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('attributeKeyListModification');
+      this.activeModal.close();
     });
   }
 }

@@ -5,19 +5,19 @@ export class ExtensionComponentsPage {
   deleteButtons = element.all(by.css('jhi-extension div table .btn-danger'));
   title = element.all(by.css('jhi-extension div h2#page-heading span')).first();
 
-  async clickOnCreateButton() {
+  async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton() {
+  async clickOnLastDeleteButton(): Promise<void> {
     await this.deleteButtons.last().click();
   }
 
-  async countDeleteButtons() {
+  async countDeleteButtons(): Promise<number> {
     return this.deleteButtons.count();
   }
 
-  async getTitle() {
+  async getTitle(): Promise<string> {
     return this.title.getText();
   }
 }
@@ -32,46 +32,46 @@ export class ExtensionUpdatePage {
   activeInput = element(by.id('field_active'));
   extensionKeySelect = element(by.id('field_extensionKey'));
 
-  async getPageTitle() {
+  async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
 
-  async setContentInput(content) {
+  async setContentInput(content: string): Promise<void> {
     await this.contentInput.sendKeys(content);
   }
 
-  async getContentInput() {
+  async getContentInput(): Promise<string> {
     return await this.contentInput.getAttribute('value');
   }
 
-  async setDescriptionInput(description) {
+  async setDescriptionInput(description: string): Promise<void> {
     await this.descriptionInput.sendKeys(description);
   }
 
-  async getDescriptionInput() {
+  async getDescriptionInput(): Promise<string> {
     return await this.descriptionInput.getAttribute('value');
   }
 
-  async setShowOrderInput(showOrder) {
+  async setShowOrderInput(showOrder: string): Promise<void> {
     await this.showOrderInput.sendKeys(showOrder);
   }
 
-  async getShowOrderInput() {
+  async getShowOrderInput(): Promise<string> {
     return await this.showOrderInput.getAttribute('value');
   }
 
-  getActiveInput() {
+  getActiveInput(): ElementFinder {
     return this.activeInput;
   }
 
-  async extensionKeySelectLastOption() {
+  async extensionKeySelectLastOption(): Promise<void> {
     await this.extensionKeySelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async extensionKeySelectOption(option) {
+  async extensionKeySelectOption(option: string): Promise<void> {
     await this.extensionKeySelect.sendKeys(option);
   }
 
@@ -79,15 +79,15 @@ export class ExtensionUpdatePage {
     return this.extensionKeySelect;
   }
 
-  async getExtensionKeySelectedOption() {
+  async getExtensionKeySelectedOption(): Promise<string> {
     return await this.extensionKeySelect.element(by.css('option:checked')).getText();
   }
 
-  async save() {
+  async save(): Promise<void> {
     await this.saveButton.click();
   }
 
-  async cancel() {
+  async cancel(): Promise<void> {
     await this.cancelButton.click();
   }
 
@@ -100,11 +100,11 @@ export class ExtensionDeleteDialog {
   private dialogTitle = element(by.id('jhi-delete-extension-heading'));
   private confirmButton = element(by.id('jhi-confirm-delete-extension'));
 
-  async getDialogTitle() {
+  async getDialogTitle(): Promise<string> {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton() {
+  async clickOnConfirmButton(): Promise<void> {
     await this.confirmButton.click();
   }
 }

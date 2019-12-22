@@ -4,7 +4,7 @@
             <h2 id="jhi-extension-heading">Create or edit a Extension</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -13,9 +13,9 @@
                     <label class="form-control-label" for="field_content">Content</label>
                     <textarea class="form-control" name="content" id="field_content"
                               formControlName="content"></textarea>
-                    <div *ngIf="editForm.get('content').invalid && (editForm.get('content').dirty || editForm.get('content').touched)">
+                    <div *ngIf="editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('content').errors.required">
+                               *ngIf="editForm.get('content')?.errors?.required">
                         This field is required.
                         </small>
                     </div>
@@ -34,9 +34,9 @@
                     <label class="form-control-label" for="field_active">Active</label>
                     <input type="checkbox" class="form-control" name="active" id="field_active"
                            formControlName="active"/>
-                    <div *ngIf="editForm.get('active').invalid && (editForm.get('active').dirty || editForm.get('active').touched)">
+                    <div *ngIf="editForm.get('active')!.invalid && (editForm.get('active')!.dirty || editForm.get('active')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('active').errors.required">
+                               *ngIf="editForm.get('active')?.errors?.required">
                         This field is required.
                         </small>
                     </div>
@@ -46,7 +46,7 @@
                     <label class="form-control-label" for="field_extensionKey">Extension Key</label>
                     <select class="form-control" id="field_extensionKey" name="extensionKey" formControlName="extensionKey">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="extensionKeyOption.id === editForm.get('extensionKey').value?.id ? editForm.get('extensionKey').value : extensionKeyOption" *ngFor="let extensionKeyOption of extensionkeys; trackBy: trackExtensionKeyById">{{extensionKeyOption.name}}</option>
+                        <option [ngValue]="extensionKeyOption.id === editForm.get('extensionKey')!.value?.id ? editForm.get('extensionKey')!.value : extensionKeyOption" *ngFor="let extensionKeyOption of extensionkeys; trackBy: trackById">{{extensionKeyOption.name}}</option>
                     </select>
                 </div>
             </div>

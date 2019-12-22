@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
+import { IExtensionKey, ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
 import { ExtensionKeyService } from './extension-key.service';
 import { ExtensionKeyComponent } from './extension-key.component';
 import { ExtensionKeyDetailComponent } from './extension-key-detail.component';
 import { ExtensionKeyUpdateComponent } from './extension-key-update.component';
-import { IExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExtensionKeyResolve implements Resolve<IExtensionKey> {
-  constructor(private service: ExtensionKeyService) {}
+  constructor(private service: ExtensionKeyService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IExtensionKey> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IExtensionKey> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((extensionKey: HttpResponse<ExtensionKey>) => extensionKey.body));
+      return this.service.find(id).pipe(
+        flatMap((extensionKey: HttpResponse<ExtensionKey>) => {
+          if (extensionKey.body) {
+            return of(extensionKey.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new ExtensionKey());
   }

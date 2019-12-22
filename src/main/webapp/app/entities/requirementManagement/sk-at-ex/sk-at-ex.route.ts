@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { SkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
+import { ISkAtEx, SkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
 import { SkAtExService } from './sk-at-ex.service';
 import { SkAtExComponent } from './sk-at-ex.component';
 import { SkAtExDetailComponent } from './sk-at-ex-detail.component';
 import { SkAtExUpdateComponent } from './sk-at-ex-update.component';
-import { ISkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
 
 @Injectable({ providedIn: 'root' })
 export class SkAtExResolve implements Resolve<ISkAtEx> {
-  constructor(private service: SkAtExService) {}
+  constructor(private service: SkAtExService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ISkAtEx> {
+  resolve(route: ActivatedRouteSnapshot): Observable<ISkAtEx> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((skAtEx: HttpResponse<SkAtEx>) => skAtEx.body));
+      return this.service.find(id).pipe(
+        flatMap((skAtEx: HttpResponse<SkAtEx>) => {
+          if (skAtEx.body) {
+            return of(skAtEx.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new SkAtEx());
   }

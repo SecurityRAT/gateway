@@ -16,13 +16,12 @@ import { AttributeKeyDeleteDialogComponent } from './attribute-key-delete-dialog
 })
 export class AttributeKeyComponent implements OnInit, OnDestroy {
   attributeKeys: IAttributeKey[];
-  eventSubscriber: Subscription;
+  eventSubscriber?: Subscription;
   itemsPerPage: number;
   links: any;
-  page: any;
-  predicate: any;
-  reverse: any;
-  totalItems: number;
+  page: number;
+  predicate: string;
+  ascending: boolean;
 
   constructor(
     protected attributeKeyService: AttributeKeyService,
@@ -38,10 +37,10 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
       last: 0
     };
     this.predicate = 'id';
-    this.reverse = true;
+    this.ascending = true;
   }
 
-  loadAll() {
+  loadAll(): void {
     this.attributeKeyService
       .query({
         page: this.page,
@@ -51,60 +50,65 @@ export class AttributeKeyComponent implements OnInit, OnDestroy {
       .subscribe((res: HttpResponse<IAttributeKey[]>) => this.paginateAttributeKeys(res.body, res.headers));
   }
 
-  reset() {
+  reset(): void {
     this.page = 0;
     this.attributeKeys = [];
     this.loadAll();
   }
 
-  loadPage(page) {
+  loadPage(page: number): void {
     this.page = page;
     this.loadAll();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInAttributeKeys();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IAttributeKey) {
-    return item.id;
+  trackId(index: number, item: IAttributeKey): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  byteSize(field) {
-    return this.dataUtils.byteSize(field);
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType, field) {
-    return this.dataUtils.openFile(contentType, field);
+  openFile(contentType: string, base64String: string): void {
+    return this.dataUtils.openFile(contentType, base64String);
   }
 
-  registerChangeInAttributeKeys() {
+  registerChangeInAttributeKeys(): void {
     this.eventSubscriber = this.eventManager.subscribe('attributeKeyListModification', () => this.reset());
   }
 
-  delete(attributeKey: IAttributeKey) {
+  delete(attributeKey: IAttributeKey): void {
     const modalRef = this.modalService.open(AttributeKeyDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.attributeKey = attributeKey;
   }
 
-  sort() {
-    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+  sort(): string[] {
+    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
     return result;
   }
 
-  protected paginateAttributeKeys(data: IAttributeKey[], headers: HttpHeaders) {
-    this.links = this.parseLinks.parse(headers.get('link'));
-    this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-    for (let i = 0; i < data.length; i++) {
-      this.attributeKeys.push(data[i]);
+  protected paginateAttributeKeys(data: IAttributeKey[] | null, headers: HttpHeaders): void {
+    const headersLink = headers.get('link');
+    this.links = this.parseLinks.parse(headersLink ? headersLink : '');
+    if (data) {
+      for (let i = 0; i < data.length; i++) {
+        this.attributeKeys.push(data[i]);
+      }
     }
   }
 }
