@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { CMSharedModule } from '../common/shared-module.module';
 import { RemoteComponent } from './remote/remote.component';
-
-import { persistenceRoutes } from './persistence.route';
 
 @NgModule({
   declarations: [RemoteComponent],
-  imports: [CommonModule, RouterModule.forChild(persistenceRoutes)],
+  imports: [CommonModule, CMSharedModule],
   entryComponents: [RemoteComponent]
+  // exports: [RemoteComponent]
 })
 export class PersistenceModule {}

@@ -5,11 +5,11 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="persistDropdown">
             <!-- Link to perisist with remote service -->
-            <button class="dropdown-item">
+            <button (click)="persistRemotely()" ngbDropdownItem>
                 Remotely
             </button>
             <!-- Link to local persisting service -->
-            <button class="dropdown-item">
+            <button ngbDropdownItem>
                 Locally
             </button>
         </div>
@@ -21,9 +21,9 @@
     </div>
 </section>
 <section class="container-fluid row">
-    <p class="mr-1">
+    <h6 class="mr-1">
         Requirements:
-    </p>
+    </h6>
     <div class="mr-1" role="group">
         <button class="btn btn-sm btn-secrat" style="opacity: 0.85;" disabled>
             found

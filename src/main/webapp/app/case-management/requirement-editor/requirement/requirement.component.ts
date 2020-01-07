@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-// import { Router } from '@angular/router';
-// import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CMRequirement, CMExtensionKey, CMAttribute, CMExtensionType, CMExtension, CMStatusSubType, CMUtilService } from '../../common';
+import { RemoteComponent } from '../../persistence/remote/remote.component';
 
 @Component({
   selector: 'jhi-requirement',
@@ -10,17 +10,17 @@ import { CMRequirement, CMExtensionKey, CMAttribute, CMExtensionType, CMExtensio
   styleUrls: ['./requirement.component.scss']
 })
 export class RequirementComponent implements OnInit, OnDestroy {
-  @Input() requirements: CMRequirement[];
+  @Input() requirements: CMRequirement[] = [];
 
-  @Input() status: CMExtensionKey[];
+  @Input() status: CMExtensionKey[] = [];
 
-  @Input() enhancements: CMExtensionKey[];
+  @Input() enhancements: CMExtensionKey[] = [];
 
-  @Input() categories: CMAttribute[];
+  @Input() categories: CMAttribute[] = [];
 
-  @Input() parameters: CMAttribute[];
+  @Input() parameters: CMAttribute[] = [];
 
-  @Input() categoriesInList: number[];
+  @Input() categoriesInList: number[] = [];
 
   @Output() customMode: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -35,7 +35,8 @@ export class RequirementComponent implements OnInit, OnDestroy {
 
   constructor(
     // private jhiEventManager: JhiEventManager,
-    private _cmUtilService: CMUtilService
+    private cmUtilService: CMUtilService,
+    private modalService: NgbModal
   ) {
     this.statusType = {
       enum: CMExtensionType.ENUM,
@@ -62,7 +63,7 @@ export class RequirementComponent implements OnInit, OnDestroy {
   getParameters(parameters: number[]): string[] {
     const result: string[] = [];
     parameters.forEach(id => {
-      this._cmUtilService.filterByObj(this.parameters, { id }).forEach(attr => {
+      this.cmUtilService.filterByObj(this.parameters, { id }).forEach(attr => {
         result.push(attr.name);
       });
     });
@@ -112,6 +113,10 @@ export class RequirementComponent implements OnInit, OnDestroy {
   customize(): void {
     this.customizes = !this.customizes;
     this.customMode.emit(this.customizes);
+  }
+
+  persistRemotely(): void {
+    this.modalService.open(RemoteComponent, { size: 'lg', scrollable: true, backdrop: 'static' });
   }
 
   ngOnDestroy(): void {}

@@ -26,7 +26,7 @@ export class AttributeTagComponent implements OnInit {
    * @param attr the attribute to be emmited
    */
   /* tslint:disable-next-line */
-  private _selectAttribute(attr?: CMAttribute) {
+  private selectAttribute(attr?: CMAttribute) {
     if (attr !== undefined) {
       this.attributeSelectionChanged.emit(attr);
     } else {

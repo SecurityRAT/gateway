@@ -1,12 +1,12 @@
 import { YamlObject, YamlFile } from '../models/yaml.model';
 import { Field } from '../models/field.model';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
 /**
  * Interface for the remote export/import of requirements.
  */
-export interface RemoteExportImportInterface {
+export interface RemotePersistenceImportInterface {
   /**
    * Retrieve available requirementSet versions
    * @param url The URL of the service.
@@ -28,7 +28,7 @@ export interface RemoteExportImportInterface {
    * @param fields The necessary fields with their corresponding values required for the export
    * @returns An http observable with a object. Most probably in the form {url: '', alias: ''}
    */
-  exportRequirements(url: string, fileContent: YamlObject, fields: any[]): Observable<HttpResponse<any>>;
+  exportRequirements(url: string, fileContent: YamlObject, fields: Field[]): Observable<HttpResponse<any>>;
 
   /**
    * Retrieves the mandatory field given an appropriate URL.
@@ -46,13 +46,13 @@ export interface RemoteExportImportInterface {
    * Checks the validity of the given URL when exporting requirements.
    * @param url the URL to be checked.
    */
-  checkExportUrl(url: string): Observable<HttpResponse<boolean>>;
+  getPersistenceUrlValidationPattern(): string;
 
   /**
    * Checks the validity of the given URL when importing requirements.
    * @param url the URL to be checked.
    */
-  checkImportUrl(url: string): Observable<HttpResponse<boolean>>;
+  getImportUrlValidationPattern(): string;
 
   /**
    * Generates an error message given the http response and other information.

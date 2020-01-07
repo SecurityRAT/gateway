@@ -1,1 +1,31 @@
-<p>remote works!</p>
+<jhi-alert></jhi-alert>
+<jhi-alert-error></jhi-alert-error>
+<form #persistenceForm="ngForm">
+  <div class="modal-header">
+    <h4 class="modal-title">Remotely Persist Requirement List</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group offset-sm-1 col-sm-9">
+      <label for="persistenceUrl">Queue / Ticket URL</label>
+      <input type="url" class="form-control" name="persistenceUrl" id="field_persistenceUrl"
+        aria-describedby="persistenceUrlHelpBlock" [(ngModel)]="persistenceInfo.url"
+        autofocus required />
+      <small id="persistenceUrlHelpBlock" class="form-text text-muted">
+        Examples URLs:
+        <br />
+        Jira - https://www.example-jira.com/browse/DUMBQ-20, https://www.example-jira.com/browse/DUMBQ
+      </small>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">
+      <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+    </button>
+    <button type="submit" id="save-entity" [disabled]="" class="btn btn-primary">
+      <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Persist</span>
+    </button>
+  </div>
+</form>

@@ -48,9 +48,9 @@
                                     <strong>Name of the artifact:</strong>
                                 </h4>
                             </label>
-                            <input type="text" class="form-control col-md-9" name="name" id="field_name"
+                            <input type="text" class="form-control col-sm-9" name="name" id="field_name"
                                 [(ngModel)]="artifactSettings.name" #name="ngModel"
-                                pattern="^[\w\s\-\.\:\+\(\)\[\]\,\!\#\$\%\'\*\=\?\^\`\{\|\}\~\;\@\&\\]+$" required />
+                                pattern="^[\w\s-.:+()[\],!#$%'*=?^`{|}~;@&\\]+$" required />
                             <div [hidden]="!(name.dirty && name.invalid)">
                                 <small class="form-text text-danger" [hidden]="!name.errors?.required">
                                     This field is required.

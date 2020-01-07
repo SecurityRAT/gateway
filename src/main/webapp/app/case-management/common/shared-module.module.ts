@@ -5,7 +5,7 @@ import { JhiFilterPipe, JhiOrderByPipe } from 'ng-jhipster';
 
 @NgModule({
   imports: [GatewaySharedModule],
-  exports: [AttributeTagComponent],
+  exports: [AttributeTagComponent, GatewaySharedModule],
   declarations: [AttributeTagComponent],
   providers: [CaseManagementBackendService, CMUtilService, JiraService, JhiFilterPipe, JhiOrderByPipe]
 })
