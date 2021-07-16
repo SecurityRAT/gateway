@@ -8,23 +8,23 @@ export class CMUtilService {
   /**
    * Recursively filter an array with the given property object.
    * @param {T} array The input array of attributes
-   * @param {any} obj the filter object.
+   * @param {any} filterObj the filter object.
    */
-  filterByObj<T>(array: T[], obj: any): T[] {
-    if (obj === undefined || (array !== undefined && array.length === 0)) {
+  filterByObj<T>(array: T[], filterObj: any): T[] {
+    if (filterObj === undefined || (array !== undefined && array.length === 0)) {
       return array;
     }
     const filteredArray: T[] = [];
     /* go through the children */
     array.forEach((elem: any) => {
       if (elem.children && elem.children.length > 0) {
-        this.filterByObj(elem.children, obj).forEach((item: T) => {
+        this.filterByObj(elem.children, filterObj).forEach((item: any) => {
           filteredArray.push(Object.assign({}, item));
         });
       }
     });
     /* Go through the top level array */
-    this.jhiFilterPipe.transform(array, Object.assign({}, obj), '').forEach((element: any) => {
+    this.jhiFilterPipe.transform(array, Object.assign({}, filterObj), '').forEach((element: any) => {
       filteredArray.push(Object.assign({}, element));
     });
 
@@ -118,16 +118,18 @@ export class CMUtilService {
    */
   formatCategoryListForView(categories: CMAttribute[], prefixName: string, separatingSymbol: string): CMAttribute[] {
     const newArray: CMAttribute[] = [];
-    categories.forEach(cat => {
-      const catCopy: CMAttribute = Object.assign({}, cat);
+    categories.forEach(category => {
+      const catCopy: CMAttribute = Object.assign({}, category);
       catCopy.name = prefixName + catCopy.name;
       let children: CMAttribute[] = [];
       if (catCopy.children !== undefined && catCopy.children.length > 0) {
-        children = this.formatCategoryListForView(
-          this.sortArrayByPredicate(cat.children, 'showOrder'),
-          `${catCopy.name} ${separatingSymbol} `,
-          separatingSymbol
-        );
+        if (category.children !== undefined) {
+          children = this.formatCategoryListForView(
+            this.sortArrayByPredicate(category.children, 'showOrder'),
+            `${catCopy.name} ${separatingSymbol} `,
+            separatingSymbol
+          );
+        }
         delete catCopy.children;
       }
       newArray.push(catCopy);
@@ -146,6 +148,9 @@ export class CMUtilService {
    * @param predicate The sorting predicate. It should be an object property.
    */
   sortArrayByPredicate<T>(array: T[], predicate: string): T[] {
+    if (array === undefined) {
+      return array;
+    }
     return this.jhiOrderByPipe.transform(array, predicate);
   }
 

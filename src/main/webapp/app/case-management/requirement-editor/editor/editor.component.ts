@@ -61,6 +61,7 @@ type ArtifactSettings = {
     content: CMRequirementSet;
   };
 };
+
 @Component({
   selector: 'jhi-editor',
   templateUrl: 'editor.component.html'
@@ -123,7 +124,7 @@ export class EditorComponent implements OnInit, OnDestroy {
             /* a requirement set muss be selected */
             id: +values.get(REQUIREMENTSET_PARAM),
             /* change to null when removing mock data */
-            content: null
+            content: null as any
           };
         } else {
           /* Prevents requirementSet from being changed in the URL */

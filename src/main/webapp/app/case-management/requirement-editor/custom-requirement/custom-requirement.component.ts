@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CUSTOMREQUIREMENT_PREFIX, CMAttributeKey } from '../../common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RequirementEditorDataShareService } from '../requirement-editor-data-share.service';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +9,9 @@ import {
   CMAttribute,
   CMExtensionType,
   CMExtension,
-  CMStatusSubType
+  CMStatusSubType,
+  CUSTOMREQUIREMENT_PREFIX,
+  CMAttributeKey
 } from '../../common';
 
 @Component({
@@ -78,30 +79,30 @@ export class CustomRequirementComponent implements OnInit {
    */
   createEmptyCustomRequirementObject(): void {
     this.customRequirementObj = new CMRequirement(
-      null,
+      null as any,
       this.setUpCustomRequirementName(),
-      null,
-      null,
+      null as any,
+      null as any,
       [],
       [],
       [],
       [],
-      null,
-      null,
-      null,
+      null as any,
+      null as any,
+      null as any,
       null
     );
     this.customRequirementObj.categoryId = this.categories[0].id;
     this.status.forEach((element: CMExtensionKey) => {
-      const defaultStatusContent = new CMStatusSubType(element.id, null, null);
-      if (element.type === this.statusType.enum) {
+      const defaultStatusContent = new CMStatusSubType(element.id, []);
+      if (element.type === this.statusType.enum && element.values !== undefined) {
         defaultStatusContent.content = element.values[0].content;
       }
       this.customRequirementObj.status.push(defaultStatusContent);
     });
     this.enhancementList.forEach((element: CMExtensionKey) => {
       const tempEnhancementSubType: CMEnhancementSubType = new CMEnhancementSubType(element.id, []);
-      tempEnhancementSubType.contents.push(new CMExtension(element.id, null, null, null));
+      tempEnhancementSubType.contents.push(new CMExtension(element.id, ''));
       this.customRequirementObj.enhancements.push(tempEnhancementSubType);
     });
   }
@@ -240,7 +241,7 @@ export class CustomRequirementComponent implements OnInit {
       /* Multiselection of status values is allowed */
       const index: number = status.values.indexOf(newValue.id);
       /* selected value was already selected => deselection */
-      if (index !== -1) {
+      if (index !== -1 && status.content !== undefined) {
         const contents = status.content.split(',');
         /* Minimum selection is one */
         if (contents.length > 1) {

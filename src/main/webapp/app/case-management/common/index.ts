@@ -12,6 +12,7 @@ export * from './models/attribute.model';
 export * from './models/requirement.model';
 export * from './models/extension.model';
 export * from './models/extension-key.model';
+export * from './models/yaml.model';
 export * from './services/util.service';
 export * from './services/case-management-backend.service';
 export * from './services/jira.service';
