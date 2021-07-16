@@ -20,7 +20,10 @@
       "app/*": ["src/main/webapp/app/*"]
     },
     "importHelpers": true,
-    "allowJs": true
+    "allowJs": true,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false
   },
   "include": ["src/main/webapp/app", "src/test/javascript/"],
   "exclude": ["node_modules"]

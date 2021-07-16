@@ -33,11 +33,13 @@ export class CaseManagementBackendService {
 
   query<T>(c: { new (...args: any[]): T }, uri: string, params?: Object, headers?: HttpHeaders): Observable<HttpResponse<T[]>> {
     const options = createRequestOption(params);
-    return this.httpClient.get<T[]>(`${this.resourceUrl}${uri}`, { params: options, headers, observe: 'response' }).pipe(
-      map((res: HttpResponse<T[]>) => {
-        return this.convertResponseArrayToType(res);
-      })
-    );
+    return this.httpClient
+      .get<T[]>(`${this.resourceUrl}${uri}`, { params: options, headers, observe: 'response' })
+      .pipe(
+        map((res: HttpResponse<T[]>) => {
+          return this.convertResponseArrayToType(res);
+        })
+      );
   }
 
   /**
@@ -151,7 +153,7 @@ export class CaseManagementBackendService {
 
   getMockTagKeys(): Observable<HttpResponse<CMAttributeKey[]>> {
     const mockTagKeys: CMAttributeKey[] = [];
-    (tagKeys as any).forEach(element => {
+    (tagKeys as any).forEach((element: any) => {
       mockTagKeys.push(new CMAttributeKey(element.id, element.name, element.showOrder, element.description));
     });
     return of(
@@ -165,7 +167,7 @@ export class CaseManagementBackendService {
 
   getMockTags(): Observable<HttpResponse<CMAttribute[]>> {
     const mockTags: CMAttribute[] = [];
-    (tags as any).forEach(element => {
+    (tags as any).forEach((element: any) => {
       mockTags.push(new CMAttribute(element.id, element.name, element.showOrder, element.keyId, element.description, element.children));
     });
     return of(
@@ -178,7 +180,7 @@ export class CaseManagementBackendService {
   }
   getMockAttributeKeys(): CMAttributeKey[] {
     const mockAttributeKeys: CMAttributeKey[] = [];
-    (attributeKeys as any).forEach(element => {
+    (attributeKeys as any).forEach((element: any) => {
       mockAttributeKeys.push(new CMAttributeKey(element.id, element.name, element.showOrder, element.description));
     });
     return mockAttributeKeys;
@@ -186,7 +188,7 @@ export class CaseManagementBackendService {
 
   getMockCategories(): Observable<HttpResponse<CMAttribute[]>> {
     const mockCategories: CMAttribute[] = [];
-    (categories as any).forEach(element => {
+    (categories as any).forEach((element: any) => {
       mockCategories.push(
         new CMAttribute(element.id, element.name, element.showOrder, element.keyId, element.description, element.children)
       );
@@ -202,7 +204,7 @@ export class CaseManagementBackendService {
 
   getMockAttributes(): CMAttribute[] {
     const mockAttributes: CMAttribute[] = [];
-    (attributes as any).forEach(element => {
+    (attributes as any).forEach((element: any) => {
       mockAttributes.push(
         new CMAttribute(element.id, element.name, element.showOrder, element.keyId, element.description, element.children)
       );
@@ -212,7 +214,7 @@ export class CaseManagementBackendService {
 
   getMockRequirements(): CMRequirement[] {
     const mockRequirements: CMRequirement[] = [];
-    (requirements as any).forEach(element => {
+    (requirements as any).forEach((element: any) => {
       mockRequirements.push(
         new CMRequirement(
           element.id,
@@ -232,7 +234,7 @@ export class CaseManagementBackendService {
 
   getMockEnhancements(): CMExtensionKey[] {
     const mockEnhancements: CMExtensionKey[] = [];
-    (enhancements as any).forEach(element => {
+    (enhancements as any).forEach((element: any) => {
       mockEnhancements.push(new CMExtensionKey(element.id, element.name, element.description, element.showOrder));
     });
     return mockEnhancements;
@@ -240,15 +242,14 @@ export class CaseManagementBackendService {
 
   getMockStatus(): CMExtensionKey[] {
     const mockStatus: CMExtensionKey[] = [];
-    (status as any).forEach(element => {
+    (status as any).forEach((element: any) => {
       mockStatus.push(new CMExtensionKey(element.id, element.name, element.description, element.showOrder, element.type, element.values));
     });
     return mockStatus;
   }
 
   private convertItemFromServer<T>(item: T): T {
-    const copy: T = Object.assign({}, item);
-    return copy;
+    return Object.assign({}, item);
   }
 
   /**
@@ -256,12 +257,18 @@ export class CaseManagementBackendService {
    * @param res The {@link HttpResponse} object
    */
   private convertResponseArrayToType<T>(res: HttpResponse<T[]>): HttpResponse<T[]> {
-    const jsonResponse: T[] = res.body;
+    const jsonResponse: T[] | null = res.body;
     const body: T[] = [];
-    for (let i = 0; i < jsonResponse.length; i++) {
-      const item: T = Object.assign({}, this.convertItemFromServer(jsonResponse[i]));
-      body.push(item);
+    if (jsonResponse != null) {
+      for (const item of jsonResponse) {
+        body.push(this.convertItemFromServer(item));
+      }
+      // for (let i = 0; i < jsonResponse.length; i++) {
+      //   const item: T = Object.assign({}, this.convertItemFromServer(jsonResponse[i]));
+      //   body.push(item);
+      // }
+      return res.clone({ body });
     }
-    return res.clone({ body });
+    return new HttpResponse();
   }
 }
