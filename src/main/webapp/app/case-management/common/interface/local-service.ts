@@ -1,4 +1,4 @@
-import { YamlObject } from '..';
+import { YamlObject } from '../models/yaml.model';
 import { Observable } from 'rxjs';
 
 /**

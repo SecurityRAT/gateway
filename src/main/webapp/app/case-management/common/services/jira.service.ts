@@ -4,6 +4,7 @@ import { Field } from '../models/field.model';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { RemotePersistenceImportInterface } from '../interface/remote-service';
+import * as urlParser from 'url-parse';
 
 @Injectable({
   providedIn: 'root'
