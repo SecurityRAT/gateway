@@ -18,7 +18,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [GatewayTestModule],
         declarations: [AttributeUpdateComponent],
-        providers: [FormBuilder]
+        providers: [FormBuilder],
       })
         .overrideTemplate(AttributeUpdateComponent, '')
         .compileComponents();

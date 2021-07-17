@@ -8,7 +8,7 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_CLOUD_CONSUL_HOST=consul
       - SPRING_CLOUD_CONSUL_PORT=8500
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://gateway-mariadb:3306/gateway
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://gateway-mariadb:3306/gateway?useLegacyDatetimeCode=false&serverTimezone=UTC
       - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI=http://keycloak:9080/auth/realms/jhipster
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID=web_app
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET=web_app

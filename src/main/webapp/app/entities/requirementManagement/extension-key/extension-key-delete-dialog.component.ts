@@ -6,7 +6,7 @@ import { IExtensionKey } from 'app/shared/model/requirementManagement/extension-
 import { ExtensionKeyService } from './extension-key.service';
 
 @Component({
-  templateUrl: './extension-key-delete-dialog.component.html'
+  templateUrl: './extension-key-delete-dialog.component.html',
 })
 export class ExtensionKeyDeleteDialogComponent {
   extensionKey?: IExtensionKey;
@@ -17,7 +17,7 @@ export class ExtensionKeyDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

@@ -16,7 +16,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [GatewayTestModule],
         declarations: [LogsComponent],
-        providers: [LogsService]
+        providers: [LogsService],
       })
         .overrideTemplate(LogsComponent, '')
         .compileComponents();
@@ -34,6 +34,7 @@ describe('Component Tests', () => {
         expect(comp.orderProp).toBe('name');
         expect(comp.reverse).toBe(false);
       });
+
       it('Should call load all on init', () => {
         // GIVEN
         const log = new Log('main', 'WARN');
@@ -41,9 +42,9 @@ describe('Component Tests', () => {
           of({
             loggers: {
               main: {
-                effectiveLevel: 'WARN'
-              }
-            }
+                effectiveLevel: 'WARN',
+              },
+            },
           })
         );
 
@@ -55,6 +56,7 @@ describe('Component Tests', () => {
         expect(comp.loggers && comp.loggers[0]).toEqual(jasmine.objectContaining(log));
       });
     });
+
     describe('change log level', () => {
       it('should change log level correctly', () => {
         // GIVEN
@@ -64,9 +66,9 @@ describe('Component Tests', () => {
           of({
             loggers: {
               main: {
-                effectiveLevel: 'ERROR'
-              }
-            }
+                effectiveLevel: 'ERROR',
+              },
+            },
           })
         );
 

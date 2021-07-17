@@ -7,6 +7,6 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 @NgModule({
   imports: [GatewaySharedLibsModule],
   declarations: [AlertComponent, AlertErrorComponent, HasAnyAuthorityDirective],
-  exports: [GatewaySharedLibsModule, AlertComponent, AlertErrorComponent, HasAnyAuthorityDirective]
+  exports: [GatewaySharedLibsModule, AlertComponent, AlertErrorComponent, HasAnyAuthorityDirective],
 })
 export class GatewaySharedModule {}

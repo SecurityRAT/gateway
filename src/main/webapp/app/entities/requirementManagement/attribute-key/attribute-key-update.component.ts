@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IAttributeKey, AttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
@@ -15,11 +14,10 @@ import { RequirementSetService } from 'app/entities/requirementManagement/requir
 
 @Component({
   selector: 'jhi-attribute-key-update',
-  templateUrl: './attribute-key-update.component.html'
+  templateUrl: './attribute-key-update.component.html',
 })
 export class AttributeKeyUpdateComponent implements OnInit {
   isSaving = false;
-
   requirementsets: IRequirementSet[] = [];
 
   editForm = this.fb.group({
@@ -29,7 +27,7 @@ export class AttributeKeyUpdateComponent implements OnInit {
     type: [null, [Validators.required]],
     showOrder: [],
     active: [null, [Validators.required]],
-    requirementSet: []
+    requirementSet: [],
   });
 
   constructor(
@@ -45,14 +43,7 @@ export class AttributeKeyUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ attributeKey }) => {
       this.updateForm(attributeKey);
 
-      this.requirementSetService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IRequirementSet[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IRequirementSet[]) => (this.requirementsets = resBody));
+      this.requirementSetService.query().subscribe((res: HttpResponse<IRequirementSet[]>) => (this.requirementsets = res.body || []));
     });
   }
 
@@ -64,7 +55,7 @@ export class AttributeKeyUpdateComponent implements OnInit {
       type: attributeKey.type,
       showOrder: attributeKey.showOrder,
       active: attributeKey.active,
-      requirementSet: attributeKey.requirementSet
+      requirementSet: attributeKey.requirementSet,
     });
   }
 
@@ -76,7 +67,7 @@ export class AttributeKeyUpdateComponent implements OnInit {
     this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event: Event, field: string, isImage: boolean): void {
+  setFileData(event: any, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
       this.eventManager.broadcast(
         new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
@@ -107,7 +98,7 @@ export class AttributeKeyUpdateComponent implements OnInit {
       type: this.editForm.get(['type'])!.value,
       showOrder: this.editForm.get(['showOrder'])!.value,
       active: this.editForm.get(['active'])!.value,
-      requirementSet: this.editForm.get(['requirementSet'])!.value
+      requirementSet: this.editForm.get(['requirementSet'])!.value,
     };
   }
 

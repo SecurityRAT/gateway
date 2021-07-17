@@ -1,5 +1,4 @@
 import { ISkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
-import { IAttribute } from 'app/shared/model/requirementManagement/attribute.model';
 import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
 
 export interface IAttribute {

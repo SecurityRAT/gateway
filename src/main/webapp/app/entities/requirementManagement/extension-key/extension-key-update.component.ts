@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IExtensionKey, ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
@@ -15,11 +14,10 @@ import { RequirementSetService } from 'app/entities/requirementManagement/requir
 
 @Component({
   selector: 'jhi-extension-key-update',
-  templateUrl: './extension-key-update.component.html'
+  templateUrl: './extension-key-update.component.html',
 })
 export class ExtensionKeyUpdateComponent implements OnInit {
   isSaving = false;
-
   requirementsets: IRequirementSet[] = [];
 
   editForm = this.fb.group({
@@ -30,7 +28,7 @@ export class ExtensionKeyUpdateComponent implements OnInit {
     type: [],
     showOrder: [],
     active: [null, [Validators.required]],
-    requirementSet: []
+    requirementSet: [],
   });
 
   constructor(
@@ -46,14 +44,7 @@ export class ExtensionKeyUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ extensionKey }) => {
       this.updateForm(extensionKey);
 
-      this.requirementSetService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IRequirementSet[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IRequirementSet[]) => (this.requirementsets = resBody));
+      this.requirementSetService.query().subscribe((res: HttpResponse<IRequirementSet[]>) => (this.requirementsets = res.body || []));
     });
   }
 
@@ -66,7 +57,7 @@ export class ExtensionKeyUpdateComponent implements OnInit {
       type: extensionKey.type,
       showOrder: extensionKey.showOrder,
       active: extensionKey.active,
-      requirementSet: extensionKey.requirementSet
+      requirementSet: extensionKey.requirementSet,
     });
   }
 
@@ -78,7 +69,7 @@ export class ExtensionKeyUpdateComponent implements OnInit {
     this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event: Event, field: string, isImage: boolean): void {
+  setFileData(event: any, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
       this.eventManager.broadcast(
         new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
@@ -110,7 +101,7 @@ export class ExtensionKeyUpdateComponent implements OnInit {
       type: this.editForm.get(['type'])!.value,
       showOrder: this.editForm.get(['showOrder'])!.value,
       active: this.editForm.get(['active'])!.value,
-      requirementSet: this.editForm.get(['requirementSet'])!.value
+      requirementSet: this.editForm.get(['requirementSet'])!.value,
     };
   }
 

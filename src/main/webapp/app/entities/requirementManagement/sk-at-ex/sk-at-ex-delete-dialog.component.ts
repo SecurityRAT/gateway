@@ -6,14 +6,14 @@ import { ISkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
 import { SkAtExService } from './sk-at-ex.service';
 
 @Component({
-  templateUrl: './sk-at-ex-delete-dialog.component.html'
+  templateUrl: './sk-at-ex-delete-dialog.component.html',
 })
 export class SkAtExDeleteDialogComponent {
   skAtEx?: ISkAtEx;
 
   constructor(protected skAtExService: SkAtExService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

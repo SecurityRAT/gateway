@@ -25,6 +25,10 @@ describe('RequirementSet e2e test', () => {
     requirementSetComponentsPage = new RequirementSetComponentsPage();
     await browser.wait(ec.visibilityOf(requirementSetComponentsPage.title), 5000);
     expect(await requirementSetComponentsPage.getTitle()).to.eq('Requirement Sets');
+    await browser.wait(
+      ec.or(ec.visibilityOf(requirementSetComponentsPage.entities), ec.visibilityOf(requirementSetComponentsPage.noResult)),
+      1000
+    );
   });
 
   it('should load create RequirementSet page', async () => {
@@ -38,11 +42,13 @@ describe('RequirementSet e2e test', () => {
     const nbButtonsBeforeCreate = await requirementSetComponentsPage.countDeleteButtons();
 
     await requirementSetComponentsPage.clickOnCreateButton();
+
     await promise.all([
       requirementSetUpdatePage.setNameInput('name'),
       requirementSetUpdatePage.setDescriptionInput('description'),
-      requirementSetUpdatePage.setShowOrderInput('5')
+      requirementSetUpdatePage.setShowOrderInput('5'),
     ]);
+
     expect(await requirementSetUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await requirementSetUpdatePage.getDescriptionInput()).to.eq(
       'description',
@@ -57,6 +63,7 @@ describe('RequirementSet e2e test', () => {
       await requirementSetUpdatePage.getActiveInput().click();
       expect(await requirementSetUpdatePage.getActiveInput().isSelected(), 'Expected active to be selected').to.be.true;
     }
+
     await requirementSetUpdatePage.save();
     expect(await requirementSetUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

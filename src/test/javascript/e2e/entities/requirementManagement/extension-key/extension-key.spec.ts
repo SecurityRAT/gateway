@@ -25,6 +25,10 @@ describe('ExtensionKey e2e test', () => {
     extensionKeyComponentsPage = new ExtensionKeyComponentsPage();
     await browser.wait(ec.visibilityOf(extensionKeyComponentsPage.title), 5000);
     expect(await extensionKeyComponentsPage.getTitle()).to.eq('Extension Keys');
+    await browser.wait(
+      ec.or(ec.visibilityOf(extensionKeyComponentsPage.entities), ec.visibilityOf(extensionKeyComponentsPage.noResult)),
+      1000
+    );
   });
 
   it('should load create ExtensionKey page', async () => {
@@ -38,14 +42,16 @@ describe('ExtensionKey e2e test', () => {
     const nbButtonsBeforeCreate = await extensionKeyComponentsPage.countDeleteButtons();
 
     await extensionKeyComponentsPage.clickOnCreateButton();
+
     await promise.all([
       extensionKeyUpdatePage.setNameInput('name'),
       extensionKeyUpdatePage.setDescriptionInput('description'),
       extensionKeyUpdatePage.sectionSelectLastOption(),
       extensionKeyUpdatePage.typeSelectLastOption(),
       extensionKeyUpdatePage.setShowOrderInput('5'),
-      extensionKeyUpdatePage.requirementSetSelectLastOption()
+      extensionKeyUpdatePage.requirementSetSelectLastOption(),
     ]);
+
     expect(await extensionKeyUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await extensionKeyUpdatePage.getDescriptionInput()).to.eq(
       'description',
@@ -60,6 +66,7 @@ describe('ExtensionKey e2e test', () => {
       await extensionKeyUpdatePage.getActiveInput().click();
       expect(await extensionKeyUpdatePage.getActiveInput().isSelected(), 'Expected active to be selected').to.be.true;
     }
+
     await extensionKeyUpdatePage.save();
     expect(await extensionKeyUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

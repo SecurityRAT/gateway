@@ -11,6 +11,6 @@ import { skeletonRoute } from './skeleton.route';
 @NgModule({
   imports: [GatewaySharedModule, RouterModule.forChild(skeletonRoute)],
   declarations: [SkeletonComponent, SkeletonDetailComponent, SkeletonUpdateComponent, SkeletonDeleteDialogComponent],
-  entryComponents: [SkeletonDeleteDialogComponent]
+  entryComponents: [SkeletonDeleteDialogComponent],
 })
 export class RequirementManagementSkeletonModule {}

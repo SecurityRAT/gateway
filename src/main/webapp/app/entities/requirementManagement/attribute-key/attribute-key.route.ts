@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
+import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { IAttributeKey, AttributeKey } from 'app/shared/model/requirementManagement/attribute-key.model';
 import { AttributeKeyService } from './attribute-key.service';
@@ -38,45 +39,45 @@ export const attributeKeyRoute: Routes = [
     path: '',
     component: AttributeKeyComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'AttributeKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'AttributeKeys',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: AttributeKeyDetailComponent,
     resolve: {
-      attributeKey: AttributeKeyResolve
+      attributeKey: AttributeKeyResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'AttributeKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'AttributeKeys',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: AttributeKeyUpdateComponent,
     resolve: {
-      attributeKey: AttributeKeyResolve
+      attributeKey: AttributeKeyResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'AttributeKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'AttributeKeys',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: AttributeKeyUpdateComponent,
     resolve: {
-      attributeKey: AttributeKeyResolve
+      attributeKey: AttributeKeyResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'AttributeKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'AttributeKeys',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

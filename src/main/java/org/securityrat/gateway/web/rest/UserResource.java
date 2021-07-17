@@ -59,7 +59,6 @@ public class UserResource {
     private final UserService userService;
 
     public UserResource(UserService userService) {
-
         this.userService = userService;
     }
 
@@ -71,17 +70,19 @@ public class UserResource {
      */
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
+
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
 
     /**
      * Gets a list of all roles.
      * @return a string list of all roles.
      */
     @GetMapping("/users/authorities")
-    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public List<String> getAuthorities() {
         return userService.getAuthorities();
     }

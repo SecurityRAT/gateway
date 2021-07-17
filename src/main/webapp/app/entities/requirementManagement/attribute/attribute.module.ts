@@ -11,6 +11,6 @@ import { attributeRoute } from './attribute.route';
 @NgModule({
   imports: [GatewaySharedModule, RouterModule.forChild(attributeRoute)],
   declarations: [AttributeComponent, AttributeDetailComponent, AttributeUpdateComponent, AttributeDeleteDialogComponent],
-  entryComponents: [AttributeDeleteDialogComponent]
+  entryComponents: [AttributeDeleteDialogComponent],
 })
 export class RequirementManagementAttributeModule {}

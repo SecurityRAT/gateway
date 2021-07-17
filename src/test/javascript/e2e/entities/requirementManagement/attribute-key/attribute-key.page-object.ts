@@ -4,6 +4,8 @@ export class AttributeKeyComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-attribute-key div table .btn-danger'));
   title = element.all(by.css('jhi-attribute-key div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,11 +28,13 @@ export class AttributeKeyUpdatePage {
   pageTitle = element(by.id('jhi-attribute-key-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   nameInput = element(by.id('field_name'));
   descriptionInput = element(by.id('field_description'));
   typeSelect = element(by.id('field_type'));
   showOrderInput = element(by.id('field_showOrder'));
   activeInput = element(by.id('field_active'));
+
   requirementSetSelect = element(by.id('field_requirementSet'));
 
   async getPageTitle(): Promise<string> {
@@ -62,10 +66,7 @@ export class AttributeKeyUpdatePage {
   }
 
   async typeSelectLastOption(): Promise<void> {
-    await this.typeSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.typeSelect.all(by.tagName('option')).last().click();
   }
 
   async setShowOrderInput(showOrder: string): Promise<void> {
@@ -81,10 +82,7 @@ export class AttributeKeyUpdatePage {
   }
 
   async requirementSetSelectLastOption(): Promise<void> {
-    await this.requirementSetSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.requirementSetSelect.all(by.tagName('option')).last().click();
   }
 
   async requirementSetSelectOption(option: string): Promise<void> {

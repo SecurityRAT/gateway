@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
+import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { ISkeleton, Skeleton } from 'app/shared/model/requirementManagement/skeleton.model';
 import { SkeletonService } from './skeleton.service';
@@ -38,45 +39,45 @@ export const skeletonRoute: Routes = [
     path: '',
     component: SkeletonComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Skeletons'
+      authorities: [Authority.USER],
+      pageTitle: 'Skeletons',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: SkeletonDetailComponent,
     resolve: {
-      skeleton: SkeletonResolve
+      skeleton: SkeletonResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Skeletons'
+      authorities: [Authority.USER],
+      pageTitle: 'Skeletons',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: SkeletonUpdateComponent,
     resolve: {
-      skeleton: SkeletonResolve
+      skeleton: SkeletonResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Skeletons'
+      authorities: [Authority.USER],
+      pageTitle: 'Skeletons',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: SkeletonUpdateComponent,
     resolve: {
-      skeleton: SkeletonResolve
+      skeleton: SkeletonResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Skeletons'
+      authorities: [Authority.USER],
+      pageTitle: 'Skeletons',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

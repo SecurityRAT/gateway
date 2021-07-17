@@ -6,7 +6,7 @@ import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-
 import { AttributeKeyService } from './attribute-key.service';
 
 @Component({
-  templateUrl: './attribute-key-delete-dialog.component.html'
+  templateUrl: './attribute-key-delete-dialog.component.html',
 })
 export class AttributeKeyDeleteDialogComponent {
   attributeKey?: IAttributeKey;
@@ -17,7 +17,7 @@ export class AttributeKeyDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

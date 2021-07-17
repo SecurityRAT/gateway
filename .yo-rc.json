@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "org.securityrat.gateway"
     },
-    "jhipsterVersion": "6.6.0",
+    "jhipsterVersion": "6.10.5",
     "baseName": "gateway",
     "packageName": "org.securityrat.gateway",
     "packageFolder": "org/securityrat/gateway",

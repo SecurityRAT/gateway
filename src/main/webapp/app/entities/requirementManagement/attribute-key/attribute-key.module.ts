@@ -11,6 +11,6 @@ import { attributeKeyRoute } from './attribute-key.route';
 @NgModule({
   imports: [GatewaySharedModule, RouterModule.forChild(attributeKeyRoute)],
   declarations: [AttributeKeyComponent, AttributeKeyDetailComponent, AttributeKeyUpdateComponent, AttributeKeyDeleteDialogComponent],
-  entryComponents: [AttributeKeyDeleteDialogComponent]
+  entryComponents: [AttributeKeyDeleteDialogComponent],
 })
 export class RequirementManagementAttributeKeyModule {}

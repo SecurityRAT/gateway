@@ -6,7 +6,7 @@ import { IRequirementSet } from 'app/shared/model/requirementManagement/requirem
 import { RequirementSetService } from './requirement-set.service';
 
 @Component({
-  templateUrl: './requirement-set-delete-dialog.component.html'
+  templateUrl: './requirement-set-delete-dialog.component.html',
 })
 export class RequirementSetDeleteDialogComponent {
   requirementSet?: IRequirementSet;
@@ -17,7 +17,7 @@ export class RequirementSetDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

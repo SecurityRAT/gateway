@@ -1,66 +1,72 @@
 <div>
     <h2 id="page-heading">
         <span>Extensions</span>
+
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-extension" [routerLink]="['/extension/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
+            <fa-icon icon="plus"></fa-icon>
+            <span>
             Create a new Extension
             </span>
         </button>
     </h2>
+
     <jhi-alert-error></jhi-alert-error>
+
     <jhi-alert></jhi-alert>
-    <br/>
-    <div class="alert alert-warning" *ngIf="extensions?.length === 0">
+
+    <div class="alert alert-warning" id="no-result" *ngIf="extensions?.length === 0">
         <span>No extensions found</span>
     </div>
-    <div class="table-responsive" *ngIf="extensions?.length > 0">
+
+    <div class="table-responsive" id="entities" *ngIf="extensions && extensions.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="content"><span>Content</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="showOrder"><span>Show Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="extensionKey.name"><span>Extension Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="content"><span>Content</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="showOrder"><span>Show Order</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="extensionKey.name"><span>Extension Key</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let extension of extensions ;trackBy: trackId">
-                <td><a [routerLink]="['/extension', extension.id, 'view' ]">{{extension.id}}</a></td>
-                <td>{{extension.content}}</td>
-                <td>{{extension.description}}</td>
-                <td>{{extension.showOrder}}</td>
-                <td>{{extension.active}}</td>
-                <td>
-                    <div *ngIf="extension.extensionKey">
-                        <a [routerLink]="['/extension-key', extension.extensionKey?.id, 'view' ]" >{{extension.extensionKey?.name}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="submit"
-                                [routerLink]="['/extension', extension.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/extension', extension.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit" (click)="delete(extension)"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                <tr *ngFor="let extension of extensions ;trackBy: trackId">
+                    <td><a [routerLink]="['/extension', extension.id, 'view']">{{ extension.id }}</a></td>
+                    <td>{{ extension.content }}</td>
+                    <td>{{ extension.description }}</td>
+                    <td>{{ extension.showOrder }}</td>
+                    <td>{{ extension.active }}</td>
+                    <td>
+                        <div *ngIf="extension.extensionKey">
+                            <a [routerLink]="['/extension-key', extension.extensionKey?.id, 'view']" >{{ extension.extensionKey?.name }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/extension', extension.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/extension', extension.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(extension)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -1,72 +1,78 @@
 <div>
     <h2 id="page-heading">
         <span>Attributes</span>
+
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attribute" [routerLink]="['/attribute/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
+            <fa-icon icon="plus"></fa-icon>
+            <span>
             Create a new Attribute
             </span>
         </button>
     </h2>
+
     <jhi-alert-error></jhi-alert-error>
+
     <jhi-alert></jhi-alert>
-    <br/>
-    <div class="alert alert-warning" *ngIf="attributes?.length === 0">
+
+    <div class="alert alert-warning" id="no-result" *ngIf="attributes?.length === 0">
         <span>No attributes found</span>
     </div>
-    <div class="table-responsive" *ngIf="attributes?.length > 0">
+
+    <div class="table-responsive" id="entities" *ngIf="attributes && attributes.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="showOrder"><span>Show Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="parent.name"><span>Parent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="attributeKey.name"><span>Attribute Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="showOrder"><span>Show Order</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="parent.name"><span>Parent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attributeKey.name"><span>Attribute Key</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let attribute of attributes ;trackBy: trackId">
-                <td><a [routerLink]="['/attribute', attribute.id, 'view' ]">{{attribute.id}}</a></td>
-                <td>{{attribute.name}}</td>
-                <td>{{attribute.description}}</td>
-                <td>{{attribute.showOrder}}</td>
-                <td>{{attribute.active}}</td>
-                <td>
-                    <div *ngIf="attribute.parent">
-                        <a [routerLink]="['/attribute', attribute.parent?.id, 'view' ]" >{{attribute.parent?.name}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="attribute.attributeKey">
-                        <a [routerLink]="['/attribute-key', attribute.attributeKey?.id, 'view' ]" >{{attribute.attributeKey?.name}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="submit"
-                                [routerLink]="['/attribute', attribute.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/attribute', attribute.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit" (click)="delete(attribute)"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                <tr *ngFor="let attribute of attributes ;trackBy: trackId">
+                    <td><a [routerLink]="['/attribute', attribute.id, 'view']">{{ attribute.id }}</a></td>
+                    <td>{{ attribute.name }}</td>
+                    <td>{{ attribute.description }}</td>
+                    <td>{{ attribute.showOrder }}</td>
+                    <td>{{ attribute.active }}</td>
+                    <td>
+                        <div *ngIf="attribute.parent">
+                            <a [routerLink]="['/attribute', attribute.parent?.id, 'view']" >{{ attribute.parent?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="attribute.attributeKey">
+                            <a [routerLink]="['/attribute-key', attribute.attributeKey?.id, 'view']" >{{ attribute.attributeKey?.name }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/attribute', attribute.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/attribute', attribute.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(attribute)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

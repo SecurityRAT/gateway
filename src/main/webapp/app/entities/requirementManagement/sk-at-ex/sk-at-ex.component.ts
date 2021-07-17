@@ -12,7 +12,7 @@ import { SkAtExDeleteDialogComponent } from './sk-at-ex-delete-dialog.component'
 
 @Component({
   selector: 'jhi-sk-at-ex',
-  templateUrl: './sk-at-ex.component.html'
+  templateUrl: './sk-at-ex.component.html',
 })
 export class SkAtExComponent implements OnInit, OnDestroy {
   skAtExes: ISkAtEx[];
@@ -33,7 +33,7 @@ export class SkAtExComponent implements OnInit, OnDestroy {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.page = 0;
     this.links = {
-      last: 0
+      last: 0,
     };
     this.predicate = 'id';
     this.ascending = true;
@@ -44,7 +44,7 @@ export class SkAtExComponent implements OnInit, OnDestroy {
       .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.sort()
+        sort: this.sort(),
       })
       .subscribe((res: HttpResponse<ISkAtEx[]>) => this.paginateSkAtExes(res.body, res.headers));
   }

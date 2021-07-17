@@ -14,6 +14,9 @@
 # ===================================================================
 
 spring:
+  profiles:
+    # Uncomment the following line to enable tests against production database type rather than H2, using Testcontainers
+    #active: testcontainers
   application:
     name: gateway
   datasource:
@@ -24,9 +27,11 @@ spring:
     password:
     hikari:
       auto-commit: false
+  jackson:
+    serialization:
+      write-durations-as-timestamps: false
   jpa:
     database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-    database: H2
     open-in-view: false
     show-sql: false
     hibernate:
@@ -50,9 +55,6 @@ spring:
     allow-bean-definition-overriding: true
   messages:
     basename: i18n/messages
-  mvc:
-    favicon:
-      enabled: false
   task:
     execution:
       thread-name-prefix: gateway-task-
@@ -89,7 +91,7 @@ jhipster:
     name: 'gatewayApp'
   logging:
     # To test json console appender
-    use-json-format: true # By default, logs are in Json format
+    use-json-format: false
     logstash:
       enabled: false
       host: localhost

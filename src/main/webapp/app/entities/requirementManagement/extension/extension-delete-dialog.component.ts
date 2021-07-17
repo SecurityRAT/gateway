@@ -6,14 +6,14 @@ import { IExtension } from 'app/shared/model/requirementManagement/extension.mod
 import { ExtensionService } from './extension.service';
 
 @Component({
-  templateUrl: './extension-delete-dialog.component.html'
+  templateUrl: './extension-delete-dialog.component.html',
 })
 export class ExtensionDeleteDialogComponent {
   extension?: IExtension;
 
   constructor(protected extensionService: ExtensionService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

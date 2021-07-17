@@ -12,7 +12,7 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 
 @Component({
   selector: 'jhi-requirement-set-update',
-  templateUrl: './requirement-set-update.component.html'
+  templateUrl: './requirement-set-update.component.html',
 })
 export class RequirementSetUpdateComponent implements OnInit {
   isSaving = false;
@@ -22,7 +22,7 @@ export class RequirementSetUpdateComponent implements OnInit {
     name: [null, [Validators.required]],
     description: [],
     showOrder: [],
-    active: [null, [Validators.required]]
+    active: [null, [Validators.required]],
   });
 
   constructor(
@@ -45,7 +45,7 @@ export class RequirementSetUpdateComponent implements OnInit {
       name: requirementSet.name,
       description: requirementSet.description,
       showOrder: requirementSet.showOrder,
-      active: requirementSet.active
+      active: requirementSet.active,
     });
   }
 
@@ -57,7 +57,7 @@ export class RequirementSetUpdateComponent implements OnInit {
     this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event: Event, field: string, isImage: boolean): void {
+  setFileData(event: any, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
       this.eventManager.broadcast(
         new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
@@ -86,7 +86,7 @@ export class RequirementSetUpdateComponent implements OnInit {
       name: this.editForm.get(['name'])!.value,
       description: this.editForm.get(['description'])!.value,
       showOrder: this.editForm.get(['showOrder'])!.value,
-      active: this.editForm.get(['active'])!.value
+      active: this.editForm.get(['active'])!.value,
     };
   }
 

@@ -18,7 +18,7 @@ describe('Component Tests', () => {
       TestBed.configureTestingModule({
         imports: [GatewayTestModule],
         declarations: [RequirementSetDetailComponent],
-        providers: [{ provide: ActivatedRoute, useValue: route }]
+        providers: [{ provide: ActivatedRoute, useValue: route }],
       })
         .overrideTemplate(RequirementSetDetailComponent, '')
         .compileComponents();

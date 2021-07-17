@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
+import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { ISkAtEx, SkAtEx } from 'app/shared/model/requirementManagement/sk-at-ex.model';
 import { SkAtExService } from './sk-at-ex.service';
@@ -38,45 +39,45 @@ export const skAtExRoute: Routes = [
     path: '',
     component: SkAtExComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'SkAtExes'
+      authorities: [Authority.USER],
+      pageTitle: 'SkAtExes',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: SkAtExDetailComponent,
     resolve: {
-      skAtEx: SkAtExResolve
+      skAtEx: SkAtExResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'SkAtExes'
+      authorities: [Authority.USER],
+      pageTitle: 'SkAtExes',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: SkAtExUpdateComponent,
     resolve: {
-      skAtEx: SkAtExResolve
+      skAtEx: SkAtExResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'SkAtExes'
+      authorities: [Authority.USER],
+      pageTitle: 'SkAtExes',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: SkAtExUpdateComponent,
     resolve: {
-      skAtEx: SkAtExResolve
+      skAtEx: SkAtExResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'SkAtExes'
+      authorities: [Authority.USER],
+      pageTitle: 'SkAtExes',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

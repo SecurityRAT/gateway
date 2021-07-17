@@ -1,5 +1,7 @@
 export const enum AttributeType {
-  FE_TAG,
-  PARAMETER,
-  CATEGORY
+  FE_TAG = 'FE_TAG',
+
+  PARAMETER = 'PARAMETER',
+
+  CATEGORY = 'CATEGORY',
 }

@@ -1,4 +1,5 @@
 export const enum ExtensionSection {
-  STATUS,
-  ENHANCEMENT
+  STATUS = 'STATUS',
+
+  ENHANCEMENT = 'ENHANCEMENT',
 }

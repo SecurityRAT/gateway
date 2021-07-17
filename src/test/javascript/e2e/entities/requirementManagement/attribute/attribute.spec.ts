@@ -25,6 +25,7 @@ describe('Attribute e2e test', () => {
     attributeComponentsPage = new AttributeComponentsPage();
     await browser.wait(ec.visibilityOf(attributeComponentsPage.title), 5000);
     expect(await attributeComponentsPage.getTitle()).to.eq('Attributes');
+    await browser.wait(ec.or(ec.visibilityOf(attributeComponentsPage.entities), ec.visibilityOf(attributeComponentsPage.noResult)), 1000);
   });
 
   it('should load create Attribute page', async () => {
@@ -38,13 +39,15 @@ describe('Attribute e2e test', () => {
     const nbButtonsBeforeCreate = await attributeComponentsPage.countDeleteButtons();
 
     await attributeComponentsPage.clickOnCreateButton();
+
     await promise.all([
       attributeUpdatePage.setNameInput('name'),
       attributeUpdatePage.setDescriptionInput('description'),
       attributeUpdatePage.setShowOrderInput('5'),
       attributeUpdatePage.parentSelectLastOption(),
-      attributeUpdatePage.attributeKeySelectLastOption()
+      attributeUpdatePage.attributeKeySelectLastOption(),
     ]);
+
     expect(await attributeUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await attributeUpdatePage.getDescriptionInput()).to.eq('description', 'Expected Description value to be equals to description');
     expect(await attributeUpdatePage.getShowOrderInput()).to.eq('5', 'Expected showOrder value to be equals to 5');
@@ -56,6 +59,7 @@ describe('Attribute e2e test', () => {
       await attributeUpdatePage.getActiveInput().click();
       expect(await attributeUpdatePage.getActiveInput().isSelected(), 'Expected active to be selected').to.be.true;
     }
+
     await attributeUpdatePage.save();
     expect(await attributeUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

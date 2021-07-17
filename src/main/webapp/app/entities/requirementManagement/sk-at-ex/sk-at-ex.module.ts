@@ -11,6 +11,6 @@ import { skAtExRoute } from './sk-at-ex.route';
 @NgModule({
   imports: [GatewaySharedModule, RouterModule.forChild(skAtExRoute)],
   declarations: [SkAtExComponent, SkAtExDetailComponent, SkAtExUpdateComponent, SkAtExDeleteDialogComponent],
-  entryComponents: [SkAtExDeleteDialogComponent]
+  entryComponents: [SkAtExDeleteDialogComponent],
 })
 export class RequirementManagementSkAtExModule {}

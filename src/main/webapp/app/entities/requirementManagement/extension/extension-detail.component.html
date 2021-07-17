@@ -1,30 +1,33 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="extension">
-            <h2><span>Extension</span> {{extension.id}}</h2>
+            <h2><span>Extension</span> {{ extension.id }}</h2>
+
             <hr>
+
             <jhi-alert-error></jhi-alert-error>
+
             <dl class="row-md jh-entity-details">
                 <dt><span>Content</span></dt>
                 <dd>
-                    <span>{{extension.content}}</span>
+                    <span>{{ extension.content }}</span>
                 </dd>
                 <dt><span>Description</span></dt>
                 <dd>
-                    <span>{{extension.description}}</span>
+                    <span>{{ extension.description }}</span>
                 </dd>
                 <dt><span>Show Order</span></dt>
                 <dd>
-                    <span>{{extension.showOrder}}</span>
+                    <span>{{ extension.showOrder }}</span>
                 </dd>
                 <dt><span>Active</span></dt>
                 <dd>
-                    <span>{{extension.active}}</span>
+                    <span>{{ extension.active }}</span>
                 </dd>
                 <dt><span>Extension Key</span></dt>
                 <dd>
                     <div *ngIf="extension.extensionKey">
-                        <a [routerLink]="['/extension-key', extension.extensionKey?.id, 'view']">{{extension.extensionKey?.name}}</a>
+                        <a [routerLink]="['/extension-key', extension.extensionKey?.id, 'view']">{{ extension.extensionKey?.name }}</a>
                     </div>
                 </dd>
             </dl>
@@ -32,13 +35,13 @@
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/extension', extension.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
         </div>
     </div>

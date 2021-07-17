@@ -4,6 +4,8 @@ export class RequirementSetComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-requirement-set div table .btn-danger'));
   title = element.all(by.css('jhi-requirement-set div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,6 +28,7 @@ export class RequirementSetUpdatePage {
   pageTitle = element(by.id('jhi-requirement-set-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   nameInput = element(by.id('field_name'));
   descriptionInput = element(by.id('field_description'));
   showOrderInput = element(by.id('field_showOrder'));

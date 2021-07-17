@@ -12,7 +12,7 @@ import { SkeletonDeleteDialogComponent } from './skeleton-delete-dialog.componen
 
 @Component({
   selector: 'jhi-skeleton',
-  templateUrl: './skeleton.component.html'
+  templateUrl: './skeleton.component.html',
 })
 export class SkeletonComponent implements OnInit, OnDestroy {
   skeletons: ISkeleton[];
@@ -34,7 +34,7 @@ export class SkeletonComponent implements OnInit, OnDestroy {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.page = 0;
     this.links = {
-      last: 0
+      last: 0,
     };
     this.predicate = 'id';
     this.ascending = true;
@@ -45,7 +45,7 @@ export class SkeletonComponent implements OnInit, OnDestroy {
       .query({
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.sort()
+        sort: this.sort(),
       })
       .subscribe((res: HttpResponse<ISkeleton[]>) => this.paginateSkeletons(res.body, res.headers));
   }
@@ -81,7 +81,7 @@ export class SkeletonComponent implements OnInit, OnDestroy {
     return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType: string, base64String: string): void {
+  openFile(contentType = '', base64String: string): void {
     return this.dataUtils.openFile(contentType, base64String);
   }
 
