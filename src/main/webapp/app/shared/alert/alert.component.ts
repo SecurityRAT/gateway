@@ -4,19 +4,17 @@ import { ALERTCSSTOP, ALERTCSSOFFSET } from '../';
 
 @Component({
   selector: 'jhi-alert',
-  template: `
-    <div class="alerts" role="alert">
-      <div
-        *ngFor="let alert of alerts"
-        style="z-index: 10000"
-        class="{{ alert.position }}"
-        [ngStyle]="{ 'top.px': alert.cssTop }"
-        [ngClass]="{ 'jhi-toast': alert.toast }"
-      >
-        <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
-          <ngx-md>{{ alert.msg }}</ngx-md>
-        </ngb-alert>
-      </div>
+  template: ` <div class="alerts" role="alert">
+    <div
+      *ngFor="let alert of alerts"
+      style="z-index: 10000"
+      class="{{ alert.position }}"
+      [ngStyle]="{ 'top.px': alert.cssTop }"
+      [ngClass]="{ 'jhi-toast': alert.toast }"
+    >
+      <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
+        <ngx-md>{{ alert.msg }}</ngx-md>
+      </ngb-alert>
     </div>
   </div>`,
 })
@@ -51,7 +49,7 @@ export class JhiAlertComponent implements OnInit, OnDestroy {
     this.alertService.clear();
   }
 
-  close(alert: JhiAlert): void {
+  close(alert: any): void {
     // NOSONAR can be removed after https://github.com/SonarSource/SonarJS/issues/1930 is resolved
     alert.close?.(this.alerts); // NOSONAR
   }

@@ -5,11 +5,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxMdModule } from 'ngx-md';
-import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  imports: [NgbModule, InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, ReactiveFormsModule, NgxMdModule.forRoot()],
   exports: [
     FormsModule,
     CommonModule,
@@ -18,7 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     InfiniteScrollModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    NgxMdModule
-  ]
+    NgxMdModule,
+  ],
 })
 export class GatewaySharedLibsModule {}

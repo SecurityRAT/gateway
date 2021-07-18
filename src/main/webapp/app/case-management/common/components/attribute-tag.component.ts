@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CMAttribute } from '../';
 @Component({
   selector: 'jhi-attribute-tag',
-  templateUrl: './attribute-tag.component.html'
+  templateUrl: './attribute-tag.component.html',
 })
 export class AttributeTagComponent implements OnInit {
   @Input() attribute: CMAttribute;
@@ -12,7 +12,7 @@ export class AttributeTagComponent implements OnInit {
 
   @Input() showChildrenOnSelect: boolean;
 
-  @Input() count: number;
+  @Input() count: number | any;
 
   @Output() attributeSelectionChanged = new EventEmitter<CMAttribute>();
 
@@ -26,7 +26,7 @@ export class AttributeTagComponent implements OnInit {
    * @param attr the attribute to be emmited
    */
   /* tslint:disable-next-line */
-  private selectAttribute(attr?: CMAttribute) {
+  selectAttribute(attr?: CMAttribute) {
     if (attr !== undefined) {
       this.attributeSelectionChanged.emit(attr);
     } else {
