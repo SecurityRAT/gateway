@@ -25,6 +25,7 @@ describe('SkAtEx e2e test', () => {
     skAtExComponentsPage = new SkAtExComponentsPage();
     await browser.wait(ec.visibilityOf(skAtExComponentsPage.title), 5000);
     expect(await skAtExComponentsPage.getTitle()).to.eq('Sk At Exes');
+    await browser.wait(ec.or(ec.visibilityOf(skAtExComponentsPage.entities), ec.visibilityOf(skAtExComponentsPage.noResult)), 1000);
   });
 
   it('should load create SkAtEx page', async () => {
@@ -38,11 +39,13 @@ describe('SkAtEx e2e test', () => {
     const nbButtonsBeforeCreate = await skAtExComponentsPage.countDeleteButtons();
 
     await skAtExComponentsPage.clickOnCreateButton();
+
     await promise.all([
       skAtExUpdatePage.skeletonSelectLastOption(),
       skAtExUpdatePage.attributeSelectLastOption(),
-      skAtExUpdatePage.extensionSelectLastOption()
+      skAtExUpdatePage.extensionSelectLastOption(),
     ]);
+
     await skAtExUpdatePage.save();
     expect(await skAtExUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

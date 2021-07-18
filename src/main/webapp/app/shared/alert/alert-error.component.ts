@@ -22,7 +22,7 @@ import { AlertError } from './alert-error.model';
         </ngb-alert>
       </div>
     </div>
-  `
+  </div>`,
 })
 export class AlertErrorComponent implements OnDestroy {
   alerts: any[] = [];
@@ -117,7 +117,7 @@ export class AlertErrorComponent implements OnDestroy {
           timeout: 5000,
           toast: this.alertService.isToast(),
           scoped: true,
-          position: 'top right'
+          position: 'top right',
         },
         this.alerts
       )
@@ -128,5 +128,10 @@ export class AlertErrorComponent implements OnDestroy {
       alert.cssTop = this.defaultTop * val + val * this.offset;
       // if necessary increase the close timeout
     }
+  }
+
+  close(alert: JhiAlert): void {
+    // NOSONAR can be removed after https://github.com/SonarSource/SonarJS/issues/1930 is resolved
+    alert.close?.(this.alerts); // NOSONAR
   }
 }

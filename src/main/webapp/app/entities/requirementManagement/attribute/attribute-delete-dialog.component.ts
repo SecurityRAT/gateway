@@ -6,14 +6,14 @@ import { IAttribute } from 'app/shared/model/requirementManagement/attribute.mod
 import { AttributeService } from './attribute.service';
 
 @Component({
-  templateUrl: './attribute-delete-dialog.component.html'
+  templateUrl: './attribute-delete-dialog.component.html',
 })
 export class AttributeDeleteDialogComponent {
   attribute?: IAttribute;
 
   constructor(protected attributeService: AttributeService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

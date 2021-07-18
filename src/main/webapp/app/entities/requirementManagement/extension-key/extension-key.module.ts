@@ -11,6 +11,6 @@ import { extensionKeyRoute } from './extension-key.route';
 @NgModule({
   imports: [GatewaySharedModule, RouterModule.forChild(extensionKeyRoute)],
   declarations: [ExtensionKeyComponent, ExtensionKeyDetailComponent, ExtensionKeyUpdateComponent, ExtensionKeyDeleteDialogComponent],
-  entryComponents: [ExtensionKeyDeleteDialogComponent]
+  entryComponents: [ExtensionKeyDeleteDialogComponent],
 })
 export class RequirementManagementExtensionKeyModule {}

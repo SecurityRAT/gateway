@@ -4,6 +4,8 @@ export class ExtensionComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-extension div table .btn-danger'));
   title = element.all(by.css('jhi-extension div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,10 +28,12 @@ export class ExtensionUpdatePage {
   pageTitle = element(by.id('jhi-extension-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   contentInput = element(by.id('field_content'));
   descriptionInput = element(by.id('field_description'));
   showOrderInput = element(by.id('field_showOrder'));
   activeInput = element(by.id('field_active'));
+
   extensionKeySelect = element(by.id('field_extensionKey'));
 
   async getPageTitle(): Promise<string> {
@@ -65,10 +69,7 @@ export class ExtensionUpdatePage {
   }
 
   async extensionKeySelectLastOption(): Promise<void> {
-    await this.extensionKeySelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.extensionKeySelect.all(by.tagName('option')).last().click();
   }
 
   async extensionKeySelectOption(option: string): Promise<void> {

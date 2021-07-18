@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IAttribute, Attribute } from 'app/shared/model/requirementManagement/attribute.model';
@@ -17,13 +16,11 @@ type SelectableEntity = IAttribute | IAttributeKey;
 
 @Component({
   selector: 'jhi-attribute-update',
-  templateUrl: './attribute-update.component.html'
+  templateUrl: './attribute-update.component.html',
 })
 export class AttributeUpdateComponent implements OnInit {
   isSaving = false;
-
   attributes: IAttribute[] = [];
-
   attributekeys: IAttributeKey[] = [];
 
   editForm = this.fb.group({
@@ -33,7 +30,7 @@ export class AttributeUpdateComponent implements OnInit {
     showOrder: [],
     active: [null, [Validators.required]],
     parent: [],
-    attributeKey: []
+    attributeKey: [],
   });
 
   constructor(
@@ -49,23 +46,9 @@ export class AttributeUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ attribute }) => {
       this.updateForm(attribute);
 
-      this.attributeService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IAttribute[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAttribute[]) => (this.attributes = resBody));
+      this.attributeService.query().subscribe((res: HttpResponse<IAttribute[]>) => (this.attributes = res.body || []));
 
-      this.attributeKeyService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IAttributeKey[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAttributeKey[]) => (this.attributekeys = resBody));
+      this.attributeKeyService.query().subscribe((res: HttpResponse<IAttributeKey[]>) => (this.attributekeys = res.body || []));
     });
   }
 
@@ -77,7 +60,7 @@ export class AttributeUpdateComponent implements OnInit {
       showOrder: attribute.showOrder,
       active: attribute.active,
       parent: attribute.parent,
-      attributeKey: attribute.attributeKey
+      attributeKey: attribute.attributeKey,
     });
   }
 
@@ -89,7 +72,7 @@ export class AttributeUpdateComponent implements OnInit {
     this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event: Event, field: string, isImage: boolean): void {
+  setFileData(event: any, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
       this.eventManager.broadcast(
         new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
@@ -120,7 +103,7 @@ export class AttributeUpdateComponent implements OnInit {
       showOrder: this.editForm.get(['showOrder'])!.value,
       active: this.editForm.get(['active'])!.value,
       parent: this.editForm.get(['parent'])!.value,
-      attributeKey: this.editForm.get(['attributeKey'])!.value
+      attributeKey: this.editForm.get(['attributeKey'])!.value,
     };
   }
 

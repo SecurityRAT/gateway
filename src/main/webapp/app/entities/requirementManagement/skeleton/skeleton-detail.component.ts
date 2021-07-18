@@ -6,7 +6,7 @@ import { ISkeleton } from 'app/shared/model/requirementManagement/skeleton.model
 
 @Component({
   selector: 'jhi-skeleton-detail',
-  templateUrl: './skeleton-detail.component.html'
+  templateUrl: './skeleton-detail.component.html',
 })
 export class SkeletonDetailComponent implements OnInit {
   skeleton: ISkeleton | null = null;
@@ -14,16 +14,14 @@ export class SkeletonDetailComponent implements OnInit {
   constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ skeleton }) => {
-      this.skeleton = skeleton;
-    });
+    this.activatedRoute.data.subscribe(({ skeleton }) => (this.skeleton = skeleton));
   }
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType: string, base64String: string): void {
+  openFile(contentType = '', base64String: string): void {
     this.dataUtils.openFile(contentType, base64String);
   }
 

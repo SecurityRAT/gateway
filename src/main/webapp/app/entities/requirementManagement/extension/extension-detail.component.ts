@@ -6,7 +6,7 @@ import { IExtension } from 'app/shared/model/requirementManagement/extension.mod
 
 @Component({
   selector: 'jhi-extension-detail',
-  templateUrl: './extension-detail.component.html'
+  templateUrl: './extension-detail.component.html',
 })
 export class ExtensionDetailComponent implements OnInit {
   extension: IExtension | null = null;
@@ -14,16 +14,14 @@ export class ExtensionDetailComponent implements OnInit {
   constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ extension }) => {
-      this.extension = extension;
-    });
+    this.activatedRoute.data.subscribe(({ extension }) => (this.extension = extension));
   }
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType: string, base64String: string): void {
+  openFile(contentType = '', base64String: string): void {
     this.dataUtils.openFile(contentType, base64String);
   }
 

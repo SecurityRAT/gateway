@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
+import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { IExtensionKey, ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
 import { ExtensionKeyService } from './extension-key.service';
@@ -38,45 +39,45 @@ export const extensionKeyRoute: Routes = [
     path: '',
     component: ExtensionKeyComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'ExtensionKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'ExtensionKeys',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: ExtensionKeyDetailComponent,
     resolve: {
-      extensionKey: ExtensionKeyResolve
+      extensionKey: ExtensionKeyResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'ExtensionKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'ExtensionKeys',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: ExtensionKeyUpdateComponent,
     resolve: {
-      extensionKey: ExtensionKeyResolve
+      extensionKey: ExtensionKeyResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'ExtensionKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'ExtensionKeys',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: ExtensionKeyUpdateComponent,
     resolve: {
-      extensionKey: ExtensionKeyResolve
+      extensionKey: ExtensionKeyResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'ExtensionKeys'
+      authorities: [Authority.USER],
+      pageTitle: 'ExtensionKeys',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

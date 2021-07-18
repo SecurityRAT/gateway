@@ -1,10 +1,10 @@
 const path = require('path');
 
-const tsconfig = require('../tsconfig.json');
+const tsconfig = require('../tsconfig.base.json');
 
 module.exports = {
-    root,
-    mapTypescriptAliasToWebpackAlias
+  root,
+  mapTypescriptAliasToWebpackAlias
 };
 
 const _root = path.resolve(__dirname, '..');

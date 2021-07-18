@@ -1,6 +1,5 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { take, map } from 'rxjs/operators';
 import { ExtensionKeyService } from 'app/entities/requirementManagement/extension-key/extension-key.service';
 import { IExtensionKey, ExtensionKey } from 'app/shared/model/requirementManagement/extension-key.model';
 import { ExtensionSection } from 'app/shared/model/enumerations/extension-section.model';
@@ -13,9 +12,10 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IExtensionKey;
     let expectedResult: IExtensionKey | IExtensionKey[] | boolean | null;
+
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule]
+        imports: [HttpClientTestingModule],
       });
       expectedResult = null;
       injector = getTestBed();
@@ -28,10 +28,8 @@ describe('Service Tests', () => {
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign({}, elemDefault);
-        service
-          .find(123)
-          .pipe(take(1))
-          .subscribe(resp => (expectedResult = resp.body));
+
+        service.find(123).subscribe(resp => (expectedResult = resp.body));
 
         const req = httpMock.expectOne({ method: 'GET' });
         req.flush(returnedFromService);
@@ -41,15 +39,15 @@ describe('Service Tests', () => {
       it('should create a ExtensionKey', () => {
         const returnedFromService = Object.assign(
           {
-            id: 0
+            id: 0,
           },
           elemDefault
         );
+
         const expected = Object.assign({}, returnedFromService);
-        service
-          .create(new ExtensionKey())
-          .pipe(take(1))
-          .subscribe(resp => (expectedResult = resp.body));
+
+        service.create(new ExtensionKey()).subscribe(resp => (expectedResult = resp.body));
+
         const req = httpMock.expectOne({ method: 'POST' });
         req.flush(returnedFromService);
         expect(expectedResult).toMatchObject(expected);
@@ -63,16 +61,15 @@ describe('Service Tests', () => {
             section: 'BBBBBB',
             type: 'BBBBBB',
             showOrder: 1,
-            active: true
+            active: true,
           },
           elemDefault
         );
 
         const expected = Object.assign({}, returnedFromService);
-        service
-          .update(expected)
-          .pipe(take(1))
-          .subscribe(resp => (expectedResult = resp.body));
+
+        service.update(expected).subscribe(resp => (expectedResult = resp.body));
+
         const req = httpMock.expectOne({ method: 'PUT' });
         req.flush(returnedFromService);
         expect(expectedResult).toMatchObject(expected);
@@ -86,18 +83,15 @@ describe('Service Tests', () => {
             section: 'BBBBBB',
             type: 'BBBBBB',
             showOrder: 1,
-            active: true
+            active: true,
           },
           elemDefault
         );
+
         const expected = Object.assign({}, returnedFromService);
-        service
-          .query()
-          .pipe(
-            take(1),
-            map(resp => resp.body)
-          )
-          .subscribe(body => (expectedResult = body));
+
+        service.query().subscribe(resp => (expectedResult = resp.body));
+
         const req = httpMock.expectOne({ method: 'GET' });
         req.flush([returnedFromService]);
         httpMock.verify();

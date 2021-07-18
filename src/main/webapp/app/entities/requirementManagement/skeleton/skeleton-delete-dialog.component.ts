@@ -6,14 +6,14 @@ import { ISkeleton } from 'app/shared/model/requirementManagement/skeleton.model
 import { SkeletonService } from './skeleton.service';
 
 @Component({
-  templateUrl: './skeleton-delete-dialog.component.html'
+  templateUrl: './skeleton-delete-dialog.component.html',
 })
 export class SkeletonDeleteDialogComponent {
   skeleton?: ISkeleton;
 
   constructor(protected skeletonService: SkeletonService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear(): void {
+  cancel(): void {
     this.activeModal.dismiss();
   }
 

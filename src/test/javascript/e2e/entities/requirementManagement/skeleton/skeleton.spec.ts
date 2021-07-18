@@ -25,6 +25,7 @@ describe('Skeleton e2e test', () => {
     skeletonComponentsPage = new SkeletonComponentsPage();
     await browser.wait(ec.visibilityOf(skeletonComponentsPage.title), 5000);
     expect(await skeletonComponentsPage.getTitle()).to.eq('Skeletons');
+    await browser.wait(ec.or(ec.visibilityOf(skeletonComponentsPage.entities), ec.visibilityOf(skeletonComponentsPage.noResult)), 1000);
   });
 
   it('should load create Skeleton page', async () => {
@@ -38,12 +39,14 @@ describe('Skeleton e2e test', () => {
     const nbButtonsBeforeCreate = await skeletonComponentsPage.countDeleteButtons();
 
     await skeletonComponentsPage.clickOnCreateButton();
+
     await promise.all([
       skeletonUpdatePage.setNameInput('name'),
       skeletonUpdatePage.setDescriptionInput('description'),
       skeletonUpdatePage.setShowOrderInput('5'),
-      skeletonUpdatePage.requirementSetSelectLastOption()
+      skeletonUpdatePage.requirementSetSelectLastOption(),
     ]);
+
     expect(await skeletonUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await skeletonUpdatePage.getDescriptionInput()).to.eq('description', 'Expected Description value to be equals to description');
     expect(await skeletonUpdatePage.getShowOrderInput()).to.eq('5', 'Expected showOrder value to be equals to 5');
@@ -55,6 +58,7 @@ describe('Skeleton e2e test', () => {
       await skeletonUpdatePage.getActiveInput().click();
       expect(await skeletonUpdatePage.getActiveInput().isSelected(), 'Expected active to be selected').to.be.true;
     }
+
     await skeletonUpdatePage.save();
     expect(await skeletonUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

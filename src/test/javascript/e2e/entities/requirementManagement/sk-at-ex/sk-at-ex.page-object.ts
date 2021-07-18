@@ -4,6 +4,8 @@ export class SkAtExComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-sk-at-ex div table .btn-danger'));
   title = element.all(by.css('jhi-sk-at-ex div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,6 +28,7 @@ export class SkAtExUpdatePage {
   pageTitle = element(by.id('jhi-sk-at-ex-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   skeletonSelect = element(by.id('field_skeleton'));
   attributeSelect = element(by.id('field_attribute'));
   extensionSelect = element(by.id('field_extension'));
@@ -35,10 +38,7 @@ export class SkAtExUpdatePage {
   }
 
   async skeletonSelectLastOption(): Promise<void> {
-    await this.skeletonSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.skeletonSelect.all(by.tagName('option')).last().click();
   }
 
   async skeletonSelectOption(option: string): Promise<void> {
@@ -54,10 +54,7 @@ export class SkAtExUpdatePage {
   }
 
   async attributeSelectLastOption(): Promise<void> {
-    await this.attributeSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.attributeSelect.all(by.tagName('option')).last().click();
   }
 
   async attributeSelectOption(option: string): Promise<void> {
@@ -73,10 +70,7 @@ export class SkAtExUpdatePage {
   }
 
   async extensionSelectLastOption(): Promise<void> {
-    await this.extensionSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.extensionSelect.all(by.tagName('option')).last().click();
   }
 
   async extensionSelectOption(option: string): Promise<void> {

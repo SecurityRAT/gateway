@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
+import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { IRequirementSet, RequirementSet } from 'app/shared/model/requirementManagement/requirement-set.model';
 import { RequirementSetService } from './requirement-set.service';
@@ -38,45 +39,45 @@ export const requirementSetRoute: Routes = [
     path: '',
     component: RequirementSetComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'RequirementSets'
+      authorities: [Authority.USER],
+      pageTitle: 'RequirementSets',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: RequirementSetDetailComponent,
     resolve: {
-      requirementSet: RequirementSetResolve
+      requirementSet: RequirementSetResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'RequirementSets'
+      authorities: [Authority.USER],
+      pageTitle: 'RequirementSets',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: RequirementSetUpdateComponent,
     resolve: {
-      requirementSet: RequirementSetResolve
+      requirementSet: RequirementSetResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'RequirementSets'
+      authorities: [Authority.USER],
+      pageTitle: 'RequirementSets',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: RequirementSetUpdateComponent,
     resolve: {
-      requirementSet: RequirementSetResolve
+      requirementSet: RequirementSetResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'RequirementSets'
+      authorities: [Authority.USER],
+      pageTitle: 'RequirementSets',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

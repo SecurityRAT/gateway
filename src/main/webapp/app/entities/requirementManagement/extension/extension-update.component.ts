@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IExtension, Extension } from 'app/shared/model/requirementManagement/extension.model';
@@ -15,11 +14,10 @@ import { ExtensionKeyService } from 'app/entities/requirementManagement/extensio
 
 @Component({
   selector: 'jhi-extension-update',
-  templateUrl: './extension-update.component.html'
+  templateUrl: './extension-update.component.html',
 })
 export class ExtensionUpdateComponent implements OnInit {
   isSaving = false;
-
   extensionkeys: IExtensionKey[] = [];
 
   editForm = this.fb.group({
@@ -28,7 +26,7 @@ export class ExtensionUpdateComponent implements OnInit {
     description: [],
     showOrder: [],
     active: [null, [Validators.required]],
-    extensionKey: []
+    extensionKey: [],
   });
 
   constructor(
@@ -44,14 +42,7 @@ export class ExtensionUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ extension }) => {
       this.updateForm(extension);
 
-      this.extensionKeyService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IExtensionKey[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IExtensionKey[]) => (this.extensionkeys = resBody));
+      this.extensionKeyService.query().subscribe((res: HttpResponse<IExtensionKey[]>) => (this.extensionkeys = res.body || []));
     });
   }
 
@@ -62,7 +53,7 @@ export class ExtensionUpdateComponent implements OnInit {
       description: extension.description,
       showOrder: extension.showOrder,
       active: extension.active,
-      extensionKey: extension.extensionKey
+      extensionKey: extension.extensionKey,
     });
   }
 
@@ -74,7 +65,7 @@ export class ExtensionUpdateComponent implements OnInit {
     this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event: Event, field: string, isImage: boolean): void {
+  setFileData(event: any, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
       this.eventManager.broadcast(
         new JhiEventWithContent<AlertError>('gatewayApp.error', { message: err.message })
@@ -104,7 +95,7 @@ export class ExtensionUpdateComponent implements OnInit {
       description: this.editForm.get(['description'])!.value,
       showOrder: this.editForm.get(['showOrder'])!.value,
       active: this.editForm.get(['active'])!.value,
-      extensionKey: this.editForm.get(['extensionKey'])!.value
+      extensionKey: this.editForm.get(['extensionKey'])!.value,
     };
   }
 

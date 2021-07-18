@@ -25,6 +25,10 @@ describe('AttributeKey e2e test', () => {
     attributeKeyComponentsPage = new AttributeKeyComponentsPage();
     await browser.wait(ec.visibilityOf(attributeKeyComponentsPage.title), 5000);
     expect(await attributeKeyComponentsPage.getTitle()).to.eq('Attribute Keys');
+    await browser.wait(
+      ec.or(ec.visibilityOf(attributeKeyComponentsPage.entities), ec.visibilityOf(attributeKeyComponentsPage.noResult)),
+      1000
+    );
   });
 
   it('should load create AttributeKey page', async () => {
@@ -38,13 +42,15 @@ describe('AttributeKey e2e test', () => {
     const nbButtonsBeforeCreate = await attributeKeyComponentsPage.countDeleteButtons();
 
     await attributeKeyComponentsPage.clickOnCreateButton();
+
     await promise.all([
       attributeKeyUpdatePage.setNameInput('name'),
       attributeKeyUpdatePage.setDescriptionInput('description'),
       attributeKeyUpdatePage.typeSelectLastOption(),
       attributeKeyUpdatePage.setShowOrderInput('5'),
-      attributeKeyUpdatePage.requirementSetSelectLastOption()
+      attributeKeyUpdatePage.requirementSetSelectLastOption(),
     ]);
+
     expect(await attributeKeyUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await attributeKeyUpdatePage.getDescriptionInput()).to.eq(
       'description',
@@ -59,6 +65,7 @@ describe('AttributeKey e2e test', () => {
       await attributeKeyUpdatePage.getActiveInput().click();
       expect(await attributeKeyUpdatePage.getActiveInput().isSelected(), 'Expected active to be selected').to.be.true;
     }
+
     await attributeKeyUpdatePage.save();
     expect(await attributeKeyUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

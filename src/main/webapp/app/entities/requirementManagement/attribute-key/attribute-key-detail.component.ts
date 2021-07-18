@@ -6,7 +6,7 @@ import { IAttributeKey } from 'app/shared/model/requirementManagement/attribute-
 
 @Component({
   selector: 'jhi-attribute-key-detail',
-  templateUrl: './attribute-key-detail.component.html'
+  templateUrl: './attribute-key-detail.component.html',
 })
 export class AttributeKeyDetailComponent implements OnInit {
   attributeKey: IAttributeKey | null = null;
@@ -14,16 +14,14 @@ export class AttributeKeyDetailComponent implements OnInit {
   constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ attributeKey }) => {
-      this.attributeKey = attributeKey;
-    });
+    this.activatedRoute.data.subscribe(({ attributeKey }) => (this.attributeKey = attributeKey));
   }
 
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }
 
-  openFile(contentType: string, base64String: string): void {
+  openFile(contentType = '', base64String: string): void {
     this.dataUtils.openFile(contentType, base64String);
   }
 

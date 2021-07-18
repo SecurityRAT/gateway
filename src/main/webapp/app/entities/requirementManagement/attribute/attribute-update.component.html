@@ -2,13 +2,15 @@
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-attribute-heading">Create or edit a Attribute</h2>
+
             <div>
                 <jhi-alert-error></jhi-alert-error>
+
                 <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
-                        readonly />
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
@@ -20,16 +22,19 @@
                         </small>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_description">Description</label>
                     <textarea class="form-control" name="description" id="field_description"
                               formControlName="description"></textarea>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_showOrder">Show Order</label>
                     <input type="number" class="form-control" name="showOrder" id="field_showOrder"
                            formControlName="showOrder"/>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_active">Active</label>
                     <input type="checkbox" class="form-control" name="active" id="field_active"
@@ -46,23 +51,26 @@
                     <label class="form-control-label" for="field_parent">Parent</label>
                     <select class="form-control" id="field_parent" name="parent" formControlName="parent">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="attributeOption.id === editForm.get('parent')!.value?.id ? editForm.get('parent')!.value : attributeOption" *ngFor="let attributeOption of attributes; trackBy: trackById">{{attributeOption.name}}</option>
+                        <option [ngValue]="attributeOption.id === editForm.get('parent')!.value?.id ? editForm.get('parent')!.value : attributeOption" *ngFor="let attributeOption of attributes; trackBy: trackById">{{ attributeOption.name }}</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label class="form-control-label" for="field_attributeKey">Attribute Key</label>
                     <select class="form-control" id="field_attributeKey" name="attributeKey" formControlName="attributeKey">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="attributeKeyOption.id === editForm.get('attributeKey')!.value?.id ? editForm.get('attributeKey')!.value : attributeKeyOption" *ngFor="let attributeKeyOption of attributekeys; trackBy: trackById">{{attributeKeyOption.name}}</option>
+                        <option [ngValue]="attributeKeyOption.id === editForm.get('attributeKey')!.value?.id ? editForm.get('attributeKey')!.value : attributeKeyOption" *ngFor="let attributeKeyOption of attributekeys; trackBy: trackById">{{ attributeKeyOption.name }}</option>
                     </select>
                 </div>
             </div>
+
             <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
+
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>
         </form>

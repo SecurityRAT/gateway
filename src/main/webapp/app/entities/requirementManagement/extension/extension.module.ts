@@ -11,6 +11,6 @@ import { extensionRoute } from './extension.route';
 @NgModule({
   imports: [GatewaySharedModule, RouterModule.forChild(extensionRoute)],
   declarations: [ExtensionComponent, ExtensionDetailComponent, ExtensionUpdateComponent, ExtensionDeleteDialogComponent],
-  entryComponents: [ExtensionDeleteDialogComponent]
+  entryComponents: [ExtensionDeleteDialogComponent],
 })
 export class RequirementManagementExtensionModule {}

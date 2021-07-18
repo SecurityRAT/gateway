@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router
 import { Observable, of, EMPTY } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
+import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { IExtension, Extension } from 'app/shared/model/requirementManagement/extension.model';
 import { ExtensionService } from './extension.service';
@@ -38,45 +39,45 @@ export const extensionRoute: Routes = [
     path: '',
     component: ExtensionComponent,
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Extensions'
+      authorities: [Authority.USER],
+      pageTitle: 'Extensions',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: ExtensionDetailComponent,
     resolve: {
-      extension: ExtensionResolve
+      extension: ExtensionResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Extensions'
+      authorities: [Authority.USER],
+      pageTitle: 'Extensions',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: ExtensionUpdateComponent,
     resolve: {
-      extension: ExtensionResolve
+      extension: ExtensionResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Extensions'
+      authorities: [Authority.USER],
+      pageTitle: 'Extensions',
     },
-    canActivate: [UserRouteAccessService]
+    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
     component: ExtensionUpdateComponent,
     resolve: {
-      extension: ExtensionResolve
+      extension: ExtensionResolve,
     },
     data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'Extensions'
+      authorities: [Authority.USER],
+      pageTitle: 'Extensions',
     },
-    canActivate: [UserRouteAccessService]
-  }
+    canActivate: [UserRouteAccessService],
+  },
 ];

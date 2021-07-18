@@ -4,6 +4,8 @@ export class AttributeComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-attribute div table .btn-danger'));
   title = element.all(by.css('jhi-attribute div h2#page-heading span')).first();
+  noResult = element(by.id('no-result'));
+  entities = element(by.id('entities'));
 
   async clickOnCreateButton(): Promise<void> {
     await this.createButton.click();
@@ -26,10 +28,12 @@ export class AttributeUpdatePage {
   pageTitle = element(by.id('jhi-attribute-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+
   nameInput = element(by.id('field_name'));
   descriptionInput = element(by.id('field_description'));
   showOrderInput = element(by.id('field_showOrder'));
   activeInput = element(by.id('field_active'));
+
   parentSelect = element(by.id('field_parent'));
   attributeKeySelect = element(by.id('field_attributeKey'));
 
@@ -66,10 +70,7 @@ export class AttributeUpdatePage {
   }
 
   async parentSelectLastOption(): Promise<void> {
-    await this.parentSelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.parentSelect.all(by.tagName('option')).last().click();
   }
 
   async parentSelectOption(option: string): Promise<void> {
@@ -85,10 +86,7 @@ export class AttributeUpdatePage {
   }
 
   async attributeKeySelectLastOption(): Promise<void> {
-    await this.attributeKeySelect
-      .all(by.tagName('option'))
-      .last()
-      .click();
+    await this.attributeKeySelect.all(by.tagName('option')).last().click();
   }
 
   async attributeKeySelectOption(option: string): Promise<void> {

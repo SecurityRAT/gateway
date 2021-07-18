@@ -1,70 +1,76 @@
 <div>
     <h2 id="page-heading">
         <span>Extension Keys</span>
+
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-extension-key" [routerLink]="['/extension-key/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
+            <fa-icon icon="plus"></fa-icon>
+            <span>
             Create a new Extension Key
             </span>
         </button>
     </h2>
+
     <jhi-alert-error></jhi-alert-error>
+
     <jhi-alert></jhi-alert>
-    <br/>
-    <div class="alert alert-warning" *ngIf="extensionKeys?.length === 0">
+
+    <div class="alert alert-warning" id="no-result" *ngIf="extensionKeys?.length === 0">
         <span>No extensionKeys found</span>
     </div>
-    <div class="table-responsive" *ngIf="extensionKeys?.length > 0">
+
+    <div class="table-responsive" id="entities" *ngIf="extensionKeys && extensionKeys.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="section"><span>Section</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="type"><span>Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="showOrder"><span>Show Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="requirementSet.name"><span>Requirement Set</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="section"><span>Section</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="type"><span>Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="showOrder"><span>Show Order</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="requirementSet.name"><span>Requirement Set</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let extensionKey of extensionKeys ;trackBy: trackId">
-                <td><a [routerLink]="['/extension-key', extensionKey.id, 'view' ]">{{extensionKey.id}}</a></td>
-                <td>{{extensionKey.name}}</td>
-                <td>{{extensionKey.description}}</td>
-                <td>{{extensionKey.section}}</td>
-                <td>{{extensionKey.type}}</td>
-                <td>{{extensionKey.showOrder}}</td>
-                <td>{{extensionKey.active}}</td>
-                <td>
-                    <div *ngIf="extensionKey.requirementSet">
-                        <a [routerLink]="['/requirement-set', extensionKey.requirementSet?.id, 'view' ]" >{{extensionKey.requirementSet?.name}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="submit"
-                                [routerLink]="['/extension-key', extensionKey.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/extension-key', extensionKey.id, 'edit']"
-                                class="btn btn-primary btn-sm">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
-                        </button>
-                        <button type="submit" (click)="delete(extensionKey)"
-                                class="btn btn-danger btn-sm">
-                            <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+                <tr *ngFor="let extensionKey of extensionKeys ;trackBy: trackId">
+                    <td><a [routerLink]="['/extension-key', extensionKey.id, 'view']">{{ extensionKey.id }}</a></td>
+                    <td>{{ extensionKey.name }}</td>
+                    <td>{{ extensionKey.description }}</td>
+                    <td>{{ extensionKey.section }}</td>
+                    <td>{{ extensionKey.type }}</td>
+                    <td>{{ extensionKey.showOrder }}</td>
+                    <td>{{ extensionKey.active }}</td>
+                    <td>
+                        <div *ngIf="extensionKey.requirementSet">
+                            <a [routerLink]="['/requirement-set', extensionKey.requirementSet?.id, 'view']" >{{ extensionKey.requirementSet?.name }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/extension-key', extensionKey.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/extension-key', extensionKey.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(extensionKey)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

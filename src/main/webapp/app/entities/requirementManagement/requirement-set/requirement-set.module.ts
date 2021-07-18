@@ -14,8 +14,8 @@ import { requirementSetRoute } from './requirement-set.route';
     RequirementSetComponent,
     RequirementSetDetailComponent,
     RequirementSetUpdateComponent,
-    RequirementSetDeleteDialogComponent
+    RequirementSetDeleteDialogComponent,
   ],
-  entryComponents: [RequirementSetDeleteDialogComponent]
+  entryComponents: [RequirementSetDeleteDialogComponent],
 })
 export class RequirementManagementRequirementSetModule {}

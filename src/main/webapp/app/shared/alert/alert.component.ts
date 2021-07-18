@@ -18,7 +18,7 @@ import { ALERTCSSTOP, ALERTCSSOFFSET } from '../';
         </ngb-alert>
       </div>
     </div>
-  `
+  </div>`,
 })
 export class JhiAlertComponent implements OnInit, OnDestroy {
   alerts: any[] = [];
@@ -49,5 +49,10 @@ export class JhiAlertComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.alertService.clear();
+  }
+
+  close(alert: JhiAlert): void {
+    // NOSONAR can be removed after https://github.com/SonarSource/SonarJS/issues/1930 is resolved
+    alert.close?.(this.alerts); // NOSONAR
   }
 }

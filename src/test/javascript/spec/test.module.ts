@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiDataUtils, JhiDateUtils, JhiEventManager, JhiAlertService, JhiParseLinks, JhiOrderByPipe, JhiFilterPipe } from 'ng-jhipster';
+import { SessionStorageService, LocalStorageService } from 'ngx-webstorage';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { MockAccountService } from './helpers/mock-account.service';
 import { MockActivatedRoute, MockRouter } from './helpers/mock-route.service';
 import { MockActiveModal } from './helpers/mock-active-modal.service';
+import { MockAlertService } from './helpers/mock-alert.service';
 import { MockEventManager } from './helpers/mock-event-manager.service';
 
 @NgModule({
@@ -21,33 +23,41 @@ import { MockEventManager } from './helpers/mock-event-manager.service';
     JhiOrderByPipe,
     {
       provide: JhiEventManager,
-      useClass: MockEventManager
+      useClass: MockEventManager,
     },
     {
       provide: NgbActiveModal,
-      useClass: MockActiveModal
+      useClass: MockActiveModal,
     },
     {
       provide: ActivatedRoute,
-      useValue: new MockActivatedRoute({ id: 123 })
+      useValue: new MockActivatedRoute({ id: 123 }),
     },
     {
       provide: Router,
-      useClass: MockRouter
+      useClass: MockRouter,
     },
     {
       provide: AccountService,
-      useClass: MockAccountService
+      useClass: MockAccountService,
     },
     {
       provide: JhiAlertService,
-      useValue: null
+      useClass: MockAlertService,
     },
     {
       provide: NgbModal,
-      useValue: null
-    }
+      useValue: null,
+    },
+    {
+      provide: SessionStorageService,
+      useValue: null,
+    },
+    {
+      provide: LocalStorageService,
+      useValue: null,
+    },
   ],
-  imports: [HttpClientTestingModule]
+  imports: [HttpClientTestingModule],
 })
 export class GatewayTestModule {}
