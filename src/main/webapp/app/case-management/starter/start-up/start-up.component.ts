@@ -105,6 +105,8 @@ export class StartUpComponent implements OnInit {
         .findAttributes(this.selectedRequirementSet.id, CMAttributeType.PARAMETER)
         .subscribe((res: HttpResponse<CMAttribute[]>) => {
           this.onSuccess(res.body, this.attributes);
+          console.log(this.attributes);
+          console.log(this.changeSelectionProperties);
           if (this.changeSelectionProperties.selectedAttributes !== undefined && this.attributes) {
             this.util.updatePropertyInArray(this.attributes, { selected: true }, this.changeSelectionProperties.selectedAttributes);
           }
@@ -120,8 +122,11 @@ export class StartUpComponent implements OnInit {
         .query(CMAttribute, ATTRIBUTES_URI, { requirementSet: this.selectedRequirementSet.id, type: CMAttributeType.PARAMETER })
         .subscribe((res: HttpResponse<CMAttribute[]>) => {
           this.onSuccess(res.body, this.attributes);
-          if (this.changeSelectionProperties.selectedAttributes !== undefined && this.attributes) {
+          console.log(this.changeSelectionProperties);
+          if (this.attributes) {
+            //this.changeSelectionProperties.selectedAttributes !== undefined &&
             this.util.updatePropertyInArray(this.attributes, { selected: true }, this.changeSelectionProperties.selectedAttributes);
+            console.log(this.attributes);
             this.attributes = [...this.attributes];
           }
         });

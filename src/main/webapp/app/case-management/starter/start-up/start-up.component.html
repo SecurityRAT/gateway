@@ -12,7 +12,7 @@
         <ngb-tab [title]="tabs[0].title" [id]="tabs[0].id" [disabled]="tabs[0].disabled">
             <ng-template ngbTabContent class="d-flex justify-content-center">
                 <ngb-alert type="warning" class="text-center" [dismissible]="false"
-                    *ngIf="requirementSets.length === 0">No requirement set were found.</ngb-alert>
+                    *ngIf="requirementSets.length === 0">No requirement set was found.</ngb-alert>
                 <div class="card-deck">
                     <div class="border-secrat card jh-card text-center"
                         [ngClass]="selectedRequirementSet && {'border-success text-success': requirementSet.id == selectedRequirementSet.id, 'border-light text-secondary': requirementSet.id != selectedRequirementSet.id}"
@@ -68,13 +68,13 @@
                                 </h4>
                             </label>
                         </div>
-                        <div class="form-group row" *ngFor="let attributeKey of attributeKeys">
+                        <div class="form-group row" *ngFor="let attributeKey of attributes">
                             <label for="" class="form-control-label col-sm-3">
                                 <strong>{{attributeKey.name}}:</strong>
                                 <fa-icon [icon]="faQuestionCircle" [ngbTooltip]="attributeKey.description"></fa-icon>
                             </label>
 
-                            <jhi-attribute-tag *ngFor="let attribute of (attributes | filter: {keyId: attributeKey.id})"
+                            <jhi-attribute-tag *ngFor="let attribute of attributeKey.values"
                                 [attribute]="attribute" [count]="-1" [checkboxType]="true"
                                 [showChildrenOnSelect]="true">
                             </jhi-attribute-tag>
