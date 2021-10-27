@@ -21,7 +21,6 @@ import {
   ENHANCEMENTS_URI,
   STATUS_URI,
   REQUIREMENTS_URI,
-  ATTRIBUTE_URI,
   REQUIREMENTSET_URI,
   ATTRIBUTEKEY_URI
 } from '../../common/';
@@ -258,7 +257,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     } else {
       /* Backend load Attribute with ids */
       this._backendService
-        .query(CMAttribute, ATTRIBUTE_URI, { ids: this.artifactSettings.parameterAttributes.ids })
+        .query(CMAttribute, ATTRIBUTES_URI, { ids: this.artifactSettings.parameterAttributes.ids })
         .subscribe((res: HttpResponse<CMAttribute[]>) => {
           this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
         });

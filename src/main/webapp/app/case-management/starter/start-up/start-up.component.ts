@@ -124,7 +124,7 @@ export class StartUpComponent implements OnInit {
           this.onSuccess(res.body, this.attributes);
           console.log(this.changeSelectionProperties);
           if (this.attributes) {
-            //this.changeSelectionProperties.selectedAttributes !== undefined &&
+            // this.changeSelectionProperties.selectedAttributes !== undefined &&
             this.util.updatePropertyInArray(this.attributes, { selected: true }, this.changeSelectionProperties.selectedAttributes);
             console.log(this.attributes);
             this.attributes = [...this.attributes];
