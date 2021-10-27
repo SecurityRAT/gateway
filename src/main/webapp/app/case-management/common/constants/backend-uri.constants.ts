@@ -6,7 +6,6 @@ export const ARTIFACTNAME_PARAM = 'name';
 
 // case management backend URIs
 export const REQUIREMENTSETS_URI = '/requirementSets';
-export const REQUIREMENTSET_URI = '/requirementSet';
 export const REQUIREMENTS_URI = '/requirements';
 export const ATTRIBUTES_URI = '/attributes';
 export const ATTRIBUTEKEYS_URI = '/attributeKeys';

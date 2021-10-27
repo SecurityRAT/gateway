@@ -5,16 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from '../../../app.constants';
 import { createRequestOption } from '../../../shared';
-import {
-  CMRequirementSet,
-  CMAttributeKey,
-  CMAttribute,
-  CMAttributeType,
-  CMRequirement,
-  CMExtensionKey,
-  REQUIREMENTSET_URI,
-  REQUIREMENTSETS_URI
-} from '../'; // this references to the index.ts Barrel
+import { CMRequirementSet, CMAttributeKey, CMAttribute, CMAttributeType, CMRequirement, CMExtensionKey, REQUIREMENTSETS_URI } from '../'; // this references to the index.ts Barrel
 import * as attributeKeys from '../../attributes-keys.mock.json';
 import * as attributes from '../../attributes.mock.json';
 import * as requirements from '../../requirements.mock.json';
@@ -49,12 +40,6 @@ export class CaseManagementBackendService {
     let uri = REQUIREMENTSETS_URI;
     let options;
 
-    if (ids) {
-      uri = REQUIREMENTSET_URI;
-      options = {
-        ids
-      };
-    }
     return this.query(CMRequirementSet, uri, options);
   }
 

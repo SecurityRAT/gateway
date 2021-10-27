@@ -5,6 +5,7 @@ import {
   // matrix param constants
   ARTIFACTNAME_PARAM,
   REQUIREMENTSET_PARAM,
+  REQUIREMENTSETS_URI,
   ATTRIBUTE_PARAM,
   ATTRIBUTEKEYS_PARAM,
   CMAttributeKey,
@@ -20,8 +21,7 @@ import {
   ATTRIBUTEKEYS_URI,
   ENHANCEMENTS_URI,
   STATUS_URI,
-  REQUIREMENTS_URI,
-  REQUIREMENTSET_URI
+  REQUIREMENTS_URI
 } from '../../common/';
 import { ArtifactInfo } from '../../common/models/yaml.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -268,7 +268,7 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
         });
       this._backendService
-        .query(CMRequirementSet, REQUIREMENTSET_URI, { ids: this.artifactSettings.requirementSet.id })
+        .query(CMRequirementSet, REQUIREMENTSETS_URI, { ids: this.artifactSettings.requirementSet.id })
         .subscribe((res: HttpResponse<CMRequirementSet[]>) => {
           this.artifactSettings.requirementSet.content = res.body[0];
         });

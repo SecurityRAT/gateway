@@ -15,7 +15,6 @@ import {
   ATTRIBUTES_URI,
   REQUIREMENTSETS_URI,
   ARTIFACTNAME_PARAM,
-  REQUIREMENTSET_URI,
   REQUIREMENTSET_PARAM,
   ATTRIBUTE_PARAM
 } from '../../common';
@@ -253,7 +252,7 @@ export class ChangeSelectionComponent implements OnInit {
             parameters[ATTRIBUTE_PARAM].length > 0 ? this._cmUtilService.convertStringToNumberArray(parameters[ATTRIBUTE_PARAM], true) : [];
         } else {
           this._cmBackendService
-            .query(CMRequirementSet, REQUIREMENTSET_URI, { ids: [requirementSetId] })
+            .query(CMRequirementSet, REQUIREMENTSETS_URI, { ids: [requirementSetId] })
             .subscribe((res: HttpResponse<CMRequirementSet[]>) => {
               /* Backend load */
               this.ngbModalRef.componentInstance.selectedRequirementSet = res.body[0];
