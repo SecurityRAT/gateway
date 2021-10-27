@@ -10,7 +10,6 @@ export const REQUIREMENTSET_URI = '/requirementSet';
 export const REQUIREMENTS_URI = '/requirements';
 export const ATTRIBUTES_URI = '/attributes';
 export const ATTRIBUTEKEYS_URI = '/attributeKeys';
-export const ATTRIBUTEKEY_URI = '/attributeKey';
 export const ENHANCEMENTS_URI = '/enhancements';
 export const STATUS_URI = '/status';
 

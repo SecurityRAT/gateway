@@ -21,8 +21,7 @@ import {
   ENHANCEMENTS_URI,
   STATUS_URI,
   REQUIREMENTS_URI,
-  REQUIREMENTSET_URI,
-  ATTRIBUTEKEY_URI
+  REQUIREMENTSET_URI
 } from '../../common/';
 import { ArtifactInfo } from '../../common/models/yaml.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -264,7 +263,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
       /* Backend load Attribute keys and requirement sets */
       this._backendService
-        .query(CMAttributeKey, ATTRIBUTEKEY_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids })
+        .query(CMAttributeKey, ATTRIBUTEKEYS_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids })
         .subscribe((res: HttpResponse<CMAttributeKey[]>) => {
           this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
         });
