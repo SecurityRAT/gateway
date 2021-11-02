@@ -254,6 +254,8 @@ export class EditorComponent implements OnInit, OnDestroy {
 
       this.artifactSettings.requirementSet.content = new CMRequirementSet(1, 'Test requirement set', 10);
     } else {
+      console.log('Attribute IDs: ', this.artifactSettings.parameterAttributes.ids);
+
       /* Backend load Attribute with ids */
       this._backendService
         .query(CMAttribute, ATTRIBUTES_URI, { ids: this.artifactSettings.parameterAttributes.ids })
@@ -261,12 +263,14 @@ export class EditorComponent implements OnInit, OnDestroy {
           this.onSuccess(res.body, this.artifactSettings.parameterAttributes.content);
         });
 
-      /* Backend load Attribute keys and requirement sets */
+      /*      console.log("Attribute key IDs: ",  this.artifactSettings.parameterAttributeKeys.ids);
+
+      /!* Backend load Attribute keys and requirement sets *!/
       this._backendService
         .query(CMAttributeKey, ATTRIBUTEKEYS_URI, { ids: this.artifactSettings.parameterAttributeKeys.ids })
         .subscribe((res: HttpResponse<CMAttributeKey[]>) => {
           this.onSuccess(res.body, this.artifactSettings.parameterAttributeKeys.content);
-        });
+        });*/
       this._backendService
         .query(CMRequirementSet, REQUIREMENTSETS_URI, { ids: this.artifactSettings.requirementSet.id })
         .subscribe((res: HttpResponse<CMRequirementSet[]>) => {
