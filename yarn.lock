@@ -7839,10 +7839,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-marked@^0.6.2:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.6.3.tgz#79babad78af638ba4d522a9e715cdfdd2429e946"
-  integrity sha512-Fqa7eq+UaxfMriqzYLayfqAE40WN03jf+zHjT18/uXNuzjq3TY0XTbrAoPeqSJrAmPz11VuUA+kBPYOhHt9oOQ==
+marked@^4.0.16:
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.16.tgz#9ec18fc1a723032eb28666100344d9428cf7a264"
+  integrity sha512-wahonIQ5Jnyatt2fn8KqF/nIqZM8mh3oRu2+l5EANGMhu6RFjiSG52QNE2eWzFMI94HqYSgN184NurgNG6CztA==
 
 matcher@^1.0.0:
   version "1.1.1"
@@ -8361,14 +8361,14 @@ ngx-infinite-scroll@8.0.1:
   dependencies:
     opencollective-postinstall "^2.0.2"
 
-ngx-md@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-md/-/ngx-md-8.0.0.tgz#1a3f757bab2d4b1f4ba336189ad4dd5ec18659c0"
-  integrity sha512-VLbdKnrHblK7UKDJpsKjiwZFujU075x/TLCzsiAuXtLWtj5IKG8XU5a6BZxHi71ScJtPs1qgjpwWown6okjjOg==
+ngx-md@^14.0.0:
+  version "14.0.3"
+  resolved "https://registry.yarnpkg.com/ngx-md/-/ngx-md-14.0.3.tgz#cc97f76f92b5901cc18908eea5b0fe130aefd9ba"
+  integrity sha512-ReoIrVlAzUe6dORh8WddrTVyG9JqSk9DuJR7vxSvGtz7+KIxrrMTnmDpJZgypRcZt6esgsuhGkEIut8quTX+Bw==
   dependencies:
-    marked "^0.6.2"
-    prismjs "^1.15.0"
-    tslib "^1.9.0"
+    marked "^4.0.16"
+    prismjs "^1.28.0"
+    tslib "^2.3.0"
 
 ngx-webstorage@4.0.1:
   version "4.0.1"
@@ -9875,10 +9875,10 @@ pretty-format@^24.0.0, pretty-format@^24.9.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
-prismjs@^1.15.0:
-  version "1.25.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.25.0.tgz#6f822df1bdad965734b310b315a23315cf999756"
-  integrity sha512-WCjJHl1KEWbnkQom1+SzftbtXMKQoezOCYs5rECqMN+jP+apI7ftoflyqigqzopSO3hMhTEb0mFClA8lkolgEg==
+prismjs@^1.28.0:
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.28.0.tgz#0d8f561fa0f7cf6ebca901747828b149147044b6"
+  integrity sha512-8aaXdYvl1F7iC7Xm1spqSaY/OJBpYW3v+KJ+F17iYxvdc8sfjW194COK5wVhMZX45tGteiBQgdvD/nhxcRwylw==
 
 private@^0.1.6, private@~0.1.5:
   version "0.1.8"
@@ -12310,6 +12310,11 @@ tslib@1.10.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+
+tslib@^2.3.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
+  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
 tslint@5.20.1:
   version "5.20.1"
